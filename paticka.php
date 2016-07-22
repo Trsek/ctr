@@ -1,6 +1,6 @@
 <?php
 	// zapis do statistiky
-	define("_BBC_PAGE_NAME", $_REQUEST['s']);
+	define("_BBC_PAGE_NAME", $_REQUEST["CTR_FRAME"]);
 	define("_BBCLONE_DIR", "bbclone/");
 	define("COUNTER", _BBCLONE_DIR."mark_page.php");
 
@@ -18,16 +18,16 @@
 	$dayvisit = 0;
 	foreach ($access['time']['hour'] as $val) $dayvisit += $val;
 
-    echo("<table cellpadding='1' cellspacing='10' style='font-size: 9pt;' align=center>");
-    echo("<tr>");
-    echo("<td> Generated: ".date('d.m.y, h:i a').", duration: " .stop_meas()."s </td>");
-    echo("<td> Number of visitors: <a href='/bbclone/index.php'>". $access['stat']['totalvisits']."</a> </td>");
-    echo("<td> Days visitors: ". $dayvisit." </td>");
-    echo("<td> Counter started: ". date("d.m.y", $access['time']['reset'])." </td>");
-    echo("</tr>");
-    echo("</table>");
+	echo("<table cellpadding='1' cellspacing='10' style='font-size: 9pt;' align=center>");
+	echo("<tr>");
+	echo("<td> Generated: ".date('d.m.y, h:i a').", duration: " .stop_meas()."s </td>");
+	echo("<td> Number of visitors: <a href='bbclone/index.php'>". $access['stat']['totalvisits']."</a> </td>");
+	echo("<td> Days visitors: ". $dayvisit." </td>");
+	echo("<td> Counter started: ". date("d.m.y", $access['time']['reset'])." </td>");
+	echo("</tr>");
+	echo("</table>");
 
-    echo("</div>\n");
-    echo("</body>\n");
-    echo("</html>\n");
+	echo("</div>\n");
+	echo("</body>\n");
+	echo("</html>\n");
 ?>
