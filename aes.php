@@ -7,7 +7,7 @@ function ctr_crypt($str, $numOfBlocks, $key, $iv) {
 		$ctrStr .= $iv;
 
 		// increment IV
-		for ($j = 0; $j < 16; ++$j) {
+		for ($j = 15; $j > 0; --$j) {
 			$n = ord($iv[$j]);
 			if (++$n == 0x100) {
 				// overflow, set this one to 0, increment next
