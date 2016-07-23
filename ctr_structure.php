@@ -86,7 +86,7 @@ function ctr_funct($funct)
 		}
 	}
 	if( !isset($answer_done))
-		$answer[] = "unknonw";
+		$answer[] = "unknown";
 	$answer[] = $encrypt_text[ $funct >> 6 ];
 	return $answer;
 }
@@ -103,7 +103,7 @@ function ctr_struct($struct)
 			return $answer;
 		}
 	}
-	$answer[] = "unknonw";
+	$answer[] = "unknown";
 	return $answer;
 }
 
