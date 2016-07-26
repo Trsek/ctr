@@ -10,7 +10,7 @@
 	echo("<br><br>\n");
 	echo("<div style='clear: both'>\n");
 	echo("<div style='font-size: 9pt;' align=center>\n");
-	echo("designed by <a href='http://trsek.com/curriculum' style='font-size: 12pt; font-weight: bold; color: rgb(73, 85, 120)'>Zdeno Sekerak</a>(c) 2016<br>\n");
+	echo("designed by <a href='http://trsek.com/curriculum' style='font-size: 12pt; font-weight: bold; color: rgb(73, 85, 120)'>Zdeno Sekerak</a> (c) 2016<br>\n");
 	echo("</div>\n");
 
 	require("bbclone/var/access.php");
