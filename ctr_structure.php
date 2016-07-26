@@ -148,7 +148,7 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 		switch( $sms_struct )
 		{
 			case CTR_STR_REGISTER:
-				require_once 'struct/50-register.php';		// TODO - najdi
+				require_once 'struct/50-register.php';
 				$answer = ctr_Query($DATI);
 				break;
 

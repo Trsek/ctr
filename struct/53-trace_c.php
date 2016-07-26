@@ -20,14 +20,10 @@ function ctr_Query($DATI)
 	$period   = hexdec( substr_cut($DATI, 1));
 	$data_rif = substr_cut($DATI, 3);
 	
-	$data_year  = hexdec( substr_cut($data_rif, 1)) + 2000;
-	$data_month = hexdec( substr_cut($data_rif, 1));
-	$data_day   = hexdec( substr_cut($data_rif, 1));
-	
 	$answer[] = "$password - Access level password";
 	$answer[] = ctr_obj_name($obj_id);
 	$answer[] = (string)$period. " - ". get_period_text()[($period < 4)? $period: 4];
-	$answer[] = (string)$data_year. ".". (string)$data_month. ".". (string)$data_day. " - Data_rif";
+	$answer[] = ctr_date($data_rif,3). " - Data_rif";
 	
 	$answer[] = "";
 	$answer[] = $DATI;
@@ -86,24 +82,20 @@ function ctr_Answer($DATI)
 	$period   = hexdec( substr_cut($DATI, 1));
 	$obj_id   = ctr_obj_number(substr_cut($DATI, 2));
 	$data_rif = substr_cut($DATI, 3);
-
-	$data_year  = hexdec( substr_cut($data_rif, 1)) + 2000;
-	$data_month = hexdec( substr_cut($data_rif, 1));
-	$data_day   = hexdec( substr_cut($data_rif, 1));
 	
+	$answer[] = $pdr ." - PDR (metering point identification code)";
+	$answer[] = ctr_date($oras,5). " - Data&OraS";
+	$answer[] = $ofg ." - OFG (End of day time)";
+	$answer[] = $diagnrs ." - DiagnRS (Reduced historic diagnostics for the day 'g' indicated in Data_rif)";
+	$answer[] = $nem ." - NEM (Progresive number last event in queue)";
+	$answer[] = (string)$period. " - ". get_period_text()[($period < 4)? $period: 4];
+	$answer[] = ctr_date($data_rif,3). " - Data_rif";
+
 	$oras_year  = hexdec( substr_cut($oras, 1)) + 2000;
 	$oras_month = hexdec( substr_cut($oras, 1));
 	$oras_day   = hexdec( substr_cut($oras, 1));
 	$oras_hour  = hexdec( substr_cut($oras, 1));
 	$oras_minute = hexdec( substr_cut($oras, 1));
-	
-	$answer[] = $pdr ." - PDR (metering point identification code)";
-	$answer[] = (string)$oras_year. ".". (string)$oras_month. ".". (string)$oras_day. " ". (string)$oras_hour. ":". (string)$oras_minute. " - Data&OraS";
-	$answer[] = $ofg ." - OFG (End of day time)";
-	$answer[] = $diagnrs ." - DiagnRS (Reduced historic diagnostics for the day 'g' indicated in Data_rif)";
-	$answer[] = $nem ." - NEM (Progresive number last event in queue)";
-	$answer[] = (string)$period. " - ". get_period_text()[($period < 4)? $period: 4];
-	$answer[] = (string)$data_year. ".". (string)$data_month. ".". (string)$data_day. " - Data_rif";
 	
 	// Tot_obj
 	$tot_obj_id = $tot_obj_id_array[$period][1];

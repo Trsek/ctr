@@ -26,15 +26,10 @@ function ctr_Query($DATI)
 	$data_start = substr_cut($DATI, 4);
 	$elementi   = hexdec( substr_cut($DATI, 1));
 
-	$data_year  = hexdec( substr_cut($data_start, 1)) + 2000;
-	$data_month = hexdec( substr_cut($data_start, 1));
-	$data_day   = hexdec( substr_cut($data_start, 1));
-	$data_hour  = hexdec( substr_cut($data_start, 1));
-	
 	$answer[] = "$password - Access level password";
 	$answer[] = ctr_obj_name($obj_id);
 	$answer[] = (string)$period. " - ". get_period_text_trace()[($period < 6)? $period: 6];
-	$answer[] = (string)$data_year. ".". (string)$data_month. ".". (string)$data_day. " ". (string)$data_hour. " - Data_start";
+	$answer[] = ctr_date($data_start,4). " - Data_start";
 	$answer[] = "$elementi - Elementi";
 	
 	$answer[] = $DATI;
@@ -63,15 +58,15 @@ function ctr_Answer($DATI)
 	$elementi   = hexdec( substr_cut($DATI, 1));
 	$ofg        = DEFAULT_GAS_HOUR;
 
+	$answer[] = (string)$period. " - ". get_period_text_trace()[($period < 6)? $period: 6];
+	$answer[] = ctr_date($data_start,4). " - Data_start";
+	$answer[] = "$elementi - Elementi";
+
 	$data_year  = hexdec( substr_cut($data_start, 1)) + 2000;
 	$data_month = hexdec( substr_cut($data_start, 1));
 	$data_day   = hexdec( substr_cut($data_start, 1));
 	$data_hour  = hexdec( substr_cut($data_start, 1));
 
-	$answer[] = (string)$period. " - ". get_period_text_trace()[($period < 6)? $period: 6];
-	$answer[] = (string)$data_year. ".". (string)$data_month. ".". (string)$data_day. " ". (string)$data_hour. " - Data_start";
-	$answer[] = "$elementi - Elementi";
-	
 	switch( period )
 	{
 		case 1:
