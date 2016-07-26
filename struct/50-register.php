@@ -1,5 +1,5 @@
 <?php
-require_once("objects.php");
+require_once("obj/objects.php");
 
 function ctr_Query($DATI)
 {

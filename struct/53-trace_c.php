@@ -1,5 +1,5 @@
 <?php
-require_once("objects.php");
+require_once("obj/objects.php");
 
 function get_period_text()
 {
@@ -57,7 +57,7 @@ function ctr_Answer($DATI)
 					'1.0.2' => '2.0.3',
 					'1.2.2' => '2.1.3',
 					'4.0.2' => '2.3.3',
-					'7.0.2' => '1.A.3',
+					'7.0.2' => 'F1.A.3',
 					''      => '2.1.3',
 				)),
 		array(2, array(
@@ -114,13 +114,14 @@ function ctr_Answer($DATI)
 	$answer[] = ctr_val($DATI, $tot_id, 0x03);
 
 	// Trace_dati
-	$answer[] = "Trace data for :";
+	$answer[] = "TraceC data for :";
 	$answer[] = ctr_obj_name($obj_id);
 	$trace_date = mktime($ofg, 0, 0, $data_month, $data_day, $data_year);
 	for($i=0; $i<24; $i++)
 	{
 		$line = ctr_val($DATI, $obj_id, 0x03);
-		$answer[] = date('Y-m-d H:i -> ', $trace_date + ctr_get_period_shift($trace_date, $period, $i)). $line[0][0]. " (". $line[1][3] .")";
+		$info = !ctr_qlf_valid($line[1][0])? "": " (". $line[1][3] .")";
+		$answer[] = date('Y-m-d H:i -> ', $trace_date + ctr_get_period_shift($trace_date, $period, $i)). $line[0][0]. $info;
 	}
 	$answer[] = $DATI;
 	return $answer;

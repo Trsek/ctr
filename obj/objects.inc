@@ -55,7 +55,7 @@ $CTR_List = array
 	"1.A.4" => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_m3h,            3, "Qcb_max_m  - month period"),
 	// pre potreby Trace
 	"F1.A.3" => array("F2.A.4", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Qcb_max_g  - bez casovej znacky a s nulou  na zaciatku"),
-	"F2.A.4" => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_m3h,            3, "Qcb_max_g  - bez casovej znacky a s nulou  na zaciatku"),
+	"F2.A.4" => array(  "0.0.0", VAL_TYPE_FLOAT,       UNIT_m3h,            3, "Qcb_max_g  - bez casovej znacky a s nulou  na zaciatku"),
 	
 	// Contractual hourly flow
 	"1.C.2" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             3, "Qcontr - per hour"),
@@ -90,7 +90,7 @@ $CTR_List = array
 	"2.1.6" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vb_pf - billing period"),
 	
 	// Totalizer for Volumes measured in alarm conditions
-	"2.3.0" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vme - current - dovoli zapis (modry prep)"),
+	"2.3.0" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vme - current"),
 	"2.3.2" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vme_h"),
 	"2.3.3" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vme_g"),
 	"2.3.6" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vme_pf"),
@@ -102,7 +102,7 @@ $CTR_List = array
 	"2.3.C" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vme_pf_f3"),
 	
 	// Totalizer for Converted Volumes at standard conditions during alarm conditions
-	"2.4.0" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vbe - current (cerny prep)"),
+	"2.4.0" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vbe - current"),
 	"2.4.1" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vbe_15 - 15min"),
 	"2.4.2" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vbe_h  - 1hour"),
 	"2.4.3" => array(  "0.0.0", VAL_TYPE_DOUBLE,       UNIT_m3,             4, "Tot_Vbe_g  - 1day"),
@@ -203,7 +203,7 @@ $CTR_List = array
   "8.3.7" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        6, "last total configuration"),
 
   // Equipment parameters
-  "9.0.0" => array( "F9.0.1", VAL_TYPE_STRING16,     UNIT_DEFAULT,        0, "All parameters"),
+  "9.0.0" => array( "F9.0.1", VAL_TYPE_DEFAULT,     UNIT_DEFAULT,        0, "All parameters"),
   "F9.0.1" => array( "F9.0.2", VAL_TYPE_STRING16,     UNIT_DEFAULT,       12, "CCODE - Equipment manufacturer code"),
   "F9.0.2" => array( "F9.0.3", VAL_TYPE_STRING8,      UNIT_DEFAULT,        5, "CIA - Equipment identification code"),
   "F9.0.3" => array( "F9.0.4", VAL_TYPE_STRING8,      UNIT_DEFAULT,        4, "CCA - Equipment configuration code"),
@@ -226,7 +226,7 @@ $CTR_List = array
   "9.2.0" => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       16, "Equipment Series Number"),
   "9.2.3" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Number of Channels supported"),
   "9.2.4" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        2, "Total optional objects supported"),
-  "9.2.5" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,       11, "Software identifiers which is active - CRC, date activated"),
+  "9.2.5" => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       11, "Software identifiers which is active - CRC, date activated"),
 
   "9.3.0" => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       10, "Metering Firmware version"),
   "9.4.0" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "address of the device"),
@@ -304,7 +304,7 @@ $CTR_List = array
   "B.1.0" => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_MJm3,           3, "HCV current"),
 
   // Metering point identification code
-  "C.0.0" => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,        7, "save 14 numbers in each nibble"),
+  "C.0.0" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        7, "Metering point identification code"),
   "C.0.1" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Numbers of channels controlled"),
   "C.0.2" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "System type 00hex - 23hex"),
   "C.0.3" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Type of metering system - Data logger integrated with the converter"),
@@ -387,21 +387,21 @@ $CTR_List = array
 	"D.4.9" => array(  "0.0.0", VAL_TYPE_STRING8,    UNIT_DEFAULT,       6, "Profile 4 user8 password"),
 	"D.4.A" => array(  "0.0.0", VAL_TYPE_STRING8,    UNIT_DEFAULT,       6, "Profile 4 user9 password"),
 	
-	"D.5.1" => array(  "0.0.0", VAL_TYPE_STRING8,    UNIT_DEFAULT,       8, "KEY (for the MAC calculation)"),
-	"D.6.1" => array(  "0.0.0", VAL_TYPE_STRING8,    UNIT_DEFAULT,       4, "VIS (Server Identity Verification)"),
-	"D.6.2" => array(  "0.0.0", VAL_TYPE_STRING16,   UNIT_DEFAULT,       8, "Client PUK_C (0)"),
-	"D.6.3" => array(  "0.0.0", VAL_TYPE_STRING16,   UNIT_DEFAULT,       8, "Server PUK_S (0)"),
+	"D.5.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,    UNIT_DEFAULT,       8, "KEY (for the MAC calculation)"),
+	"D.6.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,    UNIT_DEFAULT,       4, "VIS (Server Identity Verification)"),
+	"D.6.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,    UNIT_DEFAULT,       8, "Client PUK_C (0)"),
+	"D.6.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,    UNIT_DEFAULT,       8, "Server PUK_S (0)"),
 	"D.7.1" => array(  "0.0.0", VAL_TYPE_STRING8,    UNIT_DEFAULT,       4, "PIN for controlling SIM cards (10)"),
 	
 	// KEY for encryption
-	"D.8.1" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,      16, "KEYC_0 keys for AES 128"),
-	"D.8.2" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,      16, "KEYC_1 keys for AES 128"),
-	"D.8.3" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,      16, "KEYC_2 keys for AES 128"),
-	"D.8.4" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,      16, "KEYC_3 keys for AES 128"),
-	"D.8.5" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,      16, "KEYC_4 keys for AES 128"),
-	"D.8.6" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,      16, "KEYFactory keys for AES 128 (VAL_DEFAULT nemenime cez F_RDB)"),
-	"D.8.A" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,      16, "KEYTemporary keys for AES 128"),
-	"D.9.0" => array(  "0.0.0", VAL_TYPE_UINT,      UNIT_DEFAULT,       2, "Seal status"),
+	"D.8.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,  UNIT_DEFAULT,      16, "KEYC_0 keys for AES 128"),
+	"D.8.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,  UNIT_DEFAULT,      16, "KEYC_1 keys for AES 128"),
+	"D.8.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,  UNIT_DEFAULT,      16, "KEYC_2 keys for AES 128"),
+	"D.8.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,  UNIT_DEFAULT,      16, "KEYC_3 keys for AES 128"),
+	"D.8.5" => array(  "0.0.0", VAL_TYPE_DEFAULT,  UNIT_DEFAULT,      16, "KEYC_4 keys for AES 128"),
+	"D.8.6" => array(  "0.0.0", VAL_TYPE_DEFAULT,  UNIT_DEFAULT,      16, "KEYFactory keys for AES 128 (VAL_DEFAULT nemenime cez F_RDB)"),
+	"D.8.A" => array(  "0.0.0", VAL_TYPE_DEFAULT,  UNIT_DEFAULT,      16, "KEYTemporary keys for AES 128"),
+	"D.9.0" => array(  "0.0.0", VAL_TYPE_DEFAULT,  UNIT_DEFAULT,       2, "Seal status"),
 	"D.A.0" => array(  "0.0.0", VAL_TYPE_ULONG,     UNIT_DEFAULT,       4, "Anti-fraud Totalizer (Totalizer counts: access with an incorrect encryption, authentication key and password)"),
 	
 	// Communication
@@ -454,13 +454,13 @@ $CTR_List = array
   "E.C.0" => array(  "0.0.0", VAL_TYPE_FLOAT,     UNIT_DEFAULT,        1, "GSM/GPRS signal intensity in dB"),
   "FE.C.0" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,        6, "Diagnostika modemu pre Kamila"),
 
-  "E.D.0" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters1"),
-  "E.D.1" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters2"),
-  "E.D.2" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters3"),
-  "E.D.3" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters4"),
-  "E.D.4" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters5"),
+  "E.D.0" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters1"),
+  "E.D.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters2"),
+  "E.D.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters3"),
+  "E.D.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters4"),
+  "E.D.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters5"),
 
-  "E.E.1" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,      112, "GPRS address for the DCE, APN, login, password"),
+  "E.E.1" => array(  "0.0.0", VAL_TYPE_STRING32,   UNIT_DEFAULT,      112, "GPRS address for the DCE, APN, login, password"),
   "F.5.0" => array(  "FF.5.1", VAL_TYPE_BYTE,      UNIT_DEFAULT,        3, "Battery - Residual time"),
   "FF.5.1" => array( "FF.5.2", VAL_TYPE_ULONG,     UNIT_DEFAULT,        3, "Battery - converter module"),
   "FF.5.2" => array( "FF.5.3", VAL_TYPE_BYTE,      UNIT_DEFAULT,        3, "Battery - data recording module"),
@@ -513,21 +513,21 @@ $CTR_List = array
   "10.4.0" => array(  "0.0.0", VAL_TYPE_UINT,      UNIT_DEFAULT,    2,  "Configuration of Trigger Events"),
 
   "12.0.0" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,    1,  "Device status"),
-  "12.1.0" => array(  "0.0.0", VAL_TYPE_ULONG,     UNIT_DEFAULT,    4,  "Diagnostics - Extended format"),
-  "12.1.2" => array(  "0.0.0", VAL_TYPE_ULONG,     UNIT_DEFAULT,    4,  "Diagnostics - Extended format"),
-  "12.1.3" => array(  "0.0.0", VAL_TYPE_ULONG,     UNIT_DEFAULT,    4,  "Diagnostics - Extended format"),
-  "12.1.4" => array(  "0.0.0", VAL_TYPE_ULONG,     UNIT_DEFAULT,    4,  "Diagnostics - Extended format"),
-  "12.2.0" => array(  "0.0.0", VAL_TYPE_UINT,      UNIT_DEFAULT,    2,  "Diagnostics - Abridged format"),
-  "12.2.2" => array(  "0.0.0", VAL_TYPE_UINT,      UNIT_DEFAULT,    2,  "Diagnostics - Abridged format"),
-  "12.2.3" => array(  "0.0.0", VAL_TYPE_UINT,      UNIT_DEFAULT,    2,  "Diagnostics - Abridged format"),
-  "12.2.4" => array(  "0.0.0", VAL_TYPE_UINT,      UNIT_DEFAULT,    2,  "Diagnostics - Abridged format"),
-  "12.3.1" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,    9,  "Status of sensors"),
-  "12.4.1" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,    3,  "System status – Mains power"),
-  "12.4.2" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,    4,  "System status - DCE status"),
-  "12.6.2" => array(  "0.0.0", VAL_TYPE_STRING3,   UNIT_DEFAULT,    2,  "Historic Diagnostics – 1 h average"),
-  "12.6.3" => array(  "0.0.0", VAL_TYPE_STRING3,   UNIT_DEFAULT,    2,  "Historic Diagnostics – 1 d average"),
-  "12.6.4" => array(  "0.0.0", VAL_TYPE_STRING3,   UNIT_DEFAULT,    2,  "Historic Diagnostics – 1 m average"),
-  "12.6.6" => array(  "0.0.0", VAL_TYPE_STRING3,   UNIT_DEFAULT,    2,  "Historic Diagnostics – Recorded at the end of the billing period"),
+  "12.1.0" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    4,  "Diagnostics - Extended format"),
+  "12.1.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    4,  "Diagnostics - Extended format"),
+  "12.1.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    4,  "Diagnostics - Extended format"),
+  "12.1.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    4,  "Diagnostics - Extended format"),
+  "12.2.0" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    2,  "Diagnostics - Abridged format"),
+  "12.2.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    2,  "Diagnostics - Abridged format"),
+  "12.2.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    2,  "Diagnostics - Abridged format"),
+  "12.2.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    2,  "Diagnostics - Abridged format"),
+  "12.3.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    9,  "Status of sensors"),
+  "12.4.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    3,  "System status – Mains power"),
+  "12.4.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    4,  "System status - DCE status"),
+  "12.6.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    2,  "Historic Diagnostics – 1 h average"),
+  "12.6.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    2,  "Historic Diagnostics – 1 d average"),
+  "12.6.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    2,  "Historic Diagnostics – 1 m average"),
+  "12.6.6" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,    2,  "Historic Diagnostics – Recorded at the end of the billing period"),
 
   // Category I/O
   "13.0.0" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,   1,  "Stat_DI_ - Digital inputs - Status"),
@@ -654,12 +654,12 @@ $CTR_List = array
   "18.B.5" => array(  "0.0.0", VAL_TYPE_DOUBLE,    UNIT_m3,            4, "Tot_Vbe_F3_y"),
   "18.B.6" => array(  "0.0.0", VAL_TYPE_DOUBLE,    UNIT_m3,            4, "Tot_Vbe_F3_pf"),
 
-  "17.0.0" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,      73, "Tariff Scheme"),
-  "17.0.1" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,      73, "Tariff Scheme"),
+  "17.0.0" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,      73, "Tariff Scheme"),
+  "17.0.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,      73, "Tariff Scheme"),
   "17.0.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,       3, "Billing period"),
   "17.0.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,       6, "Switch Date"),
-  "17.0.4" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,       9, "ID-PT - Tariff Scheme ID"),
-  "F7.0.4" => array(  "0.0.0", VAL_TYPE_STRING16,  UNIT_DEFAULT,       4, "ID-PT - PT_ID only pre DECF tabulku"),
+  "17.0.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,       9, "ID-PT - Tariff Scheme ID"),
+  "F7.0.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,   UNIT_DEFAULT,       4, "ID-PT - PT_ID only pre DECF tabulku"),
 
   // interne, elgas
   "88.2.1" => array(  "0.0.0", VAL_TYPE_BYTE,      UNIT_DEFAULT,       1, "Vypnut/zapnut serv. prepinac"),

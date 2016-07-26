@@ -1,0 +1,97 @@
+;0x40 - Can be used as generic NACK (CTR_NACK_GENERIC)
+* nevyskytuje sa
+
+
+;0x41 - Access denied (CTR_NACK_DENIED)
+* chybne heslo pri zmene F_SMOD
+* nedostatocne pristupove prava pre pozadovany objekt (citanie, Trace, TraceC, Array, Events)
+* nedostatocne pristupove prava pre zapis (Write, Execute, Access)
+* aktivny temporary kluc a polozka nieje dovolena v KEYT
+* zapis odoprel system (nesplna podmienky na rozsah a pod.)
+* pri Secret pakete sa musi pouzit kryptovanie Tovarnim klicem
+
+
+;0x42 - Function not implemented (CTR_NACK_NOFUNCT)
+* Execute na objekt na ktory nieje funkcia
+
+
+;0x43 - Object or one of its attributes is not supported by the application (CTR_NACK_NOOBJ)
+* pri zapise tabulky (DEC, DECF, ..) je viac objektov ako vojde do vyhradenej pamate
+
+
+;0x44 - Struct not implemented (CTR_NACK_NOSTRUCT)
+* vyzadovana tabulka (DEC, DECF, ..) ktora neexistuje
+* vyzadovany Query na neexistujucu strukturu
+
+
+;0x45 - Overflow (CTR_NACK_OVERFLOW)
+* alokovana pamat pre tabulku Access je mensia ako pocet poskytovanych objektov
+* retazec APN je dlhsi ako dovoleny (E.E.1)
+* pamat vyhradena pre tabulky CTR_ACCESS a TABLE_FRAME je malá
+
+
+;0x46 - Incorrect data field (CTR_NACK_BADDATA)
+* Query Array je prazdny
+
+
+;0x47 - Function not allowed (CTR_NACK_DENFUNC)
+;0x48 - Object-Structure Inconsistency (CTR_NACK_DOWNLOAD_PARAM)
+
+
+;0x49 - Non-availability (CTR_NACK_NOAVAIL)
+* zmena F_SMOD nebola prevedena cez hlavicu
+* system odmietol citanie objektu
+* pozadovany archiv neexituje
+* pozadovana hodnota neexistuje
+* zapis zlyhal
+* poziadavka na neexistujucu FUNCT
+* aktivny TemporaryKey
+* pri zapise hesiel/klucov nieje paket kryptovany
+* nedostatocne pristupove prava na objekt
+* zapis do Tarifov a parametre obsahuju staru verziu Tarifneho rozvrhu
+* hodnota totalizera je vacsia ako maximalna povolena
+* pri zapise E.3.x-E.5.x nieje pozadovany zaznam v CallMap
+* pri zapise E.D.0-E.D.4 nieje pozadovany zaznam v Param SMS CTR
+
+
+;0x4A - A write operation was not executed (CTR_NACK_WKO)
+* zapis povoleny len cez Execute
+* nasobny zapis nieje dovoleny
+
+
+;0x4B - Execute function specified by Obj.id cannot be executed (CTR_NACK_Execute)
+* system odmietol Execute
+* pri heslach a klucoch sa vyzaduje kryptovany paket a neaktivny TemporaryKey
+* zapis casu neprebieha cez IrDA, alebo je viac ako +/- 2 hodiny
+* neexistujuci mod
+* duplicitny ID_PT v 17.0.x
+* pri Reset_Event_Queue sa vyzaduje neaktivny TemporaryKey
+* pri 11.0.5 ma objekt pristupove prava len pre Admin
+
+
+;0x4C - CPA irregularity detected after decryption (CTR_NACK_CPA_ERROR)
+* chyba kryptovania/dekryptovania
+* kryptovaci kluc je deaktivovany (ma same 0x00 alebo 0xFF)
+
+
+;0x4D - One DL segment not received correctly (CTR_NACK_DOWNLOAD)
+* verifikacia FW zlyhala
+* aktivacia FW zlyhala
+* pri nahravani FW bol preskoceny segment
+
+
+;0x4E - Write cannot be accepted because the date of validity has expired (CTR_NACK_DV_EXPIRE)
+* cas DV v SMS nesmie byt starsi ako 2 dni
+* cas DV v SMS nesmie byt starsi ako posledne prijaty
+
+
+;0x4F - Execute cannot be accepted because the date of validity has expired (CTR_NACK_EXE_DV_EXPIRE)
+* rovnako ako pri 0x4E ale pre Execute a RemoteDownload
+
+
+;0x50 - Write or Execute cannot be executed because the condition is under maintenance (CTR_NACK_MAINTEN)
+;0x51 - Write or execute cannot be executed because the events buffer is full (CTR_NACK_EVENT_FULL)
+
+
+;0x52 - Write or Execute cannot be executed because the condition is under seal (CTR_NACK_SEAL)
+* chraneny elektronickou plombou SEAL (Pouzij Execute 11.0.6)

@@ -1,27 +1,29 @@
 <?php
-require_once("funct_name.php");
-require_once("struct_name.php");
-require_once("objects.php");
+require_once("struct/ctr_frame.inc");
+require_once("obj/objects.inc");
+require_once("funct/funct_name.php");
+require_once("struct/struct_name.php");
+require_once("obj/objects.php");
 
-define (CTR_STR_IDENTIF,		0x30);	  // TABLE-IDENTIFICATION structure
-define (CTR_STR_IDENTIF2,	    0x31);	  // TABLE-IDENTIFICATION2 structure
-define (CTR_STR_DE0,			0x32);	  // Structure type TABLE-DE0
-define (CTR_STR_DEC,			0x33);	  // Structure type TABLE-DEC
-define (CTR_STR_DECF,		    0x34);	  // Structure type TABLE-DECF
-define (CTR_STR_TECNO,		    0x33);	  // Structure type TABLE-TECNOSYSTEM
-define (CTR_STR_REGISTER,	    0x50);	  // REGISTER
-define (CTR_STR_ARRAY,		    0x51);	  // Structure type ARRAY
-define (CTR_STR_TRACE,		    0x52);	  // Structure type TRACE
-define (CTR_STR_TRACE_C,		0x53);	  // Structure type TRACE_C
-define (CTR_STR_OPTIONAL,	    0x54);	  // OPTIONAL type structure
-define (CTR_STR_SCHEMA,		    0x55);	  // SCHEMA type structure
-define (CTR_STR_EVENT,		    0x56);	  // Array_Eventi type structure
-define (CTR_STR_ELGAS,		    0xF0);	  // Tunel pro Elgas
-define (CTR_STR_TRIGGER_EVENT,  0xF1);	  // Array_Eventi Trigger type structure
 
-$sms_funct = 0;
-$sms_struct = 0;
+// remove 0a/0d if have it
+// remove SMS prefix if have it
+function CTR_NORMALIZE($SMS)
+{
+	// strip all spaces
+	$SMS = str_replace(' ', '', $SMS);
+	$SMS = str_replace("\r", '', $SMS);
+	$SMS = str_replace("\n", '', $SMS);
+	
+	// strip 0A/0D
+	if((strtoupper (substr($SMS,0,2)) == '0A')
+	&& (strtoupper (substr($SMS,strlen($SMS)-2,2)) == '0D'))
+	{
+		$SMS = substr($SMS, 2, strlen($SMS)-4);
+	}
 
+	return $SMS;
+}
 
 function ctr_array_show($value)
 {
@@ -47,8 +49,6 @@ function ctr_array_show($value)
 
 function ctr_show($SMS)
 {
-	$sms_funct = 0;
-	$sms_struct = 0;
 	$SMS_FRAME = ctr_analyze_frame($SMS);
 
 	$out  = "<table class='table-style-two'>";
@@ -70,11 +70,11 @@ function ctr_show($SMS)
 function ctr_profi($profi)
 {
 	$profile_text = 
-		array('A - metrolog',	 // 0
-              'A - maintenance', // 1
-              'B - user1',       // 2
-              'C - user2',       // 3
-              'D - user3',       // 4
+		array('A-metrolog',	 // 0
+              'A-maintenance', // 1
+              'B-user1',     // 2
+              'C-user2',     // 3
+              'D-user3',     // 4
               '',            // 5
 		      '',            // 6
               'secret');     // 7
@@ -98,45 +98,16 @@ function ctr_funct($funct)
 		      '01 - encrypted use KEYC',
 		      '10 - encrypted use KEYT - temporary',		
 	          '11 - encrypted use KEYF - factory');
-		
+	
 	$answer[] = dechex($funct) ."h";
-	foreach ($funct_code as $funct_line)
-	{
-		if( $funct_line[0] == ($funct & 0x3F))
-		{
-			$answer[] = dechex($funct_line[0]). "h - " .$funct_line[2];
-			$answer_done = true;
-			break;
-		}
-	}
-	if( !isset($answer_done))
-		$answer[] = "unknown";
+	$answer[] = ctr_funct_name($funct & 0x3F);
 	$answer[] = $encrypt_text[ $funct >> 6 ];
-	return $answer;
-}
-
-// analyze struct byte
-function ctr_struct($struct)
-{
-	global $struct_code;
-	foreach ($struct_code as $struct_line)
-	{
-		if( $struct_line[0] == $struct)
-		{
-			$answer[] = dechex($struct_line[0]). "h - " .$struct_line[1];
-			return $answer;
-		}
-	}
-	$answer[] = "unknown";
 	return $answer;
 }
 
 // metaanalyze frame name
 function ctr_analyze_frame(&$SMS)
 {
-	global $sms_funct;
-	global $sms_struct;
-	
 	$SMS_DATI['ADD']   = substr_cut($SMS, 2);
 	$SMS_DATI['PROFI'] = substr_cut($SMS, 1);
 	$SMS_DATI['FUNCT'] = substr_cut($SMS, 1);
@@ -151,7 +122,7 @@ function ctr_analyze_frame(&$SMS)
 	
 	$SMS_DATI['PROFI'] = ctr_profi( hexdec( $SMS_DATI['PROFI']));
 	$SMS_DATI['FUNCT'] = ctr_funct( hexdec( $SMS_DATI['FUNCT']));
-	$SMS_DATI['STRUCT'] = ctr_struct( hexdec( $SMS_DATI['STRUCT']));
+	$SMS_DATI['STRUCT'] = ctr_struct_name( hexdec( $SMS_DATI['STRUCT']));
 	$SMS_DATI['DATI']   = ctr_dati( $SMS_DATI['DATI'], $sms_funct, $sms_struct);
 	
 	return $SMS_DATI;
@@ -161,27 +132,188 @@ function ctr_analyze_frame(&$SMS)
 function ctr_dati($DATI, $sms_funct, $sms_struct)
 {
 	$answer = $DATI;
-	switch( $sms_struct )
+	switch ( $sms_funct )
 	{
-		case CTR_STR_REGISTER:
-			require_once 'struct/50-register.php';		// TODO - najdi
-			// Query
-			if( $sms_funct == CTR_QUERY )
-				$answer = ctr_Query($DATI);
-			// Answer
-			if( $sms_funct == CTR_ANSWER )
-				$answer = ctr_Answer($DATI);
+		case CTR_ACK:
+			require_once 'struct/2D-nack.php';
+			$answer = ctr_ack($DATI);
 			break;
 			
-		case CTR_STR_TRACE_C:
-			require_once 'struct/53-trace_c.php';
-			// Query
-			if( $sms_funct == CTR_QUERY )
-				$answer = ctr_Query($DATI);
-			// Answer
-			if( $sms_funct == CTR_ANSWER )
-				$answer = ctr_Answer($DATI);
+		case CTR_NACK:
+			require_once 'struct/2D-nack.php';
+			$answer = ctr_nack($DATI);
 			break;
+				
+		case CTR_QUERY:
+		switch( $sms_struct )
+		{
+			case CTR_STR_REGISTER:
+				require_once 'struct/50-register.php';		// TODO - najdi
+				$answer = ctr_Query($DATI);
+				break;
+
+			case CTR_STR_ARRAY:
+				require_once 'struct/51-array.php';
+				$answer = ctr_Query($DATI);
+				break;
+				
+			case CTR_STR_TRACE:
+				require_once 'struct/52-trace.php';
+				$answer = ctr_Query($DATI);
+				break;
+				
+			case CTR_STR_TRACE_C:
+				require_once 'struct/53-trace_c.php';
+				$answer = ctr_Query($DATI);
+				break;
+
+			case CTR_STR_OPTIONAL:
+				require_once 'struct/54-optional.php';
+				$answer = ctr_Query($DATI);
+				break;
+				
+			case CTR_STR_SCHEMA:
+				require_once 'struct/55-trama.php';
+				$answer = ctr_Query($DATI);
+				break;
+				
+			case CTR_STR_EVENT:
+				require_once 'struct/56-event.php';
+				$answer = ctr_Query($DATI);
+				break;
+				
+			case CTR_STR_TRIGGER_EVENT:
+				require_once 'struct/f1-event_trigger.php';
+				$answer = ctr_Query($DATI);
+				break;
+				
+			case CTR_STR_IDENTIF:
+			case CTR_STR_IDENTIF2:
+				require_once 'struct/30-identification.php';
+				$answer = ctr_Query($DATI, $sms_struct);
+				break;
+
+			default:
+				if(( $sms_struct >= CTR_STR_TABLE_STRUCT )
+				&& ( $sms_struct < CTR_STR_REGISTER ))
+				{
+					require_once("struct/ctr_frame.php");
+					$answer = ctr_Query2($DATI);
+					break;
+				}		
+		}
+		break;
+		
+		case CTR_ANSWER:
+		case CTR_VOLUNTARY:
+			switch( $sms_struct )
+			{
+				case CTR_STR_REGISTER:
+					require_once 'struct/50-register.php';		// TODO - najdi
+					$answer = ctr_Answer($DATI);
+					break;
+
+				case CTR_STR_ARRAY:
+					require_once 'struct/51-array.php';
+					$answer = ctr_Answer($DATI);
+					break;
+							
+				case CTR_STR_TRACE:
+					require_once 'struct/52-trace.php';
+					$answer = ctr_Answer($DATI);
+					break;
+
+				case CTR_STR_TRACE_C:
+					require_once 'struct/53-trace_c.php';
+					$answer = ctr_Answer($DATI);
+					break;
+
+				case CTR_STR_OPTIONAL:
+					require_once 'struct/54-optional.php';
+					$answer = ctr_Answer($DATI);
+					break;
+
+				case CTR_STR_SCHEMA:
+					require_once 'struct/55-trama.php';
+					$answer = ctr_Answer($DATI);
+					break;
+
+				case CTR_STR_EVENT:
+					require_once 'struct/56-event.php';
+					$answer = ctr_Answer($DATI);
+					break;
+						
+				case CTR_STR_TRIGGER_EVENT:
+					require_once 'struct/f1-event_trigger.php';
+					$answer = ctr_Answer($DATI);
+					break;
+						
+				case CTR_STR_IDENTIF:
+				case CTR_STR_IDENTIF2:
+					require_once 'struct/30-identification.php';
+					$answer = ctr_Answer($DATI, $sms_struct);
+					break;
+			
+				default:
+					if(( $sms_struct >= CTR_STR_TABLE_STRUCT )
+					&& ( $sms_struct < CTR_STR_REGISTER ))
+					{
+						require_once("struct/ctr_frame.php");
+						$answer = ctr_parse_frame($DATI, $sms_struct);
+						break;
+					}		
+			}
+			break;
+
+		case CTR_EXECUTE:
+			require_once 'struct/26-execute.php';
+			$answer = ctr_Execute($DATI);
+			break;
+					
+		case CTR_WRITE:
+			switch( $sms_struct )
+			{
+				case CTR_STR_REGISTER:
+					require_once 'struct/2f-write.php';
+					$answer = ctr_Write($DATI);
+					break;
+					
+				default:
+					if(( $sms_struct >= CTR_STR_TABLE_STRUCT )
+					&& ( $sms_struct < CTR_STR_REGISTER ))
+					{
+						require_once("struct/2f-write.php");
+						$answer = ctr_Write_Table($DATI, $sms_struct);
+						break;
+					}
+			}
+			break;
+
+		case CTR_SECRET:
+			require_once 'struct/23-secret.php';
+			$answer = ctr_Write($DATI);
+			break;
+
+
+		case CTR_DOWNLOAD:
+			require_once 'struct/24-download.php';
+			$answer = ctr_Write($DATI);
+			break;
+						
+		case CTR_END:
+			$answer = $DATI;
+			break;
+					
+		case CTR_IDENTIF:
+			require_once 'struct/30-identification.php';
+			$answer = ctr_Query($DATI, $sms_struct);
+			break;
+
+		case CTR_IDENTIF_ANSW:
+			require_once 'struct/30-identification.php';
+			$answer = ctr_Answer($DATI, $sms_struct);
+			break;
+
 	}
 
 	return $answer;
