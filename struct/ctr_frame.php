@@ -26,3 +26,6 @@ function ctr_parse_frame(&$DATI, $frame_id)
 	}
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

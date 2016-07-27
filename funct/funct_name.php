@@ -1,5 +1,5 @@
 <?php
-define (CTR_NOT_USE,		0x00);	  // Nepouziva sa
+define (CTR_NOT_USE,		0x00);	  // Not use
 define (CTR_ACK,			0x2B);	  // Application ACK (Send/Noreply)
 define (CTR_NACK,			0x2D);	  // Application NACK (Send/Noreply)
 define (CTR_IDENTIF,		0x28);	  // Identification (Send/Reply)
@@ -12,11 +12,12 @@ define (CTR_WRITE,			0x2F);	  // Write function (Send/Confirm)
 define (CTR_END,			0x25);	  // End of Session (Send/Noreply)
 define (CTR_SECRET,			0x23);	  // Sevret (Send/Confirm)
 define (CTR_DOWNLOAD,		0x24);	  // Download (Send/Confirm)
-define (CTR_ELGAS,			0x18);	  // Tunel pro Elgas
-define (CTR_ELGAS_OLD,		0x38);	  // Tunel pro Elgas old
+define (CTR_ELGAS,			0x18);	  // Tunel for Elgas
+define (CTR_ELGAS_OLD,		0x38);	  // Tunel for Elgas old
 
 define (CTR_FUNCT_ABR,   0);
 define (CTR_FUNCT_DESC,  1);
+define (CTR_FUNCT_NEED,  2);
 
 $funct_code = 
 	array(
@@ -36,6 +37,11 @@ $funct_code =
 			CTR_ELGAS_OLD    => array('8', 'Elgas tunel old',         'O'),
 	);
 	
+
+/********************************************************************
+* @brief Human information about Function
+* @param $funct_id - identification in dec format
+*/
 function ctr_funct_name($funct_id)
 {
 	global $funct_code;
@@ -47,3 +53,6 @@ function ctr_funct_name($funct_id)
 		
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

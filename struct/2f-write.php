@@ -4,11 +4,11 @@ require_once("obj/objects.php");
 function ctr_Write($DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
-	$dv    = ctr_date(substr_cut($DATI, 3), 3);
-	$wdb   = hexdec( substr_cut($DATI, 1));
-	$p_ses = hexdec( substr_cut($DATI, 1));
-	$obj   = hexdec( substr_cut($DATI, 1));
-	$attw  = hexdec( substr_cut($DATI, 1));
+	$dv       = ctr_date(substr_cut($DATI, 3), 3);
+	$wdb      = hexdec( substr_cut($DATI, 1));
+	$p_ses    = hexdec( substr_cut($DATI, 1));
+	$obj      = hexdec( substr_cut($DATI, 1));
+	$attw     = hexdec( substr_cut($DATI, 1));
 	
 	$answer[] = "$password - Access level password";
 	$answer[] = "$dv - Date of validity of the command";
@@ -31,11 +31,11 @@ function ctr_Write($DATI)
 function ctr_Write_Table($DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
-	$dv    = ctr_date(substr_cut($DATI, 3), 3);
-	$wdb   = hexdec( substr_cut($DATI, 1));
-	$p_ses = hexdec( substr_cut($DATI, 1));
+	$dv       = ctr_date(substr_cut($DATI, 3), 3);
+	$wdb      = hexdec( substr_cut($DATI, 1));
+	$p_ses    = hexdec( substr_cut($DATI, 1));
 	$table_id = hexdec( substr_cut($DATI, 1));
-	$count = hexdec( substr_cut($DATI, 2));
+	$count    = hexdec( substr_cut($DATI, 2));
 	
 	$answer[] = "$password - Access level password";
 	$answer[] = "$dv - Date of validity of the command";
@@ -55,3 +55,6 @@ function ctr_Write_Table($DATI)
 	$answer[] = $DATI;
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

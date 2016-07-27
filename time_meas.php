@@ -5,7 +5,6 @@ function microtime_float()
     return ((float)$usec + (float)$sec);
 }
 
-// zaciatok merania
 function start_meas()
 {
 global $time_meas_start;
@@ -14,7 +13,6 @@ global $time_meas_part;
     $time_meas_part = $time_meas_start = microtime_float();
 }
 
-// koniec merania - ako dlho to trvalo
 function stop_meas()
 {
 global $time_meas_start;
@@ -23,7 +21,6 @@ global $time_meas_start;
 	return number_format($time, 3);
 }
 
-// medzicas
 function part_meas()
 {
 global $time_meas_part;
@@ -33,7 +30,5 @@ global $time_meas_part;
 	return number_format($time, 3);
 }
 
-// zacni meranie
 start_meas();
-
 ?>

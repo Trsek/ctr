@@ -3,8 +3,8 @@ require_once("obj/objects.php");
 
 function ctr_Query($DATI)
 {
-	$password   = hex2bin( substr_cut($DATI, 6));
-	$index_Q    = hexdec( substr_cut($DATI, 2));
+	$password = hex2bin( substr_cut($DATI, 6));
+	$index_Q  = hexdec( substr_cut($DATI, 2));
 
 	$answer[] = "$password - Access level password";
 	$answer[] = "$index_Q - Index_Q";
@@ -15,10 +15,10 @@ function ctr_Query($DATI)
 
 function ctr_Answer($DATI)
 {
-	$pdr        = substr_cut($DATI, 7);
+	$pdr      = substr_cut($DATI, 7);
 	$anti_fraud = ctr_val($DATI, "D.A.0", 0x03)[0][0];
-	$index_A    = hexdec( substr_cut($DATI, 2));
-	$mem        = hexdec( substr_cut($DATI, 2));
+	$index_A  = hexdec( substr_cut($DATI, 2));
+	$mem      = hexdec( substr_cut($DATI, 2));
 	
 	$answer[] = $pdr ." - PDR (metering point identification code)";
 	$answer[] = "$anti_fraud - Anti-Fraud";
@@ -42,3 +42,5 @@ function ctr_Answer($DATI)
 	return $answer;
 }
 
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

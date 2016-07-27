@@ -17,3 +17,6 @@ function ctr_Execute($DATI)
 	$answer[] = $DATI;
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

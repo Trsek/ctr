@@ -19,7 +19,7 @@ $TABLE_FRAME_DEF = array(
 					array(	 "D.6.3",		0x02 ),		// D.6.3 Pseudo-random value(each character 0-255)
 					array(	"17.0.4",		0x02 ),		// 17.0.4 Tariff Scheme ID
 					array(	 "9.2.5",		0x02 ),		// 9.2.5 Software identifiers
-				// pridane pre Elster
+				// added for Elster
 					array(	"FF.0.2",		0x02 ),		// FF.0.2 Space 10x
 					array(	 "9.2.0",		0x02 ),		// 9.2.0 DLN - Device Logical Name (ELSxxAnnnnnnnnnn)
 				),
@@ -72,9 +72,9 @@ $TABLE_FRAME_DEF = array(
 					array( "12.0.0",		0x02 ),		// 12.0.0 Device status
 					array(  "D.9.0",		0x02 ),		//  D.9.0 Seals status
 					array(  "E.C.0",		0x02 ),		//  E.C.0 GSM/GPRS signal intensity
-				// pridane pre Italii
+				// added for CPL
 					array(  "C.2.1",		0x02 ),		//  C.1.1 Converter Master Record
-				// pridane pre Irsko
+				// added for Ireland
 					array(  "4.0.3",		0x03 ),		//  4.0.3 Absolute measurement pressure
 					array(  "7.0.3",		0x03 ),		//  7.0.3 Absolute measurement temperature
 				),
@@ -106,3 +106,6 @@ $TABLE_FRAME_DEF = array(
 					array(  "2.5.5",		0x03 )		//  2.5.5 Value for the band 3 volume totalizer at standard conditions in the previous period
 				),
 		);
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

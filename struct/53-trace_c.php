@@ -30,7 +30,9 @@ function ctr_Query($DATI)
 	return $answer;
 }
 
-// shift date/time acording period
+/********************************************************************
+ * @brief Shift date/time acording period
+ */
 function ctr_get_period_shift($trace_date, $period, $i)
 {
 	switch( $period )
@@ -119,3 +121,5 @@ function ctr_Answer($DATI)
 	return $answer;
 }
 
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

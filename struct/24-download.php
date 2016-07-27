@@ -30,3 +30,6 @@ function ctr_Write($DATI)
 	$answer[] = $DATI;
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

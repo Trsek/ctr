@@ -4,16 +4,16 @@ require_once("obj/objects.php");
 function ctr_Write($DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
-	$dv     = ctr_date(substr_cut($DATI, 3), 3);
-	$wdb    = hexdec( substr_cut($DATI, 1));
-	$p_ses  = hexdec( substr_cut($DATI, 1));
+	$dv       = ctr_date(substr_cut($DATI, 3), 3);
+	$wdb      = hexdec( substr_cut($DATI, 1));
+	$p_ses    = hexdec( substr_cut($DATI, 1));
 
-	$KEYF   = substr_cut($DATI, 16);
-	$DEV_Kf = ctr_date(substr_cut($DATI, 3), 3);
-	$KEYC_0 = substr_cut($DATI, 16);
-	$DEV_Kc = ctr_date(substr_cut($DATI, 3), 3);
-	$KEYT   = substr_cut($DATI, 16);
-	$DEV_Kt = ctr_date(substr_cut($DATI, 3), 3);
+	$KEYF     = substr_cut($DATI, 16);
+	$DEV_Kf   = ctr_date(substr_cut($DATI, 3), 3);
+	$KEYC_0   = substr_cut($DATI, 16);
+	$DEV_Kc   = ctr_date(substr_cut($DATI, 3), 3);
+	$KEYT     = substr_cut($DATI, 16);
+	$DEV_Kt   = ctr_date(substr_cut($DATI, 3), 3);
 	
 	$answer[] = "$password - Access level password";
 	$answer[] = "$dv - Date of validity of the command";
@@ -37,3 +37,6 @@ function ctr_Write($DATI)
 	$answer[] = $DATI;
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

@@ -25,3 +25,6 @@ function ctr_Answer($DATI, $sms_struct)
 {
 	return ctr_parse_frame($DATI, $sms_struct);
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

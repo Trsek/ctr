@@ -1,20 +1,23 @@
 <?php
-	// zapis do statistiky
-	define("_BBC_PAGE_NAME", $_REQUEST["CTR_FRAME"]);
+	// write to log
+	define("_BBC_PAGE_NAME", substr(IsSet($_REQUEST["encrypt"])? $_REQUEST["CTR_FRAME"]: $_REQUEST["CTR_FRAME_ENCRYPT"], 0, 30));
 	define("_BBCLONE_DIR", "bbclone/");
+	define("_BBC_ROOT_PATH", "bbclone/");
 	define("COUNTER", _BBCLONE_DIR."mark_page.php");
 
 	if (is_readable(COUNTER))
 		include_once(COUNTER);
 
+	// write to log
+	file_put_contents("log/packets.txt", (IsSet($_REQUEST["encrypt"])? $_REQUEST["CTR_FRAME"]." (".$_REQUEST["Key"].")": $_REQUEST["CTR_FRAME_ENCRYPT"]).PHP_EOL , FILE_APPEND);
+	
 	echo("<br><br>\n");
 	echo("<div style='clear: both'>\n");
 	echo("<div style='font-size: 9pt;' align=center>\n");
-	echo("designed by <a href='http://trsek.com/curriculum' style='font-size: 12pt; font-weight: bold; color: rgb(73, 85, 120)'>Zdeno Sekerak</a> (c) 2016<br>\n");
+	echo("designed by <a href='https://trsek.com/curriculum' style='font-size: 12pt; font-weight: bold; color: rgb(73, 85, 120)'>Zdeno Sekerak</a> (c) 2016<br>\n");
 	echo("</div>\n");
 
 	require("bbclone/var/access.php");
-	// spocti hodiny
 	$dayvisit = 0;
 	foreach ($access['time']['hour'] as $val) $dayvisit += $val;
 

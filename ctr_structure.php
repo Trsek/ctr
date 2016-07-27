@@ -6,8 +6,9 @@ require_once("struct/struct_name.php");
 require_once("obj/objects.php");
 
 
-// remove 0a/0d if have it
-// remove SMS prefix if have it
+/********************************************************************
+* @brief Remove 0A/0D if have it. Remove SMS prefix if have it
+*/
 function CTR_NORMALIZE($SMS)
 {
 	// strip all spaces
@@ -25,6 +26,11 @@ function CTR_NORMALIZE($SMS)
 	return $SMS;
 }
 
+
+/********************************************************************
+* @brief Make HTML format from array
+* @retval HTML format divide by <br>
+*/
 function ctr_array_show($value)
 {
 	if( !is_array($value))
@@ -43,10 +49,13 @@ function ctr_array_show($value)
 	{
 		$out .= ctr_array_show($value_line) . "<br>";
 	}
-//	$out .= "<hr>";
 	return $out;
 }
 
+/********************************************************************
+* @brief Show analyze SMS
+* @retval HTML table format
+*/
 function ctr_show($SMS)
 {
 	$SMS_FRAME = ctr_analyze_frame($SMS);
@@ -66,7 +75,9 @@ function ctr_show($SMS)
 	return $out;
 }
 
-// analyze profi byte
+/********************************************************************
+* @brief Analyze profi byte
+*/
 function ctr_profi($profi)
 {
 	$profile_text = 
@@ -89,7 +100,9 @@ function ctr_profi($profi)
 	return $answer;
 }
 
-// analyze funct byte
+/********************************************************************
+* @brief Analyze funct byte
+*/
 function ctr_funct($funct)
 {
 	global $funct_code;
@@ -105,7 +118,9 @@ function ctr_funct($funct)
 	return $answer;
 }
 
-// metaanalyze frame name
+/********************************************************************
+* @brief Metaanalyze frame name
+*/
 function ctr_analyze_frame(&$SMS)
 {
 	$SMS_DATI['ADD']   = substr_cut($SMS, 2);
@@ -117,18 +132,20 @@ function ctr_analyze_frame(&$SMS)
 	$SMS_DATI['CPA']   = substr_cut($SMS, 4);
 	$SMS_DATI['CRC']   = substr_cut($SMS, 2);
 
-	$sms_funct = hexdec( $SMS_DATI['FUNCT']) & 0x3F;
+	$sms_funct  = hexdec( $SMS_DATI['FUNCT']) & 0x3F;
 	$sms_struct = hexdec( $SMS_DATI['STRUCT']);
 	
-	$SMS_DATI['PROFI'] = ctr_profi( hexdec( $SMS_DATI['PROFI']));
-	$SMS_DATI['FUNCT'] = ctr_funct( hexdec( $SMS_DATI['FUNCT']));
+	$SMS_DATI['PROFI']  = ctr_profi( hexdec( $SMS_DATI['PROFI']));
+	$SMS_DATI['FUNCT']  = ctr_funct( hexdec( $SMS_DATI['FUNCT']));
 	$SMS_DATI['STRUCT'] = ctr_struct_name( hexdec( $SMS_DATI['STRUCT']));
 	$SMS_DATI['DATI']   = ctr_dati( $SMS_DATI['DATI'], $sms_funct, $sms_struct);
 	
 	return $SMS_DATI;
 }
 
-// analyze data part
+/********************************************************************
+* @brief Analyze data part
+*/
 function ctr_dati($DATI, $sms_funct, $sms_struct)
 {
 	$answer = $DATI;
@@ -209,7 +226,7 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 			switch( $sms_struct )
 			{
 				case CTR_STR_REGISTER:
-					require_once 'struct/50-register.php';		// TODO - najdi
+					require_once 'struct/50-register.php';
 					$answer = ctr_Answer($DATI);
 					break;
 
@@ -318,3 +335,5 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 
 	return $answer;
 }
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-define (DEFAULT_GAS_HOUR, 6);
+define (DEFAULT_GAS_HOUR, 6);	// OFG
 
 function get_period_text_trace()
 {
@@ -36,7 +36,9 @@ function ctr_Query($DATI)
 	return $answer;
 }
 
-// shift date/time acording period
+/********************************************************************
+ * @brief Shift date/time acording period
+ */
 function ctr_get_period_shift_trace($trace_date, $period, $i)
 {
 	switch( $period )
@@ -101,3 +103,6 @@ function ctr_Answer($DATI)
 	$answer[] = $DATI;
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

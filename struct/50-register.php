@@ -4,8 +4,8 @@ require_once("obj/objects.php");
 function ctr_Query($DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
-	$obj  = hexdec( substr_cut($DATI, 1));
-	$attw = hexdec( substr_cut($DATI, 1));
+	$obj      = hexdec( substr_cut($DATI, 1));
+	$attw     = hexdec( substr_cut($DATI, 1));
 	
 	$answer[] = "$password - Access level password";
 	$answer[] = "$obj - Number of objects to be read";
@@ -13,7 +13,7 @@ function ctr_Query($DATI)
 	
 	for($i=0; $i<$obj; $i++)
 	{
-		$answer[] = ctr_obj_number(substr_cut($DATI, 2));
+		$answer[] = ctr_obj_name( ctr_obj_number(substr_cut($DATI, 2)));
 	}
 	$answer[] = $DATI;
 	return $answer;
@@ -36,4 +36,7 @@ function ctr_Answer($DATI)
 	$answer[] = $DATI;
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */
 

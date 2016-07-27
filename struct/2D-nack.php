@@ -2,6 +2,9 @@
 require_once("funct/funct_name.php");
 define (NACK_TXT, 'struct/NACK_Explanation.txt');
 
+/********************************************************************
+* @brief ACK parser
+*/
 function ctr_ack($DATI)
 {
 	$ACK_Code = substr_cut($DATI, 1);
@@ -15,6 +18,9 @@ function ctr_ack($DATI)
 	return $answer;
 }
 
+/********************************************************************
+* @brief NACK explanation (read file NACK_TXT stored from wiki)
+*/
 function ctr_NACK_slovak( $TAB_NACK )
 {
 	$start = false;
@@ -44,6 +50,9 @@ function ctr_NACK_slovak( $TAB_NACK )
 	return $answer;
 }
 
+/********************************************************************
+* @brief NACK parser
+*/
 function ctr_nack($DATI)
 {
 	$nack_text = array(
@@ -144,3 +153,6 @@ function ctr_nack($DATI)
 	$answer[] = ctr_NACK_slovak( $TAB_NACK );
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */

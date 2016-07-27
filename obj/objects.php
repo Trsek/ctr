@@ -1,7 +1,9 @@
 <?php
 require_once("obj/objects.inc");
 
-// odsekne 'len' hex znakov zo zaciatku retazca
+/********************************************************************
+* @brief Strip 'len' chars from start of string 
+*/
 function substr_cut(&$SMS, $len)
 {
 	$cut_str = substr($SMS, 0, 2*$len);
@@ -9,16 +11,9 @@ function substr_cut(&$SMS, $len)
 	return $cut_str;
 }
 
-function hex2float($strHex) 
-{
-	$hex = sscanf($strHex, "%02x%02x%02x%02x%02x%02x%02x%02x");
-	$hex = array_reverse($hex);
-	$bin = implode('', array_map('chr', $hex));
-	$array = unpack("dnum", $bin);
-	return $array['num'];
-}
-
-// parse ushort to text ppresentation
+/********************************************************************
+* @brief Parse ushort to text ppresentation
+*/
 function ctr_obj_number($OBJ)
 {
 	global $CTR_List;
@@ -28,12 +23,17 @@ function ctr_obj_number($OBJ)
 	$d = hexdec( substr($OBJ, 2, 2)) & 0x0F; 
 	
 	$answer = sprintf( "%X.%X.%X", $c, $s, $d);
+
+	// add new for this time
 	if( $CTR_List[$answer] == null )
-		$answer = "0.0.0";
+		$CTR_List[$answer] = $CTR_List["0.0.0"]; 
+
 	return $answer; 
 }
 
-// parse uchar qualify
+/********************************************************************
+* @brief Parse uchar qualify byte
+*/
 function ctr_qlf($qlf)
 {
 	$band_text = 
@@ -65,13 +65,18 @@ function ctr_qlf($qlf)
 	return $answer;
 }
 
+/********************************************************************
+* @brief Check if string inform about " 10 - Valid"
+*/
 function ctr_qlf_valid($DATI)
 {
 	$qlf = hexdec(substr($DATI, 0, 2));
 	return ($qlf >> 3) & 0x03;
 }
 
-// parse uchar access
+/********************************************************************
+* @brief Parse uchar access
+*/
 function ctr_access($access)
 {
 	$access_write = $access >> 4;
@@ -83,7 +88,9 @@ function ctr_access($access)
 	return $answer;
 }
 
-// parse uchar attw
+/********************************************************************
+* @brief Parse uchar attw
+*/
 function ctr_attw($attw)
 {
 	$answer[] = sprintf( "%02Xh - Attribute type", $attw);
@@ -95,7 +102,9 @@ function ctr_attw($attw)
 	return $answer;
 }
 
-// parse value
+/********************************************************************
+* @brief Human presentation of Object id
+*/
 function ctr_obj_name($obj_id)
 {
 	global $CTR_List;
@@ -104,6 +113,9 @@ function ctr_obj_name($obj_id)
 	return (string)$obj_id. " - ". $CTR_List_leap[CTR_DESCRIPTION];
 }
 
+/********************************************************************
+* @brief Return text presentation unit of measure
+*/
 function ctr_get_mj($unit)
 {
 	$unit_str = array(
@@ -150,6 +162,9 @@ function ctr_get_mj($unit)
 	return $unit_str[$unit];
 }
 
+/********************************************************************
+* @brief CTR date presentation
+*/
 function ctr_date($DATI, $count)
 {
 	$data_year   = ($count>0)? hexdec(substr_cut($DATI, 1))+2000: 2000;	
@@ -158,20 +173,30 @@ function ctr_date($DATI, $count)
 	$data_hour   = ($count>3)? hexdec(substr_cut($DATI, 1)): 0;	
 	$data_minute = ($count>4)? hexdec(substr_cut($DATI, 1)): 0;	
 	$data_second = ($count>5)? hexdec(substr_cut($DATI, 1)): 0;
+	
+	// daylight time
+	$dst = "";
+	if( $data_hour > 30 )
+	{
+		$data_hour -= 30;
+		$dst = " dst";
+	}
 
 	switch($count)
 	{
 		case 1:	return sprintf("%04d", $data_year);	break;
 		case 2:	return sprintf("%04d-%02d", $data_year, $data_month);	break;
 		case 3:	return sprintf("%04d-%02d-%02d", $data_year, $data_month, $data_day);	break;
-		case 4:	return sprintf("%04d-%02d-%02d %02d", $data_year, $data_month, $data_day, $data_hour);	break;
-		case 5:	return sprintf("%04d-%02d-%02d %02d:%02d", $data_year, $data_month, $data_day, $data_hour, $data_minute);	break;
-		case 6:	return sprintf("%04d-%02d-%02d %02d:%02d:%02d", $data_year, $data_month, $data_day, $data_hour, $data_minute, $data_second);	break;
+		case 4:	return sprintf("%04d-%02d-%02d %02d %s", $data_year, $data_month, $data_day, $data_hour, $dst);	break;
+		case 5:	return sprintf("%04d-%02d-%02d %02d:%02d %s", $data_year, $data_month, $data_day, $data_hour, $data_minute, $dst);	break;
+		case 6:	return sprintf("%04d-%02d-%02d %02d:%02d:%02d %s", $data_year, $data_month, $data_day, $data_hour, $data_minute, $data_second, $dst);	break;
 	}
 	return "";
 }
 
-// parse value
+/********************************************************************
+* @brief Parse value
+*/
 function ctr_val(&$DATI, $obj_id, $attw)
 {
 	global $CTR_List;
@@ -243,3 +268,6 @@ function ctr_val(&$DATI, $obj_id, $attw)
 	
 	return $answer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */
