@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-function ctr_Write($DATI)
+function ctr_Write(&$DATI)
 {
 	$dv       = ctr_date(substr_cut($DATI, 3), 3);
 	$wdb      = hexdec( substr_cut($DATI, 1));
@@ -26,8 +26,6 @@ function ctr_Write($DATI)
 		$answer[] = hexdec( substr_cut($DATI,4)) ." - LS (Length of software in bytes)";
 		$answer[] = hexdec( substr_cut($DATI,2)) ." - NS (Number of total segments)";
 	}
-	
-	$answer[] = $DATI;
 	return $answer;
 }
 

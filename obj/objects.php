@@ -59,8 +59,8 @@ function ctr_qlf($qlf)
               'Reserved');                          // 11
 	
 	$sl_text = 
-		array('Value during Daylight saving time',	// 0
-              'Standart time');                     // 1
+		array('Standart time',	                    // 0
+              'Value during Daylight saving time'); // 1
 		
 	$kmolt = $qlf & 0x07;
 	$val   = ($qlf >> 3) & 0x03;
@@ -69,19 +69,58 @@ function ctr_qlf($qlf)
 	
 	$answer[] = sprintf( "%02Xh - Qualifier", $qlf);
 	$answer[] = sprintf( " %02d - %s", decbin($if12), $band_text[$if12]);
-	$answer[] = sprintf( " %01d - %s", decbin($sl),   $sl_text[$val]);
+	$answer[] = sprintf( " %01d - %s", decbin($sl),   $sl_text[$sl]);
 	$answer[] = sprintf( " %02d - %s", decbin($val),  $val_text[$val]);
 	$answer[] = sprintf( " %03d - 10^-Kmolt", $kmolt);
 	return $answer;
 }
 
 /********************************************************************
-* @brief Check if string inform about " 10 - Valid"
+* @brief Parse uchar qualify byte
+*/
+function ctr_qlf_short($qlf)
+{
+	$band_text = 
+		array('',	           // 00
+              'band 1',        // 01
+              'band 2',        // 10
+              'band 3');       // 11
+	
+	$val_text = 
+		array('',	           // 00
+              'naintenance',   // 01
+              'not valid',     // 10
+              '');             // 11
+	
+	$sl_text = 
+		array('', 	           // 0
+              'DST');          // 1
+		
+	$kmolt = $qlf & 0x07;
+	$val   = ($qlf >> 3) & 0x03;
+	$sl    = ($qlf >> 5) & 0x01;
+	$if12  = $qlf >> 6;
+	
+	$add_text = (empty($band_text[$if12])? "": $band_text[$if12].", ")
+	           .(empty($sl_text[$sl])? "": $sl_text[$sl].", ")
+	           .(empty($val_text[$val])? "": $val_text[$val].", ")
+	           .(($kmolt==0)? "": "10^-$kmolt, ")
+	           ;
+	if( strlen($add_text))
+		$add_text = "(". substr($add_text, 0, strlen($add_text)-2) .")";
+	
+	$answer = sprintf(" %02Xh - .qlf %s", $qlf, $add_text);
+	return $answer;
+}
+
+/********************************************************************
+* @brief Check if string inform about " 10 - Value not valid"
 */
 function ctr_qlf_valid($DATI)
 {
-	$qlf = hexdec(substr($DATI, 0, 2));
-	return ($qlf >> 3) & 0x03;
+
+	$qlf = hexdec(substr($DATI, 0, 3));
+	return !(($qlf >> 3) & 0x02);
 }
 
 /********************************************************************
@@ -251,6 +290,7 @@ function ctr_val(&$DATI, $obj_id, $attw)
 					break;
 			case VAL_TYPE_DEFAULT:
 			case VAL_TYPE_OKNO:
+					$value .= "h";
 					break;
 		}
 		
@@ -262,7 +302,7 @@ function ctr_val(&$DATI, $obj_id, $attw)
 				$value /= 10;
 		}
 		
-		$val[] = $value ." ". ctr_get_mj($CTR_List[$obj_id][CTR_UNIT]);
+		$val[] = " ". $value ." ". ctr_get_mj($CTR_List[$obj_id][CTR_UNIT]);
 		$obj_id = $CTR_List[$obj_id][CTR_COMPANION_OBJ_ID];
 		} while( $obj_id != "0.0.0");
 	}
@@ -272,9 +312,9 @@ function ctr_val(&$DATI, $obj_id, $attw)
 
 	$answer = "";
 	if( $attw & 0x02 ) $answer[] = $val;
-	if( $attw & 0x01 ) $answer[] = ctr_qlf($qlf);
+	if( $attw & 0x01 ) $answer[] = ctr_qlf_short($qlf);
 	if( $attw & 0x04 ) $answer[] = ctr_access($access);
-	if( $attw & 0x08 ) $answer[] = $default;
+	if( $attw & 0x08 ) $answer[] = "default: ". $default;
 	
 	return $answer;
 }

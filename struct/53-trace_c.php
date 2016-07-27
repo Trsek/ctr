@@ -13,7 +13,7 @@ function get_period_text()
 	return $period_text;
 }
 	
-function ctr_Query($DATI)
+function ctr_Query(&$DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
 	$obj_id   = ctr_obj_number(substr_cut($DATI, 2));
@@ -24,9 +24,7 @@ function ctr_Query($DATI)
 	$answer[] = ctr_obj_name($obj_id);
 	$answer[] = (string)$period. " - ". get_period_text()[($period < 4)? $period: 4];
 	$answer[] = ctr_date($data_rif,3). " - Data_rif";
-	
 	$answer[] = "";
-	$answer[] = $DATI;
 	return $answer;
 }
 
@@ -44,7 +42,7 @@ function ctr_get_period_shift($trace_date, $period, $i)
 	}
 }
 
-function ctr_Answer($DATI)
+function ctr_Answer(&$DATI)
 {
 	$tot_obj_id_array =
 	    array( 
@@ -114,10 +112,9 @@ function ctr_Answer($DATI)
 	for($i=0; $i<24; $i++)
 	{
 		$line = ctr_val($DATI, $obj_id, 0x03);
-		$info = !ctr_qlf_valid($line[1][0])? "": " (". $line[1][3] .")";
+		$info = ctr_qlf_valid($line[1])? "": " (". trim($line[1]) .")";
 		$answer[] = date('Y-m-d H:i -> ', $trace_date + ctr_get_period_shift($trace_date, $period, $i)). $line[0][0]. $info;
 	}
-	$answer[] = $DATI;
 	return $answer;
 }
 

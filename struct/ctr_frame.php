@@ -2,11 +2,10 @@
 require_once("struct/ctr_frame.inc");
 require_once("obj/objects.inc");
 
-function ctr_Query2($DATI)
+function ctr_Query2(&$DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
 	$answer[] = "$password - Access level password";
-	$answer[] = $DATI;
 	return $answer;
 }
 

@@ -404,10 +404,10 @@ $CTR_List = array
 	"D.A.0"  => array(  "0.0.0", VAL_TYPE_ULONG,        UNIT_DEFAULT,        4, "Anti-fraud Totalizer (Totalizer counts: access with an incorrect encryption, authentication key and password)"),
 
 	// Communication
-	"E.0.1"  => array(  "0.0.0", VAL_TYPE_STRING8,      UNIT_DEFAULT,        5, "INBOUND/Voluntary SMS"),
-	"FE.0.1" => array(  "0.0.0", VAL_TYPE_STRING8,      UNIT_DEFAULT,        5, "INBOUND/Voluntary SMS - kvoli kompaktibilite s 4.02"),
+	"E.0.1"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        5, "INBOUND/Voluntary SMS"),
+	"FE.0.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        5, "INBOUND/Voluntary SMS - kvoli kompaktibilite s 4.02"),
 	"E.1.5"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        2, "Communication mode supported (0)"),
-	"E.2.1"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,       22, "Telephony address for the DCE"),
+	"E.2.1"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       22, "Telephony address for the DCE"),
 
 	// Call map, list of telephone numbers and ip address
 	"E.3.1"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,       15, "Telephone reference of Clients"),

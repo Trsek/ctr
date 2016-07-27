@@ -34,6 +34,20 @@ function CTR_NORMALIZE($SMS)
 	return $SMS;
 }
 
+/********************************************************************
+ * @brief Added space every $len
+ */
+function add_soft_space($DATI, $len)
+{
+	$asnwer = "";
+	while( strlen($DATI))
+	{	
+		$answer .= substr($DATI, 0, $len) ." ";
+		$DATI = substr($DATI, $len, strlen($DATI));
+	}   
+
+	return $answer;
+}
 
 /********************************************************************
 * @brief Make HTML format from array
@@ -41,6 +55,9 @@ function CTR_NORMALIZE($SMS)
 */
 function ctr_array_show($value)
 {
+	if( is_array($value) && count($value)==1)
+		$value = $value[0];
+	
 	if( !is_array($value))
 	{
 		$space = "";
@@ -326,7 +343,6 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 			break;
 						
 		case CTR_END:
-			$answer = $DATI;
 			break;
 					
 		case CTR_IDENTIF:
@@ -341,6 +357,11 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 
 	}
 
+	if( is_array($answer))
+		$answer[] = add_soft_space($DATI, 64);
+	else
+		$answer = add_soft_space($DATI, 64);
+	
 	return $answer;
 }
 /*----------------------------------------------------------------------------*/

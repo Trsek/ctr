@@ -51,7 +51,7 @@
 	<meta name='author' lang='en' content='Zdeno Sekerák, www.trsek.com'>
 	<link rel='shortcut icon' href='/favicon.ico'>
 	<link rel='stylesheet' href='ctr.css'>
-	<title>CTR online</title>
+	<title>CTR online (<?php echo ctr_funct_name(hexdec(substr($CTR_FRAME_ENCRYPT, 6, 2)) & 0x3F);?>)</title>
 </head>
 <body>
 <h1>CTR Encrypt online</h1>

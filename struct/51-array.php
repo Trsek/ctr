@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-function ctr_Query($DATI)
+function ctr_Query(&$DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
 	$obj_id   = ctr_obj_number(substr_cut($DATI, 2));
@@ -12,12 +12,10 @@ function ctr_Query($DATI)
 	$answer[] = ctr_obj_name($obj_id);
 	$answer[] = "$index_Q - Index_Q";
 	$answer[] = "$counter_Q - Counter_Q";
-	
-	$answer[] = $DATI;
 	return $answer;
 }
 
-function ctr_Answer($DATI)
+function ctr_Answer(&$DATI)
 {
 	$obj_id   = ctr_obj_number(substr_cut($DATI, 2));
 	$type     = hexdec( substr_cut($DATI, 1));
@@ -41,13 +39,13 @@ function ctr_Answer($DATI)
 		{
 			case 1:
 				$line = ctr_val($DATI, $obj_id, 0x03);
-				$info = !ctr_qlf_valid($line[1][0])? "": " (". $line[1][3] .")";
+				$info = ctr_qlf_valid($line[1])? "": " (". trim($line[1]) .")";
 				$answer[] = $line[0][0]. $info;
 				$answer[] = ctr_date(substr_cut($DATI, 5), 5);
 				break;
 			case 2:
 				$line = ctr_val($DATI, $obj_id, 0x03);
-				$info = !ctr_qlf_valid($line[1][0])? "": " (". $line[1][3] .")";
+				$info = ctr_qlf_valid($line[1])? "": " (". trim($line[1]) .")";
 				$answer[] = $line[0][0]. $info;
 				break;
 			case 3:
@@ -59,8 +57,6 @@ function ctr_Answer($DATI)
 				break;
 		}
 	}
-
-	$answer[] = $DATI;
 	return $answer;
 }
 

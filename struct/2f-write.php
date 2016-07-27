@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-function ctr_Write($DATI)
+function ctr_Write(&$DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
 	$dv       = ctr_date(substr_cut($DATI, 3), 3);
@@ -23,12 +23,11 @@ function ctr_Write($DATI)
 		$answer[] = ctr_obj_name($obj_id);
 		$answer[] = ctr_val($DATI, $obj_id, $attw);
 	}
-	$answer[] = $DATI;
 	return $answer;
 }
 
 
-function ctr_Write_Table($DATI)
+function ctr_Write_Table(&$DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
 	$dv       = ctr_date(substr_cut($DATI, 3), 3);
@@ -52,7 +51,6 @@ function ctr_Write_Table($DATI)
 		$answer[] = ctr_obj_name($obj_id);
 		$answer[] = ctr_attw($attw);
 	}
-	$answer[] = $DATI;
 	return $answer;
 }
 

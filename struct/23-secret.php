@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-function ctr_Write($DATI)
+function ctr_Write(&$DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
 	$dv       = ctr_date(substr_cut($DATI, 3), 3);
@@ -32,9 +32,8 @@ function ctr_Write($DATI)
 	$answer[] = "Temporaty Key KEYT";
 	$answer[] = $KEYT;
 	$answer[] = "$DEV_Kt - Date of activation";
-	
 	$answer[] = "";
-	$answer[] = $DATI;
+
 	return $answer;
 }
 

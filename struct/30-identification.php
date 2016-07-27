@@ -1,7 +1,7 @@
 <?php
 require_once("struct/ctr_frame.php");
 
-function ctr_Query($DATI)
+function ctr_Query(&$DATI)
 {
 	$st_text = array(
 			"Not defined",
@@ -16,12 +16,10 @@ function ctr_Query($DATI)
 	$answer[] = "$puk_s - PUK_S";
 	$answer[] = (string)$st ." - ". $st_text[$st];
 	$answer[] = "$code_st - Identifier of the remote Client or of the terminal";
-	
-	$answer[] = $DATI;
 	return $answer;
 }
 
-function ctr_Answer($DATI, $sms_struct)
+function ctr_Answer(&$DATI, $sms_struct)
 {
 	return ctr_parse_frame($DATI, $sms_struct);
 }

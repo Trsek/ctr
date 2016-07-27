@@ -5,7 +5,7 @@ define (NACK_TXT, 'struct/NACK_Explanation.txt');
 /********************************************************************
 * @brief ACK parser
 */
-function ctr_ack($DATI)
+function ctr_ack(&$DATI)
 {
 	$ACK_Code = substr_cut($DATI, 1);
 	$FUNCT_id = substr_cut($DATI, 1);
@@ -14,7 +14,6 @@ function ctr_ack($DATI)
 	$answer[] = $ACK_Code ."h";
 	$answer[] = ctr_funct_name(hexdec($FUNCT_id));
 	$answer[] = $Add_data ." - Add_data";
-	$answer[] = $DATI;
 	return $answer;
 }
 
@@ -53,7 +52,7 @@ function ctr_NACK_slovak( $TAB_NACK )
 /********************************************************************
 * @brief NACK parser
 */
-function ctr_nack($DATI)
+function ctr_nack(&$DATI)
 {
 	$nack_text = array(
 			0x40 => array('Generic',
@@ -147,7 +146,6 @@ function ctr_nack($DATI)
 	}
 	
 	$answer[] = $Add_data ." - Add_data";
-	$answer[] = $DATI;
 	$answer[] = "";
 	$answer[] = "Slovak explanation:";
 	$answer[] = ctr_NACK_slovak( $TAB_NACK );
