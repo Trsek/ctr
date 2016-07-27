@@ -12,6 +12,16 @@ function substr_cut(&$SMS, $len)
 }
 
 /********************************************************************
+* @brief hex2bin in PHP < 5.4.0
+*/
+if (PHP_VERSION_ID < 50400) {
+function hex2bin($hex_string)
+{
+	return pack("H*" , $hex_string);
+}
+}
+
+/********************************************************************
 * @brief Parse ushort to text ppresentation
 */
 function ctr_obj_number($OBJ)

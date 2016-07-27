@@ -22,6 +22,14 @@ function CTR_NORMALIZE($SMS)
 	{
 		$SMS = substr($SMS, 2, strlen($SMS)-4);
 	}
+	
+	// strip SMS prefix
+	$poz = strpos(strtoupper($SMS), "8C");
+	if(( strlen($SMS) > 284 )
+	&& ( $poz < 58 ))
+	{
+		$SMS = substr($SMS, $poz+2, strlen($SMS)-$poz);
+	}
 
 	return $SMS;
 }
