@@ -1,5 +1,6 @@
 <?php
 require_once("obj/objects.inc");
+require_once("obj/objects_special.php");
 
 /********************************************************************
 * @brief Strip 'len' chars from start of string 
@@ -168,6 +169,7 @@ function ctr_obj_name($obj_id)
 function ctr_get_mj($unit)
 {
 	$unit_str = array(
+		 UNIT_DEFAULT =>"h",			
 		 UNIT_stC =>    "°C",
 		 UNIT_stF =>    "°F",
 		 UNIT_Kelvin => "K",
@@ -206,6 +208,8 @@ function ctr_get_mj($unit)
 		 UNIT_m =>      "m",
 		 UNIT_ft =>     "ft",
 		 UNIT_kgm3 =>   "kg/m³",
+		 UNIT_h =>      "hrs",
+		 UNIT_dB =>     "dB",
 	);
 		
 	return $unit_str[$unit];
@@ -216,12 +220,22 @@ function ctr_get_mj($unit)
 */
 function ctr_date($DATI, $count)
 {
+	// have day of week
+	if( $count > 5 )
+	{
+		$week = hexdec(substr($DATI,6,2));
+		$DATI = substr($DATI,0,6) .substr($DATI,8,strlen($DATI));
+		$count--;
+	}
+	
 	$data_year   = ($count>0)? hexdec(substr_cut($DATI, 1))+2000: 2000;	
 	$data_month  = ($count>1)? hexdec(substr_cut($DATI, 1)): 1;	
 	$data_day    = ($count>2)? hexdec(substr_cut($DATI, 1)): 1;	
 	$data_hour   = ($count>3)? hexdec(substr_cut($DATI, 1)): 0;	
 	$data_minute = ($count>4)? hexdec(substr_cut($DATI, 1)): 0;	
 	$data_second = ($count>5)? hexdec(substr_cut($DATI, 1)): 0;
+	$data_gmt    = ($count>6)? hexdec(substr_cut($DATI, 1)): 0;
+	$data_dst    = ($count>7)? hexdec(substr_cut($DATI, 1)): 0;
 	
 	// daylight time
 	$dst = "";
@@ -230,7 +244,9 @@ function ctr_date($DATI, $count)
 		$data_hour -= 30;
 		$dst = " dst";
 	}
-
+	if( $data_gmt ) $dst .= " gmt=".$data_gmt;
+	if( $data_dst ) $dst .= " dst=active";
+	
 	switch($count)
 	{
 		case 1:	return sprintf("%04d", $data_year);	break;
@@ -238,7 +254,11 @@ function ctr_date($DATI, $count)
 		case 3:	return sprintf("%04d-%02d-%02d", $data_year, $data_month, $data_day);	break;
 		case 4:	return sprintf("%04d-%02d-%02d %02d %s", $data_year, $data_month, $data_day, $data_hour, $dst);	break;
 		case 5:	return sprintf("%04d-%02d-%02d %02d:%02d %s", $data_year, $data_month, $data_day, $data_hour, $data_minute, $dst);	break;
-		case 6:	return sprintf("%04d-%02d-%02d %02d:%02d:%02d %s", $data_year, $data_month, $data_day, $data_hour, $data_minute, $data_second, $dst);	break;
+		case 6:	
+		case 7:	
+		case 8:	
+		default:
+			    return sprintf("%04d-%02d-%02d %02d:%02d:%02d %s", $data_year, $data_month, $data_day, $data_hour, $data_minute, $data_second, $dst);	break;
 	}
 	return "";
 }
@@ -287,10 +307,11 @@ function ctr_val(&$DATI, $obj_id, $attw)
 			case VAL_TYPE_DATE_MSP:
 			case VAL_TYPE_DATETIME:
 			case VAL_TYPE_DATETIMEBCD:
+					$value = ctr_date($value, $len);
 					break;
 			case VAL_TYPE_DEFAULT:
 			case VAL_TYPE_OKNO:
-					$value .= "h";
+					if( $obj_id == "E.C.0" ) $value = ctr_db($value);
 					break;
 		}
 		

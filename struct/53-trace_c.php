@@ -37,9 +37,10 @@ function ctr_get_period_shift($trace_date, $period, $i)
 	{
 		case 1:	return $i*3600;
 		case 2:	return $i*3600*24;
-		case 3:	return $trace_date - strtotime("+1 month", $myTimestamp);
+		case 3:	return $trace_date - strtotime("+1 month", $trace_date);
 				return $i;
 	}
+	return 0;
 }
 
 function ctr_Answer(&$DATI)
@@ -91,11 +92,9 @@ function ctr_Answer(&$DATI)
 	$answer[] = (string)$period. " - ". get_period_text()[($period < 4)? $period: 4];
 	$answer[] = ctr_date($data_rif,3). " - Data_rif";
 
-	$oras_year  = hexdec( substr_cut($oras, 1)) + 2000;
-	$oras_month = hexdec( substr_cut($oras, 1));
-	$oras_day   = hexdec( substr_cut($oras, 1));
-	$oras_hour  = hexdec( substr_cut($oras, 1));
-	$oras_minute = hexdec( substr_cut($oras, 1));
+	$data_year  = hexdec( substr_cut($data_rif, 1)) + 2000;
+	$data_month = hexdec( substr_cut($data_rif, 1));
+	$data_day   = hexdec( substr_cut($data_rif, 1));
 	
 	// Tot_obj
 	$tot_obj_id = $tot_obj_id_array[$period][1];
@@ -109,7 +108,28 @@ function ctr_Answer(&$DATI)
 	$answer[] = "TraceC data for :";
 	$answer[] = ctr_obj_name($obj_id);
 	$trace_date = mktime($ofg, 0, 0, $data_month, $data_day, $data_year);
-	for($i=0; $i<24; $i++)
+	
+	// move back
+	switch( $period )
+	{
+		case 1: 
+			$trace_date = strtotime("-1 day", $trace_date);
+			$count = 24;
+			break;
+		case 2:	
+			$trace_date = strtotime("-14 day", $trace_date);
+			$count = 15;
+			break;
+		case 3:	
+			$trace_date = strtotime("-11 month", $trace_date);
+			$count = 12;
+			break;
+		default:
+			$count = 24;
+			break;
+	}
+	
+	for($i=0; $i<$count; $i++)
 	{
 		$line = ctr_val($DATI, $obj_id, 0x03);
 		$info = ctr_qlf_valid($line[1])? "": " (". trim($line[1]) .")";

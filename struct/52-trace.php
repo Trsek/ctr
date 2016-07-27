@@ -44,8 +44,8 @@ function ctr_get_period_shift_trace($trace_date, $period, $i)
 		case 1:	return $i*15*60;
 		case 2:	return $i*3600;
 		case 3:	return $i*3600*24;
-		case 4:	return $trace_date - strtotime("+1 month", $myTimestamp);
-		case 5:	return $trace_date - strtotime("+1 year", $myTimestamp);
+		case 4:	return $trace_date - strtotime("+1 month", $trace_date);
+		case 5:	return $trace_date - strtotime("+1 year", $trace_date);
 	}
 	return 0;
 }
