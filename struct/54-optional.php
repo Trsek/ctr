@@ -54,7 +54,7 @@ function ctr_Answer(&$DATI)
 				break;
 			case 3:
 			case 0x13:
-				$answer[] = ctr_obj_name($obj_id);
+				$answer[] = ctr_obj_name(ctr_obj_number($obj_id));
 				break;
 		}
 	}

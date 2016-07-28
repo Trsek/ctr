@@ -28,12 +28,7 @@ function ctr_Answer(&$DATI)
 	$answer[] = "Event Trigger :";
 	for($i=0; $i<6; $i++)
 	{
-		$answer[] = ctr_date(substr_cut($DATI, 5), 6);
-		$answer[] = substr_cut($DATI, 2) ." - ID_PT";
-		$answer[] = substr_cut($DATI, 1) ." - Code";
-		$answer[] = substr_cut($DATI, 5) ." - Field1";
-		$answer[] = substr_cut($DATI, 4) ." - Field2";
-		$answer[] = "";
+		$answer[] = ctr_val($DATI, "10.0.1", 0x02);
 	}
 	return $answer;
 }

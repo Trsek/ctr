@@ -274,6 +274,7 @@ function ctr_val(&$DATI, $obj_id, $attw)
 	$CTR_List_leap = $CTR_List[$obj_id];
 	$qlf = 0;
 	$value = "";
+	$companion = false;
 	
 	if( $attw & 0x01 ) $qlf = hexdec( substr_cut($DATI, 1));
 	if( $attw & 0x02 ) 
@@ -313,6 +314,7 @@ function ctr_val(&$DATI, $obj_id, $attw)
 			case VAL_TYPE_DEFAULT:
 			case VAL_TYPE_OKNO:
 					if( $obj_id == "E.C.0" ) $value = ctr_db($value);
+					if( $obj_id == "F0.0.3" ) $value = ctr_event($value);
 					if(( substr($obj_id, 0,4) == "E.3." )
 					|| ( substr($obj_id, 0,4) == "E.4." )
 					|| ( substr($obj_id, 0,4) == "E.5." ))
@@ -328,8 +330,9 @@ function ctr_val(&$DATI, $obj_id, $attw)
 				$value /= 10;
 		}
 		
-		$val[] = " ". $value ." ". ctr_get_mj($CTR_List[$obj_id][CTR_UNIT]);
+		$val[] = " ". $value ." ". ctr_get_mj($CTR_List[$obj_id][CTR_UNIT]) .($companion? (" - ".$CTR_List[$obj_id][CTR_DESCRIPTION]): "");
 		$obj_id = $CTR_List[$obj_id][CTR_COMPANION_OBJ_ID];
+		$companion = true;
 		} while( $obj_id != "0.0.0");
 	}
 	

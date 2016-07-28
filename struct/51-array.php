@@ -40,20 +40,20 @@ function ctr_Answer(&$DATI)
 			case 1:
 				$line = ctr_val($DATI, $obj_id, 0x03);
 				$info = ctr_qlf_valid($line[1])? "": " (". trim($line[1]) .")";
-				$answer[] = $line[0][0]. $info;
+				$answer[] = $index_A++ ." - ". $line[0][0]. $info;
 				$answer[] = ctr_date(substr_cut($DATI, 5), 5);
 				break;
 			case 2:
 				$line = ctr_val($DATI, $obj_id, 0x03);
 				$info = ctr_qlf_valid($line[1])? "": " (". trim($line[1]) .")";
-				$answer[] = $line[0][0]. $info;
+				$answer[] = $index_A++ ." - ". $line[0][0]. $info;
 				break;
 			case 3:
 				$answer[] = ctr_val($DATI, $obj_id, 0x02);
 				break;
 			case 4:
 				$answer[] = ctr_date(substr_cut($DATI, 5), 5);
-				$answer[] = ctr_val($DATI, $obj_id, 0x02);
+				$answer[] = $index_A++ ." - ". ctr_val($DATI, $obj_id, 0x02);
 				break;
 		}
 	}

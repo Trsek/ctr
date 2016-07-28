@@ -501,8 +501,11 @@ $CTR_List = array
 	"91.1.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        1, "Vypnut/zapnut serv. prepinac"),
 
 	// Events/Count of events
-	"10.0.1" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,       18, "Events"),
-	"10.0.2" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,       18, "Total alarm-type events logged"),
+	"10.0.1" => array( "F0.0.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Events"),
+	"F0.0.1" => array( "F0.0.2", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Progressive event number"),
+	"F0.0.2" => array( "F0.0.3", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Type (0-undef, 1-start, 2-end)"),
+	"F0.0.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       10, ""),
+	"10.0.2" => array( "F0.0.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Total alarm-type events logged"),
 	"10.0.3" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,       40, "Total trigger events logged"),
 
 	"10.1.0" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Number of Events"),

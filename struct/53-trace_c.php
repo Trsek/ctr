@@ -38,8 +38,9 @@ function ctr_get_period_shift($trace_date, $period, $i)
 	{
 		case 1:	return $i*3600;
 		case 2:	return $i*3600*24;
-		case 3:	return $trace_date - strtotime("+1 month", $trace_date);
-				return $i;
+		case 3:
+			    $str_diff = sprintf("+%d month", $i);
+				return strtotime($str_diff, $trace_date) - $trace_date;
 	}
 	return 0;
 }
@@ -96,7 +97,40 @@ function ctr_Answer(&$DATI)
 
 	$data_year  = hexdec( substr_cut($data_rif, 1)) + 2000;
 	$data_month = hexdec( substr_cut($data_rif, 1));
-	$data_day   = hexdec( substr_cut($data_rif, 1));
+	$data_day   = ($period==3)? 1: hexdec( substr_cut($data_rif, 1));
+	$trace_date = mktime($ofg, 0, 0, $data_month, $data_day, $data_year);
+
+	// move back
+	switch( $period )
+	{
+		case 1:
+			$trace_date = strtotime("-1 hour", $trace_date);
+			$count = 24;
+			break;
+		case 2:
+			$trace_date = strtotime("-14 day", $trace_date);
+			$count = 15;
+			break;
+		case 0x80:
+		case 0x82:
+			//$trace_date = strtotime("-1 hour", $trace_date);
+			$count = 12;
+			$period = 1;
+			break;
+		case 0x81:
+		case 0x83:
+			$trace_date = strtotime("+12 hour", $trace_date);
+			$count = 12;
+			$period = 1;
+			break;
+		case 3:
+			$trace_date = strtotime("-11 month", $trace_date);
+			$count = 12;
+			break;
+		default:
+			$count = 24;
+			break;
+	}
 	
 	// Tot_obj
 	$tot_obj_id = $tot_obj_id_array[$period][1];
@@ -109,29 +143,8 @@ function ctr_Answer(&$DATI)
 	// Trace_dati
 	$answer[] = "TraceC data for :";
 	$answer[] = ctr_obj_name($obj_id);
-	$trace_date = mktime($ofg, 0, 0, $data_month, $data_day, $data_year);
 	
-	// move back
-	switch( $period )
-	{
-		case 1: 
-			$trace_date = strtotime("-1 day", $trace_date);
-			$count = 24;
-			break;
-		case 2:	
-			$trace_date = strtotime("-13 day", $trace_date);
-			$count = 15;
-			break;
-		case 3:	
-			$trace_date = strtotime("-10 month", $trace_date);
-			$count = 12;
-			break;
-		default:
-			$count = 24;
-			break;
-	}
-	
-	for($i=0; $i<$count; $i++)
+	for($i=0; $i<$count && strlen($DATI)>0; $i++)
 	{
 		$line = ctr_val($DATI, $obj_id, 0x03);
 		$info = ctr_qlf_valid($line[1])? "": " (". trim($line[1]) .")";
