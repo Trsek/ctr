@@ -8,5 +8,10 @@ function ctr_db($value)
 	return $value;
 }
 
+function ctr_call_map($value)
+{
+	return $value;
+}
+
 /*----------------------------------------------------------------------------*/
 /* END OF FILE */

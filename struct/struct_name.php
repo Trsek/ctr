@@ -44,7 +44,7 @@ $struct_code =
 function ctr_struct_name($struct)
 {
 	global $struct_code;
-	return dechex($struct). "h - " .$struct_code[$struct][0];
+	return strtoupper(dechex($struct)). "h - " .$struct_code[$struct][0];
 }
 
 /*----------------------------------------------------------------------------*/

@@ -5,7 +5,8 @@
 	require("aes/aes.php");
 	require("aes/keys.inc");
 	require("ctr_structure.php");
-
+	require("example.php");
+	
 	// some example for debug mode
 	if(IsSet($_REQUEST["XDEBUG_SESSION_START"]))
 	{
@@ -36,7 +37,7 @@
 		$cpa       = substr($_REQUEST["CTR_FRAME"], 268, 8);
 		$iv        = pack("H*" , $cpa. $cpa. $cpa. $cpa);
 
-		$CTR_FRAME_ENCRYPT = bin2hex( ctr_crypt($input, 9, $key, $iv));
+		$CTR_FRAME_ENCRYPT = strtoupper( bin2hex( ctr_crypt($input, 9, $key, $iv)));
 		$CTR_FRAME_ENCRYPT = substr($_REQUEST["CTR_FRAME"], 0, 8)
 		                    .$CTR_FRAME_ENCRYPT
 		                    .$cpa
@@ -56,15 +57,16 @@
 <body>
 <h1>CTR Encrypt online</h1>
 
+<?php echo show_example();?>
 <table>
-<form action='' method='post' ENCTYPE='multipart/form-data' class='form-style-two'>
+<form action='index.php' method='post' ENCTYPE='multipart/form-data' class='form-style-two'>
 	Input packet (hex format)<br>
-	<textarea name='CTR_FRAME' rows="3" cols="102"><?php echo $_REQUEST["CTR_FRAME"];?></textarea><br>
+	<textarea name='CTR_FRAME' rows="3" cols="94"><?php echo $_REQUEST["CTR_FRAME"];?></textarea><br>
 	Key<br>
 	<input type='text' name='Key' value='<?php echo $_REQUEST["Key"];?>' size=38><br>
 	<input type='submit' name='encrypt' value='aes encrypt + analyze'><br>
 	<br>Encrypt packet<br>
-	<textarea name='CTR_FRAME_ENCRYPT' rows="3" cols="102"><?php echo $CTR_FRAME_ENCRYPT;?></textarea><br>
+	<textarea name='CTR_FRAME_ENCRYPT' rows="3" cols="94"><?php echo $CTR_FRAME_ENCRYPT;?></textarea><br>
 	<input type='submit' name='analyze' value='analyze'><br>
 	<br>Frame<br>
 	<?php

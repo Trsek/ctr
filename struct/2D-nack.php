@@ -101,7 +101,7 @@ function ctr_nack(&$DATI)
 	$FUNCT_id = substr_cut($DATI, 1);
 	$Add_data = substr_cut($DATI, 20);
 	
-	$answer[] = dechex($TAB_NACK) ."h - ". $nack_text[ $TAB_NACK][0];
+	$answer[] = strtoupper(dechex($TAB_NACK)) ."h - ". $nack_text[ $TAB_NACK][0];
 	$answer[] = $nack_text[$TAB_NACK][1];
 	$answer[] = "";
 	$answer[] = ctr_funct_name(hexdec($FUNCT_id));

@@ -47,9 +47,9 @@ function ctr_funct_name($funct_id)
 	global $funct_code;
 	
 	if( $funct_code[$funct_id]==null )
-		$answer = dechex($funct_id). "h - unknown";
+		$answer = strtoupper(dechex($funct_id)). "h - unknown";
 	else
-		$answer = dechex($funct_id). "h - ". $funct_code[$funct_id][CTR_FUNCT_DESC];
+		$answer = strtoupper(dechex($funct_id)). "h - ". $funct_code[$funct_id][CTR_FUNCT_DESC];
 		
 	return $answer;
 }

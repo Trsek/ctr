@@ -169,7 +169,7 @@ function ctr_obj_name($obj_id)
 function ctr_get_mj($unit)
 {
 	$unit_str = array(
-		 UNIT_DEFAULT =>"h",			
+		 UNIT_DEFAULT =>"",			
 		 UNIT_stC =>    "°C",
 		 UNIT_stF =>    "°F",
 		 UNIT_Kelvin => "K",
@@ -210,6 +210,7 @@ function ctr_get_mj($unit)
 		 UNIT_kgm3 =>   "kg/m³",
 		 UNIT_h =>      "hrs",
 		 UNIT_dB =>     "dB",
+		 UNIT_HEX =>    "h",
 	);
 		
 	return $unit_str[$unit];
@@ -312,6 +313,10 @@ function ctr_val(&$DATI, $obj_id, $attw)
 			case VAL_TYPE_DEFAULT:
 			case VAL_TYPE_OKNO:
 					if( $obj_id == "E.C.0" ) $value = ctr_db($value);
+					if(( substr($obj_id, 0,4) == "E.3." )
+					|| ( substr($obj_id, 0,4) == "E.4." )
+					|| ( substr($obj_id, 0,4) == "E.5." ))
+						$value = ctr_call_map($value);
 					break;
 		}
 		

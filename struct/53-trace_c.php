@@ -19,10 +19,11 @@ function ctr_Query(&$DATI)
 	$obj_id   = ctr_obj_number(substr_cut($DATI, 2));
 	$period   = hexdec( substr_cut($DATI, 1));
 	$data_rif = substr_cut($DATI, 3);
-	
+	$period_text = get_period_text();
+
 	$answer[] = "$password - Access level password";
 	$answer[] = ctr_obj_name($obj_id);
-	$answer[] = (string)$period. " - ". get_period_text()[($period < 4)? $period: 4];
+	$answer[] = (string)$period. " - ". $period_text[($period < 4)? $period: 4];
 	$answer[] = ctr_date($data_rif,3). " - Data_rif";
 	$answer[] = "";
 	return $answer;
@@ -83,13 +84,14 @@ function ctr_Answer(&$DATI)
 	$period   = hexdec( substr_cut($DATI, 1));
 	$obj_id   = ctr_obj_number(substr_cut($DATI, 2));
 	$data_rif = substr_cut($DATI, 3);
+	$period_text = get_period_text();
 	
 	$answer[] = $pdr ." - PDR (metering point identification code)";
 	$answer[] = ctr_date($oras,5). " - Data&OraS";
 	$answer[] = $ofg ." - OFG (End of day time)";
 	$answer[] = $diagnrs ." - DiagnRS (Reduced historic diagnostics for the day 'g' indicated in Data_rif)";
 	$answer[] = $nem ." - NEM (Progresive number last event in queue)";
-	$answer[] = (string)$period. " - ". get_period_text()[($period < 4)? $period: 4];
+	$answer[] = (string)$period. " - ". $period_text[($period < 4)? $period: 4];
 	$answer[] = ctr_date($data_rif,3). " - Data_rif";
 
 	$data_year  = hexdec( substr_cut($data_rif, 1)) + 2000;
@@ -117,11 +119,11 @@ function ctr_Answer(&$DATI)
 			$count = 24;
 			break;
 		case 2:	
-			$trace_date = strtotime("-14 day", $trace_date);
+			$trace_date = strtotime("-13 day", $trace_date);
 			$count = 15;
 			break;
 		case 3:	
-			$trace_date = strtotime("-11 month", $trace_date);
+			$trace_date = strtotime("-10 month", $trace_date);
 			$count = 12;
 			break;
 		default:

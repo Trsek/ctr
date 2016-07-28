@@ -11,20 +11,22 @@ require_once("obj/objects.php");
 */
 function CTR_NORMALIZE($SMS)
 {
+	$SMS = strtoupper($SMS);
+	
 	// strip all spaces
 	$SMS = str_replace(' ', '', $SMS);
 	$SMS = str_replace("\r", '', $SMS);
 	$SMS = str_replace("\n", '', $SMS);
 	
 	// strip 0A/0D
-	if((strtoupper (substr($SMS,0,2)) == '0A')
-	&& (strtoupper (substr($SMS,strlen($SMS)-2,2)) == '0D'))
+	if((substr($SMS,0,2) == '0A')
+	&& (substr($SMS,strlen($SMS)-2,2) == '0D'))
 	{
 		$SMS = substr($SMS, 2, strlen($SMS)-4);
 	}
 	
 	// strip SMS prefix
-	$poz = strpos(strtoupper($SMS), "8C");
+	$poz = strpos($SMS, "8C");
 	if(( strlen($SMS) > 284 )
 	&& ( $poz < 58 ))
 	{
@@ -115,7 +117,7 @@ function ctr_profi($profi)
 		      '',            // 6
               'secret');     // 7
 
-	$answer[] = dechex($profi) ."h";
+	$answer[] = strtoupper(dechex($profi)) ."h";
 	
 	if( $profi & 0x80)
 		$answer[] = 'long frame';
@@ -137,7 +139,7 @@ function ctr_funct($funct)
 		      '10 - encrypted use KEYT - temporary',		
 	          '11 - encrypted use KEYF - factory');
 	
-	$answer[] = dechex($funct) ."h";
+	$answer[] = strtoupper(dechex($funct)) ."h";
 	$answer[] = ctr_funct_name($funct & 0x3F);
 	$answer[] = $encrypt_text[ $funct >> 6 ];
 	return $answer;
