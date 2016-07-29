@@ -14,7 +14,7 @@ function ctr_Query(&$DATI)
 function ctr_Answer(&$DATI)
 {
 	$pdr      = substr_cut($DATI, 7);
-	$anti_fraud = ctr_val($DATI, "D.A.0", 0x03)[0][0];
+	$anti_fraud = trim(ctr_val($DATI, "D.A.0", 0x03)[0][0]);
 	$index_A  = hexdec( substr_cut($DATI, 2));
 	$mem      = hexdec( substr_cut($DATI, 2));
 	

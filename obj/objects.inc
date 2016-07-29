@@ -50,9 +50,11 @@ $CTR_List = array
 	"1.9.4"  => array(  "0.0.0", VAL_TYPE_ULONG,        UNIT_m3h,            3, "Qcm_max_m  - month period"),
 
 	// Standard flow converted to standard conditions (maximum)
-	"1.A.2"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_m3h,            3, "Qcb_max_1h - hour period"),
-	"1.A.3"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_m3h,            3, "Qcb_max_g  - day period"),
-	"1.A.4"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_m3h,            3, "Qcb_max_m  - month period"),
+	"1.A.2"  => array( "F1.A.2", VAL_TYPE_FLOAT,        UNIT_m3h,            3, "Qcb_max_1h - hour period"),
+	"1.A.3"  => array( "F1.A.2", VAL_TYPE_FLOAT,        UNIT_m3h,            3, "Qcb_max_g  - day period"),
+	"F1.A.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Date time"),
+	"1.A.4"  => array( "F1.A.5", VAL_TYPE_FLOAT,        UNIT_m3h,            3, "Qcb_max_m  - month period"),
+	"F1.A.5" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        3, "Date time"),
 	// pre potreby Trace
 	"F1.A.3" => array( "F2.A.4", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Qcb_max_g"),
 	"F2.A.4" => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_m3h,            3, "Qcb_max_g"),
@@ -137,19 +139,19 @@ $CTR_List = array
 	// Attributed barometric pressure
 	"4.2.6"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "P - barometric pressure"),
 	"4.9.0"  => array( "F4.9.2", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pb - barometric pressure"),
-	"F4.9.2" => array( "F4.9.3", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Ppcs - 1,01325"),
-	"F4.9.3" => array( "F4.9.4", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pp - 1,01325"),
-	"F4.9.4" => array( "F4.9.5", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pris - 1,01325"),
-	"F4.9.5" => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Ppre - 1,01325"),
+	"F4.9.2" => array( "F4.9.3", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Ppcs"),
+	"F4.9.3" => array( "F4.9.4", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pp"),
+	"F4.9.4" => array( "F4.9.5", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pris"),
+	"F4.9.5" => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Ppre"),
 	// Reference pressure for converting volumes to standard thermodynamic conditions
 	"4.9.1"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pb - barometric pressure"),
-	"4.9.2"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Ppcs - 1,01325"),
+	"4.9.2"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Ppcs"),
 	// Reference pressure for the density calculation
-	"4.9.3"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pp - 1,01325"),
+	"4.9.3"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pp"),
 	// Backup metering pressure
-	"4.9.4"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pris - 1,01325 (Replacement value for the calculation of when the sensor is faulty or exceeded limit of the measuring range)"),
+	"4.9.4"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pris (Replacement value for the calculation of when the sensor is faulty or exceeded limit of the measuring range)"),
 	// Present pressure
-	"4.9.5"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Ppre - 1,01325 (Using for calculating constant temperature)"),
+	"4.9.5"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Ppre (Using for calculating constant temperature)"),
 	// Nominal input pressure
 	"4.A.0"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_bar,            3, "Pnom_in"),
 	// Nominal measurement pressure
@@ -177,12 +179,14 @@ $CTR_List = array
 	"7.B.5"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_Kelvin,         3, "Tris - Backup metering temperature (Replacement value for the calculation of when the sensor is faulty or exceeded limit of the measuring range)"),
 	"7.B.6"  => array(  "0.0.0", VAL_TYPE_FLOAT,        UNIT_Kelvin,         3, "Tpre - Preset temperature (Using for calculating constant temperature)"),
 	// Ambient operating temperature
-	"7.C.0"  => array(  "0.0.0", VAL_TYPE_ULONG,        UNIT_Kelvin,         6, "Tamb_fun, temperature sensor range -25C-60C (248.15K-333K.15)"),
-
+	"7.C.0"  => array( "F7.C.0", VAL_TYPE_ULONG,        UNIT_Kelvin,         3, "Tamb_fun, temperature sensor range min. max"),
+	"F7.C.0" => array(  "0.0.0", VAL_TYPE_ULONG,        UNIT_Kelvin,         3, ""),
+		
 	// Extended date format
 	"8.0.0"  => array(  "0.0.0", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        9, "Date, time format"),
 	"8.0.1"  => array(  "0.0.0", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Date, time light"),
-	"8.0.2"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        6, "Date of Closure of the Billing Period"),
+	"8.0.2"  => array( "F8.0.2", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        1, "Date of Closure of the Billing Period"),
+	"F8.0.2" => array(  "0.0.0", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, ""),
 	// second alignment
 	"8.1.2"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        2, "Adjust +/- second"),
 	// gas day time
@@ -192,16 +196,17 @@ $CTR_List = array
 	"F8.1.F" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "UTC - plynarenska hodina podla local/UTC"),
 		// gas year
 	"8.1.4"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        7, "Standart gas day from->to"),
-	"8.2.0"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        5, "Daylight saving time - kedy sa prepina letny/zimny cas"),
+	"8.2.0"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        5, "Daylight saving time"),
 	// significant Dates
-	"8.3.1"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        6, "Last reset date/time"),
-	"8.3.2"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        6, "Last reset of event queue"),
-	"8.3.3"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        6, "Last status change"),
-	"8.3.4"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        6, "Last change of password"),
-	"8.3.5"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        6, "Last deactivation of seals"),
-	"8.3.6"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        6, "Last firmware update"),
-	"8.3.7"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        6, "Last total configuration"),
-
+	"8.3.1"  => array( "F8.3.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Data_Ures - Last reset date/time"),
+	"8.3.2"  => array( "F8.3.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Data_UresE - Last reset of event queue"),
+	"8.3.3"  => array( "F8.3.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Data_UMS - Last status change"),
+	"8.3.4"  => array( "F8.3.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Data_UMP - Last change of password"),
+	"8.3.5"  => array( "F8.3.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Data_UDS - Last deactivation of seals"),
+	"8.3.6"  => array( "F8.3.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Data_Udown - Last firmware update"),
+	"8.3.7"  => array( "F8.3.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Data_UCT - Last total configuration"),
+	"F8.3.1" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Profile"),
+		
 	// Equipment parameters
 	"9.0.0"  => array( "F9.0.1", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        0, "All parameters"),
 	"F9.0.1" => array( "F9.0.2", VAL_TYPE_STRING16,     UNIT_DEFAULT,       12, "CCODE - Equipment manufacturer code"),
@@ -220,9 +225,10 @@ $CTR_List = array
 	"9.0.7"  => array(  "0.0.0", VAL_TYPE_STRING8,      UNIT_DEFAULT,        4, "Protocol version"),
 	"9.0.9"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Type of synchronization supported"),
 	"9.1.1"  => array( "F9.1.1", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Event buffer size"),
-	"F9.1.1" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Event buffer size"),
-	"9.1.2"  => array(  "0.0.0", VAL_TYPE_STRING3,      UNIT_DEFAULT,        3, "Alarm buffer size"),
-	"9.1.3"  => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Trigger buffer size"),
+	"9.1.2"  => array( "F9.1.1", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Alarm buffer size"),
+	"9.1.3"  => array( "F9.1.3", VAL_TYPE_UINT,         UNIT_DEFAULT,        1, "Trigger buffer size"),
+	"F9.1.1" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Size"),
+	"F9.1.3" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        1, "Size"),
 	"9.2.0"  => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       16, "Equipment Series Number"),
 	"9.2.3"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Number of Channels supported"),
 	"9.2.4"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        2, "Total optional objects supported"),
@@ -230,7 +236,13 @@ $CTR_List = array
 
 	"9.3.0"  => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       10, "Metering Firmware version"),
 	"9.4.0"  => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Address of the device"),
-	"9.5.0"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,       11, "Download parameters, nepotrebujem spc. fciu lebo budem ident aj segment ukladat nativne"),
+	"9.5.0"  => array( "F9.5.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        1, "Download parameters"),
+	"F9.5.0" => array( "F9.5.1", VAL_TYPE_STRING8,      UNIT_DEFAULT,        4, "Identifier of the software being transferred"),
+	"F9.5.1" => array( "F9.5.2", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Ability to support long frames"),
+	"F9.5.2" => array( "F9.5.3", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Maximum number of segments that can be transmitted in a group"),
+	"F9.5.3" => array( "F9.5.4", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Minimum delay expressed in multiples of 50 msec that must be guaranteed by the Client for transmitting group segments"),
+	"F9.5.4" => array( "F9.5.5", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Indicates the maximum delay expressed in multiples of seconds before the Server sends ACK or NACK after receiving the last segment of a group (if the Server does not receive the last segment of the group it does not respond to Client"),
+	"F9.5.5" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Indicates the last correctly received segment and guarantees that all previous segments have been correctly received and recorded"),
 	"9.5.2"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "NCIC"),
 
 	// Volume converter
@@ -306,10 +318,12 @@ $CTR_List = array
 	// Metering point identification code
 	"C.0.0"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        7, "Metering point identification code"),
 	"C.0.1"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Numbers of channels controlled"),
-	"C.0.2"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "System type 00hex - 23hex"),
-	"C.0.3"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Type of metering system - Data logger integrated with the converter"),
+	"C.0.2"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        1, "System type"),
+	"C.0.3"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        1, "Type of metering system - Data logger integrated with the converter"),
 	"C.0.4"  => array(  "0.0.0", VAL_TYPE_STRING,       UNIT_DEFAULT,       60, "System location"),
-	"C.0.5"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        9, "System georeferencing"),
+	"C.0.5"  => array( "FC.0.5", VAL_TYPE_BYTE,         UNIT_DEFAULT,        3, "System georeferencing - latitude"),
+	"FC.0.5" => array( "FC.0.6", VAL_TYPE_BYTE,         UNIT_DEFAULT,        3, "longitude"),
+	"FC.0.6" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        3, "altitude"),
 	"C.0.6"  => array(  "0.0.0", VAL_TYPE_STRING32,     UNIT_DEFAULT,       30, "Region name"),
 	"C.0.7"  => array(  "0.0.0", VAL_TYPE_STRING32,     UNIT_DEFAULT,       30, "End customer identification code"),
 	"C.1.1"  => array( "FC.1.1", VAL_TYPE_STRING16,     UNIT_DEFAULT,       20, "Pressure transducer serial"),
@@ -322,9 +336,9 @@ $CTR_List = array
 	"C.2.1"  => array( "FC.2.1", VAL_TYPE_STRING8,      UNIT_DEFAULT,       4, "Converter Master Record"),
 	"FC.2.1" => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       16, "Serial number"),
 	// for TecnoSystem
-	"8F.6.0" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "CAUSALE - A code used to identify the type of operation"),
-	"97.0.0" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        4, "DISCO - Identifier of Distribution company (end user)"),
-	"8C.3.0" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,       12, "CP - Identifers used in Tecnosystem Database"),
+	"8F.6.0" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        1, "CAUSALE - A code used to identify the type of operation"),
+	"97.0.0" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        4, "DISCO - Identifier of Distribution company (end user)"),
+	"8C.3.0" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       12, "CP - Identifers used in Tecnosystem Database"),
 
 	// Security Profile 0
 	"D.0.1"  => array(  "0.0.0", VAL_TYPE_STRING8,      UNIT_DEFAULT,        6, "Profile 0 administrator password"),
@@ -406,7 +420,7 @@ $CTR_List = array
 	// Communication
 	"E.0.1"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        5, "INBOUND/Voluntary SMS"),
 	"FE.0.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        5, "INBOUND/Voluntary SMS - kvoli kompaktibilite s 4.02"),
-	"E.1.5"  => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        2, "Communication mode supported (0)"),
+	"E.1.5"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Communication mode supported (0)"),
 	"E.2.1"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       22, "Telephony address for the DCE"),
 
 	// Call map, list of telephone numbers and ip address
@@ -438,8 +452,8 @@ $CTR_List = array
 
 	"E.6.0"  => array( "FE.6.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        1, "Remote notification via SMS"),
 	"FE.6.0" => array( "FE.6.1", VAL_TYPE_STRING16,     UNIT_DEFAULT,       15, "telephone number 1"),
-	"FE.6.1" => array( "FE.6.2", VAL_TYPE_BYTE,         UNIT_DEFAULT,       15, "telephone number 2"),
-	"FE.6.2" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,       15, "telephone number 3"),
+	"FE.6.1" => array( "FE.6.2", VAL_TYPE_STRING16,     UNIT_DEFAULT,       15, "telephone number 2"),
+	"FE.6.2" => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       15, "telephone number 3"),
 	"E.7.0"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       17, "Wakeup function"),
 	"FE.7.0" => array(  "0.0.0", VAL_TYPE_STRING8,      UNIT_DEFAULT,       17, "Wakeup function - kvoli kompaktibilite s 4.02"),
 	"E.8.1"  => array(  "0.0.0", VAL_TYPE_STRING32,     UNIT_DEFAULT,       50, "DCE Configuration parameters string"),
@@ -459,7 +473,7 @@ $CTR_List = array
 	"E.D.3"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters4"),
 	"E.D.4"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       24, "Spontaneous/Voluntary transmission parameters5"),
 
-	"E.E.1"  => array(  "0.0.0", VAL_TYPE_STRING32,     UNIT_DEFAULT,      112, "GPRS address for the DCE, APN, login, password"),
+	"E.E.1"  => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,      112, "GPRS address for the DCE, APN, login, password"),
 	"F.5.0"  => array( "FF.5.1", VAL_TYPE_BYTE,         UNIT_h,              3, "Battery - Residual time"),
 	"FF.5.1" => array( "FF.5.2", VAL_TYPE_ULONG,        UNIT_h,              3, "Battery - converter module"),
 	"FF.5.2" => array( "FF.5.3", VAL_TYPE_BYTE,         UNIT_h,              3, "Battery - data recording module"),
@@ -506,8 +520,19 @@ $CTR_List = array
 	"F0.0.2" => array( "F0.0.3", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Type (0-undef, 1-start, 2-end)"),
 	"F0.0.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,       10, ""),
 	"10.0.2" => array( "F0.0.1", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Total alarm-type events logged"),
-	"10.0.3" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,       40, "Total trigger events logged"),
-
+		
+	"10.0.3" => array( "F0.0.4", VAL_TYPE_DATETIME,     UNIT_DEFAULT,        5, "Total trigger events logged"),
+	"F0.0.4" => array( "F0.0.5", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Progressive number"),
+	"F0.0.5" => array( "F0.0.6", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Channel"),
+	"F0.0.6" => array( "F0.0.7", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Code"),
+	"F0.0.7" => array( "F0.0.8", VAL_TYPE_UNIT,         UNIT_DEFAULT,        2, "ID_PT"),
+	"F0.0.8" => array( "F0.0.9", VAL_TYPE_DOUBLE_QLF,   UNIT_DEFAULT,        5, "TOT_Vcor_f1"),
+	"F0.0.9" => array( "F0.0.A", VAL_TYPE_DOUBLE_QLF,   UNIT_DEFAULT,        5, "TOT_Vcor_f2"),
+	"F0.0.A" => array( "F0.0.B", VAL_TYPE_DOUBLE_QLF,   UNIT_DEFAULT,        5, "TOT_Vcor_f3"),
+	"F0.0.B" => array( "F0.0.C", VAL_TYPE_DOUBLE_QLF,   UNIT_DEFAULT,        5, "TOT_Vme_f1"),
+	"F0.0.C" => array( "F0.0.D", VAL_TYPE_DOUBLE_QLF,   UNIT_DEFAULT,        5, "TOT_Vme_f2"),
+	"F0.0.D" => array(  "0.0.0", VAL_TYPE_DOUBLE_QLF,   UNIT_DEFAULT,        5, "TOT_Vme_f3"),
+		
 	"10.1.0" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Number of Events"),
 	"10.2.0" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Total alarm-type events logged"),
 	"10.3.0" => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        1, "Total trigger events logged"),
@@ -523,12 +548,12 @@ $CTR_List = array
 	"12.2.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Diagnostics - Abridged format"),
 	"12.2.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Diagnostics - Abridged format"),
 	"12.3.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        9, "Status of sensors"),
-	"12.4.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        3, "System status – Mains power"),
+	"12.4.1" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        3, "System status - Mains power"),
 	"12.4.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        4, "System status - DCE status"),
-	"12.6.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Historic Diagnostics – 1 h average"),
-	"12.6.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Historic Diagnostics – 1 d average"),
-	"12.6.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Historic Diagnostics – 1 m average"),
-	"12.6.6" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Historic Diagnostics – Recorded at the end of the billing period"),
+	"12.6.2" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Historic Diagnostics 1 h average"),
+	"12.6.3" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Historic Diagnostics 1 d average"),
+	"12.6.4" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Historic Diagnostics 1 m average"),
+	"12.6.6" => array(  "0.0.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        2, "Historic Diagnostics Recorded at the end of the billing period"),
 
 	// Category I/O
 	"13.0.0" => array(  "0.0.0", VAL_TYPE_BYTE,         UNIT_DEFAULT,        1, "Stat_DI_ - Digital inputs - Status"),

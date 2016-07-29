@@ -23,6 +23,18 @@ function hex2bin($hex_string)
 }
 
 /********************************************************************
+* @brief Convert hex to string
+*/
+function hexToStr($hex)
+{
+	$string='';
+	for ($i=0; $i < strlen($hex)-1; $i+=2){
+		$string .= chr(hexdec($hex[$i].$hex[$i+1]));
+	}
+	return $string;
+}
+
+/********************************************************************
 * @brief Parse ushort to text ppresentation
 */
 function ctr_obj_number($OBJ)
@@ -109,6 +121,9 @@ function ctr_qlf_short($qlf)
 	           ;
 	if( strlen($add_text))
 		$add_text = "(". substr($add_text, 0, strlen($add_text)-2) .")";
+	
+	if( $qlf == 0xFF )
+		$add_text = "(without value)";
 	
 	$answer = sprintf(" %02Xh - .qlf %s", $qlf, $add_text);
 	return $answer;
@@ -280,6 +295,10 @@ function ctr_val(&$DATI, $obj_id, $attw)
 	if( $attw & 0x02 ) 
 	{
 		do {
+		if( $qlf == 0xFF ) {
+			$val[] = " NaN";
+			break;
+		}
 		$len = $CTR_List[$obj_id][CTR_LEN];
 		$value = substr_cut($DATI, $len);		
 		switch( $CTR_List[$obj_id][CTR_TYPE])
@@ -287,6 +306,9 @@ function ctr_val(&$DATI, $obj_id, $attw)
 			case VAL_TYPE_BIT:
 					$value = hexbin($value);
 					break;
+			case VAL_TYPE_DOUBLE_QLF:
+					$qlf = substr_cut($value, 1);
+					/* no break; */
 			case VAL_TYPE_FLOAT:
 			case VAL_TYPE_DOUBLE:
 			case VAL_TYPE_BYTE:
@@ -299,11 +321,7 @@ function ctr_val(&$DATI, $obj_id, $attw)
 			case VAL_TYPE_STRING8:
 			case VAL_TYPE_STRING16:
 			case VAL_TYPE_STRING32:
-				    $string='';
-				    for ($i=0; $i < strlen($value)-1; $i+=2){
-				        $string .= chr(hexdec($value[$i].$value[$i+1]));
-				    }
-				    $value = $string;
+				    $value = hexToStr($value);
 					break;
 			case VAL_TYPE_TIME_MSP:
 			case VAL_TYPE_DATE_MSP:
@@ -313,12 +331,34 @@ function ctr_val(&$DATI, $obj_id, $attw)
 					break;
 			case VAL_TYPE_DEFAULT:
 			case VAL_TYPE_OKNO:
-					if( $obj_id == "E.C.0" ) $value = ctr_db($value);
+					if( $obj_id ==  "E.C.0" ) $value = ctr_db($value);
 					if( $obj_id == "F0.0.3" ) $value = ctr_event($value);
+					if( $obj_id == "F1.A.2" ) $value = ctr_qcb_time($value, $qlf);
+					if( $obj_id == "F1.A.5" ) $value = ctr_qcb_dtime($value, $qlf);
+					if( $obj_id ==  "8.0.2" ) $value = ctr_closure_billing($value);
+					if( $obj_id ==  "8.2.0" ) $value = ctr_dst($value);
+					if( $obj_id ==  "9.5.0" ) $value = ctr_padl($value);
+					if( $obj_id ==  "C.0.2" ) $value = ctr_type_imp($value);
+					if( $obj_id ==  "C.0.3" ) $value = ctr_metering_type($value);
+					if( $obj_id ==  "D.9.0" ) $value = ctr_seal($value);
+					if( $obj_id ==  "E.0.1" ) $value = ctr_inbound($value);
+					if( $obj_id ==  "E.1.5" ) $value = ctr_cmode($value);
+					if( $obj_id ==  "E.2.1" ) $value = ctr_dce($value);
+					if( $obj_id ==  "E.6.0" ) $value = ctr_tlv($value);
+					if( $obj_id ==  "E.7.0" ) $value = ctr_wake_up($value);
+					if( $obj_id ==  "E.E.1" ) $value = ctr_gprs_set($value);
+					if( substr($obj_id, 0,4) ==  "E.D." ) $value = ctr_voluntary($value);
 					if(( substr($obj_id, 0,4) == "E.3." )
 					|| ( substr($obj_id, 0,4) == "E.4." )
 					|| ( substr($obj_id, 0,4) == "E.5." ))
 						$value = ctr_call_map($value);
+					if(( substr($obj_id, 0,5) == "12.0." )
+					|| ( substr($obj_id, 0,5) == "12.1." )
+					|| ( substr($obj_id, 0,5) == "12.2." ))
+						$value = ctr_status($value);
+					if(( substr($obj_id, 0,5) == "15.0." )
+					|| ( substr($obj_id, 0,5) == "15.1." ))
+						$value = ctr_traces_list($value);
 					break;
 		}
 		
@@ -330,7 +370,16 @@ function ctr_val(&$DATI, $obj_id, $attw)
 				$value /= 10;
 		}
 		
-		$val[] = " ". $value ." ". ctr_get_mj($CTR_List[$obj_id][CTR_UNIT]) .($companion? (" - ".$CTR_List[$obj_id][CTR_DESCRIPTION]): "");
+		// divide value if need
+		if( is_array($value)) {
+			foreach ($value as $value_line)
+				$val[] = " ". $value_line ." ". ctr_get_mj($CTR_List[$obj_id][CTR_UNIT]);
+		}
+		else {
+			$val[] = " ". $value ." ". ctr_get_mj($CTR_List[$obj_id][CTR_UNIT]) .($companion? (" - ".$CTR_List[$obj_id][CTR_DESCRIPTION]): "");
+		}
+		
+		// next id
 		$obj_id = $CTR_List[$obj_id][CTR_COMPANION_OBJ_ID];
 		$companion = true;
 		} while( $obj_id != "0.0.0");
