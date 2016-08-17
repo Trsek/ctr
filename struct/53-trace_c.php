@@ -89,8 +89,12 @@ function ctr_Answer(&$DATI)
 	
 	$answer[] = $pdr ." - PDR (metering point identification code)";
 	$answer[] = ctr_date($oras,5). " - Data&OraS";
-	$answer[] = $ofg ." - OFG (End of day time)";
-	$answer[] = $diagnrs ." - DiagnRS (Reduced historic diagnostics for the day 'g' indicated in Data_rif)";
+	$answer[] = $ofg ."h - OFG (End of day time)";
+	$answer[] = $diagnrs ."h - DiagnRS (Reduced historic diagnostics for the day 'g' indicated in Data_rif)";
+	if( $diagnrs != 0 ) {
+		$answer[] = ctr_val($diagnrs, "12.1.0", 0x02);
+		unset($answer[count($answer)-1][0][0]);
+	}
 	$answer[] = $nem ." - NEM (Progresive number last event in queue)";
 	$answer[] = (string)$period. " - ". $period_text[($period < 4)? $period: 4];
 	$answer[] = ctr_date($data_rif,3). " - Data_rif";
