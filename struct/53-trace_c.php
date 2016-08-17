@@ -91,7 +91,7 @@ function ctr_Answer(&$DATI)
 	$answer[] = ctr_date($oras,5). " - Data&OraS";
 	$answer[] = $ofg ."h - OFG (End of day time)";
 	$answer[] = $diagnrs ."h - DiagnRS (Reduced historic diagnostics for the day 'g' indicated in Data_rif)";
-	if( $diagnrs != 0 ) {
+	if( hexdec($diagnrs) != 0 ) {
 		$answer[] = ctr_val($diagnrs, "12.1.0", 0x02);
 		unset($answer[count($answer)-1][0][0]);
 	}
