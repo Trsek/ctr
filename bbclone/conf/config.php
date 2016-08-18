@@ -146,7 +146,7 @@ $BBC_NO_DNS = "";
 // $BBC_EXT_LOOKUP = "GEOIP";  	  => Use GeoIP API plug-in
 // $BBC_EXT_LOOKUP = "GEOIP-mod"; => Use GeoIP PHP/Perl Module (geoip.so)
 // (See http://www.maxmind.com for more details)
-$BBC_GEOIP_PATH = _BBC_ROOT_PATH. "geoip/";
+$BBC_GEOIP_PATH = "geoip/";
 $BBC_EXT_LOOKUP = "";
 
 // BBClone's default is to show hits in the time stats, because it gives a quite useful impression
