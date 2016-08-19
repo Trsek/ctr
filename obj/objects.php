@@ -226,6 +226,7 @@ function ctr_get_mj($unit)
 		 UNIT_h =>      "hrs",
 		 UNIT_dB =>     "dB",
 		 UNIT_HEX =>    "h",
+		 UNIT_percent =>"%",
 	);
 		
 	return $unit_str[$unit];
@@ -338,6 +339,10 @@ function ctr_val(&$DATI, $obj_id, $attw)
 					if( $obj_id ==  "8.0.2" ) $value = ctr_closure_billing($value);
 					if( $obj_id ==  "8.2.0" ) $value = ctr_dst($value);
 					if( $obj_id ==  "9.5.0" ) $value = ctr_padl($value);
+					if( $obj_id ==  "A.B.1" ) $value = ctr_met_sp_Z($value);
+					if( $obj_id ==  "A.B.2" ) $value = ctr_met_Z($value);
+					if( $obj_id ==  "A.B.3" ) $value = ctr_met_sp_V($value);
+					if( $obj_id ==  "A.B.4" ) $value = ctr_met_V($value);						
 					if( $obj_id ==  "C.0.2" ) $value = ctr_type_imp($value);
 					if( $obj_id ==  "C.0.3" ) $value = ctr_metering_type($value);
 					if( $obj_id ==  "D.9.0" ) $value = ctr_seal($value);
@@ -347,23 +352,43 @@ function ctr_val(&$DATI, $obj_id, $attw)
 					if( $obj_id ==  "E.6.0" ) $value = ctr_tlv($value);
 					if( $obj_id ==  "E.7.0" ) $value = ctr_wake_up($value);
 					if( $obj_id ==  "E.E.1" ) $value = ctr_gprs_set($value);
+					if( $obj_id ==  "11.0.5" ) $value = ctr_set_password($value);
+					if( $obj_id ==  "11.0.A" ) $value = ctr_replace_battery($value);
+					if( $obj_id ==  "11.0.B" ) $value = ctr_F_PT($value);
+					if( $obj_id ==  "11.0.C" ) $value = ctr_F_AKT($value);
+					if( $obj_id ==  "12.0.0" ) $value = ctr_sd($value);
+					if( $obj_id ==  "12.3.1" ) $value = ctr_sens_stat($value);
+					if( $obj_id ==  "F3.4.3" ) $value = ctr_obj_name(ctr_obj_number($value));					
+					if( $obj_id ==  "13.6.1" ) $value = ctr_Conf_P($value);
+					if( $obj_id ==  "13.6.2" ) $value = ctr_Conf_T($value);
+					if( $obj_id ==  "15.2.1" ) $value = ctr_array_list($value);
+					if( $obj_id ==  "17.0.2" ) $value = ctr_PerFat($value);
+					if( $obj_id ==  "17.0.3" ) $value = ctr_data_SW($value);
+					if( $obj_id ==  "17.0.4" ) $value = ctr_ID_PT($value);
 					if( substr($obj_id, 0,4) ==  "E.D." ) $value = ctr_voluntary($value);
 					if(( substr($obj_id, 0,4) == "E.3." )
 					|| ( substr($obj_id, 0,4) == "E.4." )
 					|| ( substr($obj_id, 0,4) == "E.5." ))
 						$value = ctr_call_map($value);
-					if(( substr($obj_id, 0,5) == "12.0." )
-					|| ( substr($obj_id, 0,5) == "12.1." )
-					|| ( substr($obj_id, 0,5) == "12.2." ))
+					if(( substr($obj_id, 0,5) == "12.1." )
+					|| ( substr($obj_id, 0,5) == "12.2." )
+					|| ( substr($obj_id, 0,5) == "12.6." ))
 						$value = ctr_status($value);
 					if(( substr($obj_id, 0,5) == "15.0." )
 					|| ( substr($obj_id, 0,5) == "15.1." ))
 						$value = ctr_traces_list($value);
+					if(( $obj_id ==  "11.0.6" )
+					|| ( $obj_id ==  "11.0.7" ))
+						 $value = ctr_seals($value);		
+					if(( $obj_id ==  "17.0.0" )
+					|| ( $obj_id ==  "17.0.1" ))
+						 $value = ctr_PT($value);
 					break;
 		}
 		
 		// kmolt usage
-		if( $attw & 0x01 )
+		if(( $attw & 0x01 )
+		&&  !is_array($value))
 		{
 			$kmolt = $qlf & 0x07;
 			while( $kmolt-- )

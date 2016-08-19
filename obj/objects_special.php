@@ -290,6 +290,126 @@ function ctr_padl($value)
 	return dechex($status). " - ". $padl_status_text[$status]; 
 }
 
+function ctr_met_sp_Z($value)
+{
+	$met_sp_Z_text = array(
+		0 => "UNI EN ISO 12213-3 (set a)",
+		1 => "UNI EN ISO 12213-3 (set b)",
+		2 => "UNI EN ISO 12213-3 (set c)",
+		3 => "UNI EN ISO 12213-3 (set d)",
+		4 => "AGA NX19 mod",
+		5 => "AGA 8 gross method 1",
+		6 => "AGA 8 gross method 2",
+		7 => "AGA 8 detailed",
+	);
+	
+	$answer[] = $value ."h";
+	$value = hexdec($value);
+	
+	for($i=0; $i<count($met_sp_Z_text); $i++)
+	{
+		$bit = 1 << $i;
+		if( $value & $bit ) 
+			$answer[] = sprintf("%08d", decbin($bit)). " - ". $met_sp_Z_text[$i];
+	}
+	return $answer;
+}
+
+function ctr_met_Z($value)
+{
+	$met_Z_text = array(
+		0 => "0 None (Z and Zb are fixed or not calculated)",
+		1 => "UNI EN ISO 12213-3 (set a)",
+		2 => "UNI EN ISO 12213-3 (set b)",
+		3 => "UNI EN ISO 12213-3 (set c)",
+		4 => "UNI EN ISO 12213-3 (set d)",
+		5 => "AGA NX19 mod",
+		6 => "AGA 8 gross method 1",
+		7 => "AGA 8 gross method 2",
+		8 => "AGA 8 detailed",
+	);
+
+	$answer[] = "$value - ". $met_Z_text[hexdec($value)];
+	return $answer;
+}
+
+function ctr_met_sp_V($value)
+{
+	$met_sp_V_text = array(
+		0 => "0 ISO 9951",
+		1 => "AGA 3",
+		2 => "AGA 7",
+		3 => "AGA 9",
+		4 => "UNI EN ISO 5167",
+		5 => "UNI EN12405-1",
+	);
+
+	$answer[] = $value ."h";
+	$value = hexdec($value);
+
+	for($i=0; $i<count($met_sp_V_text); $i++)
+	{
+		$bit = 1 << $i;
+		if( $value & $bit )
+			$answer[] = sprintf("%08d", decbin($bit)). " - ". $met_sp_V_text[$i];
+	}
+	return $answer;
+}
+
+function ctr_met_V($value)
+{
+	$met_V_text = array(
+		0 => "0 none",
+		1 => "ISO 9951",
+		2 => "AGA 3",
+		3 => "AGA 7",
+		4 => "AGA 9",
+		5 => "UNI EN ISO 5167",
+		6 => "UNI EN 12405-1",
+	);
+
+	$answer[] = "$value - ". $met_V_text[hexdec($value)];
+	return $answer;
+}
+
+function ctr_seals($value)
+{
+	$seal_text = array(
+			0 => "Reserved",
+			1 => "Event log reset seal",
+			2 => "Seal for restoring factory conditions",
+			3 => "Seal for restoring the default values",
+			4 => "Status change seal",
+			5 => "Reserved",
+			6 => "Reserved",
+			7 => "Reserved",
+			8 => "Reserved",
+			9 => "Remote configuration seal. Parameters. Conversion",
+		 0x0A => "Remote configuration seal. Parameters. Analysis",
+		 0x0B => "Seal for downloading the program",
+		 0x0C => "Seal for restoring the default passwords",
+	);
+
+	$answer[] = $value ."h";
+	$value = hexdec($value);
+
+	for($i=0; $i<count($seal_text); $i++)
+	{
+		$bit = 1 << $i;
+		if( $value & $bit )
+			$answer[] = sprintf("%08d %08d", decbin($bit>>8), decbin($bit&0xFF)). " - ". $seal_text[$i];
+	}
+	return $answer;
+}
+
+function ctr_set_password($value)
+{
+	$profile = substr_cut($value, 1);
+	$answer[] = "$profile - Profile";
+	$answer[] = hexToStr($value);
+	return $answer;
+}
+
 function ctr_type_imp($value)
 {
 	$type_imp_text = array(
@@ -314,6 +434,30 @@ function ctr_type_imp($value)
 	return dechex($status). "h - ". $type_imp_text[$status]; 
 }
 
+function ctr_replace_battery($value)
+{
+	for($i=1; $i<=4; $i++)
+	{
+		$m_batt = hexdec(substr_cut($value, 1));
+		$type = $m_batt & 0xF0;
+		$number = $m_batt & 0x0F;
+		
+		$answer[] = "Battery $i";
+		if( $m_batt == 0 ) {
+			$answer[] = " No battery is provided in the device";
+			continue;
+		}
+		if( $m_batt == 0xFF ) {
+			$answer[] = " To indicate that the battery in the device has not been changed";
+			continue;
+		}
+		
+		$answer[] = " $type - Type of battery";
+		$answer[] = " $number - Number of batteries changed in each device";
+	}
+	
+	return $answer;
+}
 
 function ctr_metering_type($value)
 {
@@ -397,7 +541,7 @@ function ctr_inbound($value)
 	$retry  = hexdec(substr_cut($value, 1));
 	
 	$answer[] = "$p_mese - ". ctr_frequency_text($p_mese);
-	$answer[] = "$delay - Delay";
+	$answer[] = ctr_wake_up_time($delay) ." - Delay (without gas hour)";
 	$answer[] = "$method - ". $method_text[$method];
 	$answer[] = "$retry - Retry";
 	
@@ -518,6 +662,15 @@ function ctr_tlv($value)
 	return $answer;
 }
 
+function ctr_wake_up_time($time)
+{
+	$hour   = floor($time / 3600);	$time %= 3600;
+	$minute = floor($time / 60);	$time %= 60;
+	$second = $time;
+	
+	return sprintf("%02d:%02d:%02d", $hour, $minute, $second); 
+}
+
 function ctr_wake_up($value)
 {
 	$mode_text = array(
@@ -536,10 +689,10 @@ function ctr_wake_up($value)
 	$p_mese = hexdec(substr_cut($value, 4));
 	$mode   = hexdec(substr_cut($value, 1)); 
 	
-	$answer[] = ($on == 0xFFFF)? "FFFF - always ON": ($on. " - ON");
-	$answer[] = ($off == 0xFFFF)? "FFFF - communication always returns to being OFF after the first ON": ($off. " - OFF");
+	$answer[] = ($on == 0xFFFF)? "FFFF - always ON": (ctr_wake_up_time($on). " - ON");
+	$answer[] = ($off == 0xFFFF)? "FFFF - communication always returns to being OFF after the first ON": (ctr_wake_up_time($off). " - OFF");
 	$answer[] = sprintf("%08d %08d %08d %08d", decbin(($p_mese >> 24) & 0xFF), decbin(($p_mese >> 16) & 0xFF)
-			                                 , decbin(($p_mese >> 8) & 0xFF), decbin($p_mese & 0xFF)) ." - Days 31-0";
+			                                 , decbin(($p_mese >> 8) & 0xFF), decbin($p_mese & 0xFF)) ." - Days 31-1";
 
 	// mode
 	for($i=0; $i<8; $i++)
@@ -598,6 +751,233 @@ function ctr_gprs_set($value)
 	return $answer;
 }
 
+function ctr_ID_PT($value)
+{
+	$answer[] = substr_cut($value, 2). "h - ID_PTc (current tariff scheme id)";
+	$answer[] = substr_cut($value, 2). "h - ID_PTpre (previous tariff scheme id)";
+	$answer[] = substr_cut($value, 2). "h - ID_PTf (future tariff scheme id)";
+	$answer[] = ctr_date( substr_cut($value, 3),3). " - DEV (Date from which applicable)";
+	return $answer;	
+}
+
+function ctr_Conf_P($value)
+{
+	$conf_p_type = array(
+		0 => "Does not exist",
+		1 => "(4-20) mA",
+		2 => "(0-20) mA",
+		3 => "Volt",
+		4 => "HART",
+	);
+	$type = hexdec($value);
+	$answer[] = $type . " - ". $conf_p_type[$type];
+	return $answer;
+}
+
+function ctr_Conf_T($value)
+{
+	$conf_p_type = array(
+			0 => "Does not exist",
+			1 => "(4-20) mA",
+			2 => "volt",
+			3 => "PT100",
+			4 => "PT500",
+			5 => "PT1000",
+			6 => "HART",
+	);
+	$type = hexdec($value);
+	$answer[] = $type . " - ". $conf_p_type[$type];
+	return $answer;
+}
+
+function ctr_sd($value)
+{
+	$sd_type = array(
+			0 => "to be configured",
+			1 => "normal",
+			2 => "under maintenance",
+	);
+	$status = hexdec($value);
+	$answer[] = ($status & 0x3F) . " - ". $sd_type[$status & 0x3F];
+	
+	if( $status & 0x40 ) $answer[] = "6bit - server with configuration session active";
+	if( $status & 0x80 ) $answer[] = "7bit - temporary encryption key of the administrator profile";
+	return $answer;
+}
+
+function ctr_sens_stat($value)
+{
+	$stat_element = array(
+		"Press_mis",
+		"Temp",
+		"DeltaPh",
+		"DeltaPi",
+		"Press_in",
+		"Contatore",
+		"Convertitore",
+		"Dens",
+		"Gascrom",			
+	);
+	$stat_type = array(
+		0 => "does not exist",
+		1 => "operating correctly",
+		2 => "operating intermittently",
+		3 => "failure",
+		4 => "values are not reliable",
+		5 => "not communicating",
+		6 => "alarm",			
+	);
+	
+	foreach ($stat_element as $stat_element_line) {
+		$type = hexdec(substr_cut($value, 1));
+		$answer[] = $stat_element_line ." - ". $stat_type[$type] ." ($type)";
+	}
+	
+	return $answer;
+}
+
+function ctr_PT_decomp($value)
+{
+	$interval_text = array(
+		"Weekdays",
+		"Saturdays",
+		"Holidays",
+	);
+	
+	$month = hexdec(substr_cut($value, 1));
+	$day   = hexdec(substr_cut($value, 1));
+	$answer[] = " $day.$month.20XX - Start day.month.year";
+	
+	foreach ($interval_text as $interval_line)
+	{
+		$answer[] = " ". $interval_line;
+		for($i=0; $i<5; $i++)
+		{
+			$interval = substr_cut($value, 1);
+			$band = $interval >> 5;
+			$hour = $interval & 0x1F;
+			$answer[] = "  $band band - $hour hour";
+		}
+	}
+	 
+	return $answer;
+}
+
+function ctr_PT($value)
+{
+	$afi_mode = array(
+		0 => "1 January",
+		1 => "6 January",
+		2 => "Easter Monday - As per Gregorian Calendar",
+		3 => "25 April",
+		4 => "1 May",
+		5 => "2 June",
+		6 => "15 August",
+		7 => "1 November",
+		8 => "8 December",
+		9 => "25 December",
+		10 => "26 December",
+	);
+	
+	$special_days_text = array(
+		0 => "not present",
+		1 => "band 1 for the whole day",
+		2 => "band 2 for the whole day",
+		3 => "band 3 for the whole day",
+		4 => "as weekdays",
+		5 => "as Saturdays",
+		6 => "as holidays",
+		7 => "default band for the whole day",
+	);
+	
+	$APT = hexdec(substr_cut($value, 1));
+	$ID_PT = substr_cut($value, 2);
+	$DEV = substr_cut($value, 3);
+	$FTD = hexdec(substr_cut($value, 1)); 
+	$PT1 = substr_cut($value, 17); 
+	$PT2 = substr_cut($value, 17);
+	$AFI = hexdec(substr_cut($value, 2));
+	$GP  = $value; 
+	
+	$answer[] = $APT ." - APT (Tariff Scheme 1-Enabled/0-Disabled)";
+	$answer[] = $ID_PT ."h - ID_PT (Tariff scheme identifier)";
+	$answer[] = ctr_date($DEV,3). " - DEV (Date from which applicable)";
+	$answer[] = $FTD ." - FTD (Default price band)";
+	$answer[] = "PT1 - Descriptor for period 1";
+	foreach (ctr_PT_decomp($PT1) as $PT1_line) $answer[] = $PT1_line;
+	$answer[] = "PT2 - Descriptor for period 2";
+	foreach (ctr_PT_decomp($PT2) as $PT2_line) $answer[] = $PT2_line;
+		
+	$answer[] = dechex($AFI) ."h - AFI (Enabled on weekday public holidays)";
+	for($i=0; $i<count($afi_mode); $i++) {
+		$bit = 1 << $i;
+		if( $bit & $AFI )
+			$answer[] = sprintf(" %08d %08d - %s", decbin(($bit >> 8) & 0xFF), decbin($bit & 0xFF), $afi_mode[$i]);
+	}
+	
+	$answer[] = "GP (Special Days)";
+	for($i=0; $i<15; $i++) {
+		$byte1 = hexdec(substr_cut($GP, 1));		
+		$byte2 = hexdec(substr_cut($GP, 1));
+		$month = $byte1 & 0x0F;
+		$day   = $byte2 & 0x1F;
+		$answer[] = "  $day.$month.20XX, ". ($byte1 >> 5) ." - " .$special_days_text[$byte1 >> 5];		
+	}
+	
+	return $answer;
+}
+
+function ctr_F_PT($value)
+{
+	$id_pt = substr_cut($value, 1);
+	$answer[] = "$id_pt - PT";
+	foreach (ctr_PT($value) as $pt_line)
+		$answer[] = $pt_line;
+	
+	return $answer;
+}
+
+function ctr_F_AKT($value)
+{
+	$act = substr_cut($value, 1);
+	$hour = substr_cut($value, 1);
+	
+	$act_text = "";
+	if( $act == "01" ) $act_text = "KEYT active";
+	if( $act == "10" ) $act_text = "KEYT disabled";
+	
+	$answer[] = "$act - $act_text"; 
+	$answer[] = "$hour - hour";
+	return $answer; 
+}
+
+function ctr_data_SW($value)
+{
+	$data_SW_text = array(
+			0 => "Does not exist",
+			1 => "Vendor",
+			2 => "Contract",
+			3 => "Client (transfer)",
+			4 => "Distributor",
+			5 => "Reserved",
+	);
+	$reason = hexdec($value);
+	$answer[] = $reason. " - ". $data_SW_text[($reason >= 5)? 5: $reason]; 
+	return $answer;
+}
+
+function ctr_PerFat($value)
+{
+	$day    = hexdec(substr_cut($value, 1));	
+	$period = hexdec(substr_cut($value, 1));	
+	$month  = hexdec(substr_cut($value, 1));
+		
+	$answer[] = $day. " - Day"; 
+	$answer[] = $period. " - Period (1,2,3,4,6)"; 
+	$answer[] = $month. " - Month";
+	return $answer; 
+}
+
 function ctr_status($value)
 {
 	$status_bit_text = array(
@@ -611,15 +991,17 @@ function ctr_status($value)
 		 7 => "Converter alarm",
 		 8 => "Temperature out of range",
 		 9 => "Pressure out of range",
-		10 => " Meter flow over limit",
-		11 => " Valve closing error",
-		12 => " Valve opening error",
+		10 => "Meter flow over limit",
+		11 => "Valve closing error",
+		12 => "Valve opening error",
+		13 => "Battery capacity modem is under <10%",
+		14 => "Battery modem voltage <3V, or communication error",
 	);
 
 	$answer[] = "$value h";
 	$value = hexdec($value);
 	
-	for($i=0; $i<8; $i++)
+	for($i=0; $i<count($status_bit_text); $i++)
 	{
 		$bit = 1 << $i;
 		if( $value & $bit )
@@ -634,6 +1016,26 @@ function ctr_traces_list($value)
 	{
 		$obj_id = ctr_obj_number(substr_cut($value, 2));
 		$answer[] = ctr_obj_name($obj_id);
+	} 
+	return $answer;
+}
+
+function ctr_array_list($value)
+{
+	$type_text = array(
+		0 => "reserved",
+		1 => ".qlf, .date&time, .val",
+		2 => ".qlf, .val",
+		3 => ".val",
+		4 => ".date&time, .val",
+	);
+	
+	for($i=0; $i<16; $i++)
+	{
+		$type = hexdec(substr_cut($value, 1));
+		$obj_id = ctr_obj_number(substr_cut($value, 2));
+		$answer[] = ctr_obj_name($obj_id);
+		$answer[] = " ". $type_text[$type];
 	} 
 	return $answer;
 }

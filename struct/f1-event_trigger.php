@@ -16,7 +16,7 @@ function ctr_Answer(&$DATI)
 	$mem      = hexdec( substr_cut($DATI, 2));
 	
 	$answer[] = $pdr ." - PDR (metering point identification code)";
-	$answer[] = "$anti_fraud - Anti-Fraud";
+	$answer[] = trim($anti_fraud) ." - Anti-Fraud";
 	$answer[] = "$index_A - Index_A";
 	$answer[] = "$mem - MEM";
 	
