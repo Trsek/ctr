@@ -45,6 +45,30 @@ function ctr_get_period_shift($trace_date, $period, $i)
 	return 0;
 }
 
+/********************************************************************
+ * @brief Right border of date
+ */
+function ctr_get_date_format($period)
+{
+	switch( $period )
+	{
+		case 1:
+			return 'H:i -> ';
+		case 2:
+			return ' Y-m-d H:i -> ';
+			break;
+		case 0x80:
+		case 0x82:
+			return 'H:i -> ';
+		case 0x81:
+		case 0x83:
+			return 'H:i -> ';
+		case 3:
+		default:
+			return ' Y-m-d H:i -> ';
+	}
+}
+
 function ctr_Answer(&$DATI)
 {
 	$tot_obj_id_array =
@@ -108,7 +132,7 @@ function ctr_Answer(&$DATI)
 	switch( $period )
 	{
 		case 1:
-			$trace_date = strtotime("-1 hour", $trace_date);
+			//$trace_date = strtotime("-1 hour", $trace_date);
 			$count = 24;
 			break;
 		case 2:
@@ -152,7 +176,9 @@ function ctr_Answer(&$DATI)
 	{
 		$line = ctr_val($DATI, $obj_id, 0x03);
 		$info = ctr_qlf_valid($line[1])? "": " (". trim($line[1]) .")";
-		$answer[] = date('Y-m-d H:i -> ', $trace_date + ctr_get_period_shift($trace_date, $period, $i)). $line[0][0]. $info;
+		$answer[] = date('Y-m-d H:i-', $trace_date + ctr_get_period_shift($trace_date, $period, $i))
+		          . date(ctr_get_date_format($period), $trace_date + ctr_get_period_shift($trace_date, $period, $i+1))
+		          . $line[0][0]. $info;
 	}
 	return $answer;
 }
