@@ -951,6 +951,23 @@ function ctr_F_AKT($value)
 	return $answer; 
 }
 
+function ctr_F_Call($value)
+{
+	$mode_text = array(
+			0 => "Does not exist",
+			1 => "SMS reading",
+			2 => "GPRS Inbound",
+			3 => "GSM callback",
+	);
+	
+	$DCE  = substr_cut($value, 1);
+	$mode = substr_cut($value, 1);
+	
+	$answer[] = $DCE. " - DCE";
+	$answer[] = $mode. " - ". $mode_text[hexdec($mode)];
+	return $answer;
+}
+
 function ctr_data_SW($value)
 {
 	$data_SW_text = array(

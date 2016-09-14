@@ -356,6 +356,7 @@ function ctr_val(&$DATI, $obj_id, $attw)
 					if( $obj_id ==  "11.0.A" ) $value = ctr_replace_battery($value);
 					if( $obj_id ==  "11.0.B" ) $value = ctr_F_PT($value);
 					if( $obj_id ==  "11.0.C" ) $value = ctr_F_AKT($value);
+					if( $obj_id ==  "11.1.7" ) $value = ctr_F_Call($value);
 					if( $obj_id ==  "12.0.0" ) $value = ctr_sd($value);
 					if( $obj_id ==  "12.3.1" ) $value = ctr_sens_stat($value);
 					if( $obj_id ==  "F3.4.3" ) $value = ctr_obj_name(ctr_obj_number($value));					
