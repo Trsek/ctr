@@ -1,4 +1,5 @@
 <?php
+require_once("aes/aes.php");
 require_once("struct/ctr_frame.inc");
 require_once("crc/crc.php");
 require_once("obj/objects.inc");
@@ -6,6 +7,8 @@ require_once("funct/funct_name.php");
 require_once("struct/struct_name.php");
 require_once("obj/objects.php");
 
+define("CPA_ZERO", "00000000");
+define("SMS_PREFIX", "8C");
 
 /********************************************************************
 * @brief Remove 0A/0D if have it. Remove SMS prefix if have it
@@ -27,7 +30,7 @@ function CTR_NORMALIZE($SMS)
 	}
 	
 	// strip SMS prefix
-	$poz = strpos($SMS, "8C");
+	$poz = strpos($SMS, SMS_PREFIX);
 	if(( strlen($SMS) > 284 )
 	&& ( $poz < 58 ))
 	{
@@ -35,6 +38,36 @@ function CTR_NORMALIZE($SMS)
 	}
 
 	return $SMS;
+}
+
+/********************************************************************
+ * @brief Check if need decrypt packet
+ */
+function ctr_IsEncrypt($SMS)
+{
+	$funct = hexdec( substr($SMS, 6, 2));
+	$cpa   = substr($SMS, 268, 8);
+	return ($funct >> 6) && ($cpa != CPA_ZERO);
+}
+
+/********************************************************************
+ * @brief Decrypt packet
+ */
+function ctr_Decrypt($SMS, $key)
+{
+	$input_raw = substr($SMS, 8, 260);
+	$input     = pack("H*" , $input_raw);
+	$key       = pack("H*" , $key);
+	$cpa       = substr($SMS, 268, 8);
+	$iv        = pack("H*" , $cpa. $cpa. $cpa. $cpa);
+	
+	$CTR_DECRYPT = strtoupper( bin2hex( ctr_crypt($input, 9, $key, $iv)));
+	$CTR_DECRYPT = substr($SMS, 0, 8)
+	            .$CTR_DECRYPT
+	            .CPA_ZERO	// $cpa
+	            .substr($SMS, 276, 4);
+	
+	return $CTR_DECRYPT;
 }
 
 /********************************************************************
