@@ -1,6 +1,6 @@
 <?php
 	// write to log
-	define("_BBC_PAGE_NAME", substr(IsSet($_REQUEST["encrypt"])? $_REQUEST["CTR_FRAME"]: $_REQUEST["CTR_FRAME_ENCRYPT"], 0, 30));
+	define("_BBC_PAGE_NAME", substr($CTR_FRAME, 0, 30));
 	define("_BBCLONE_DIR", "bbclone/");
 	define("_BBC_ROOT_PATH", "bbclone/");
 	define("COUNTER", _BBCLONE_DIR."mark_page.php");
@@ -9,7 +9,7 @@
 		include_once(COUNTER);
 
 	// write to log
-	file_put_contents("log/packets.txt", (IsSet($_REQUEST["encrypt"])? $_REQUEST["CTR_FRAME"]." (".$_REQUEST["Key"].")": $_REQUEST["CTR_FRAME_ENCRYPT"]).PHP_EOL , FILE_APPEND);
+	file_put_contents("log/packets.txt", $CTR_FRAME. " (". $_REQUEST["Key"] .")" .PHP_EOL , FILE_APPEND);
 	
 	echo("<br><br>\n");
 	echo("<div style='clear: both'>\n");
