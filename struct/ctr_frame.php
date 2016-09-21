@@ -16,6 +16,8 @@ function ctr_parse_frame(&$DATI, $frame_id)
 	
 	$frame = $TABLE_FRAME_DEF[$frame_id];
 	$answer = "";
+	if( empty($frame))
+		return $answer;
 	
 	foreach ($frame as $frame_line)
 	{
