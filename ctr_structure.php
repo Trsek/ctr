@@ -117,9 +117,9 @@ function ctr_array_show($value)
 * @brief Show analyze SMS
 * @retval HTML table format
 */
-function ctr_show($SMS)
+function ctr_show($SMS, $CTR_CRC)
 {
-	$SMS_FRAME = ctr_analyze_frame($SMS);
+	$SMS_FRAME = ctr_analyze_frame($SMS, $CTR_CRC);
 
 	$out  = "<table class='table-style-two'>";
 	foreach ($SMS_FRAME as $name => $value)
@@ -182,10 +182,8 @@ function ctr_funct($funct)
 /********************************************************************
 * @brief Check CRC
 */
-function ctr_CRCCheck($SMS)
+function ctr_CRCCheck($crc, $crc_compute)
 {
-	$crc = substr($SMS, -4);
-	$crc_compute = CRC16(substr($SMS, 0, -4));
 	$crc_compute = substr($crc_compute, 2, 2). substr($crc_compute, 0, 2);
 	
 	if( $crc_compute == $crc )
@@ -199,9 +197,8 @@ function ctr_CRCCheck($SMS)
 /********************************************************************
 * @brief MetaAnalyze frame name
 */
-function ctr_analyze_frame(&$SMS)
+function ctr_analyze_frame(&$SMS, $CTR_CRC)
 {
-	$sms_crc = ctr_CRCCheck($SMS);
 	$SMS_DATI['ADD']   = substr_cut($SMS, 2);
 	$SMS_DATI['PROFI'] = substr_cut($SMS, 1);
 	$SMS_DATI['FUNCT'] = substr_cut($SMS, 1);
@@ -209,7 +206,7 @@ function ctr_analyze_frame(&$SMS)
 	$SMS_DATI['CHAN']  = substr_cut($SMS, 1) ."h";
 	$SMS_DATI['DATI']  = substr_cut($SMS, 128);
 	$SMS_DATI['CPA']   = substr_cut($SMS, 4);
-	$SMS_DATI['CRC']   = $sms_crc;
+	$SMS_DATI['CRC']   = ctr_CRCCheck($SMS, $CTR_CRC);
 	
 	$sms_funct  = hexdec( $SMS_DATI['FUNCT']) & 0x3F;
 	$sms_struct = hexdec( $SMS_DATI['STRUCT']);
