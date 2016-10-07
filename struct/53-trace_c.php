@@ -178,7 +178,7 @@ function ctr_Answer(&$DATI)
 		$info = ctr_qlf_valid($line[1])? "": " (". trim($line[1]) .")";
 		$answer[] = date('Y-m-d H:i-', $trace_date + ctr_get_period_shift($trace_date, $period, $i))
 		          . date(ctr_get_date_format($period), $trace_date + ctr_get_period_shift($trace_date, $period, $i+1))
-		          . $line[0][0]. $info;
+		          . array_val_line($line). $info;
 	}
 	return $answer;
 }

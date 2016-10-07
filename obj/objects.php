@@ -281,6 +281,22 @@ function ctr_date($DATI, $count)
 }
 
 /********************************************************************
+* @brief When need value to one line
+*/
+function array_val_line($value)
+{
+	if(!is_array($value))
+		return $value[0];
+
+	$answer = "";
+	foreach ($value[0] as $value_line)
+	{
+		$answer .= (empty($answer)? "": ", "). $value_line;
+	}
+	return $answer;
+}
+
+/********************************************************************
 * @brief Parse value
 */
 function ctr_val(&$DATI, $obj_id, $attw)
