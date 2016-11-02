@@ -11,6 +11,15 @@
 	// write to log
 	file_put_contents("log/packets.txt", $CTR_FRAME. " (". $_REQUEST["Key"] .")" .PHP_EOL , FILE_APPEND);
 	
+	// make link for customer
+	if( !empty($_REQUEST["CTR_FRAME"])) {
+		$link = "?CTR_FRAME=". $_REQUEST["CTR_FRAME"];
+		if(!empty($_REQUEST["Key"]))
+			$link .= "&Key=" . $_REQUEST["Key"];
+		// show
+		echo("<div align='right'><a href='$link'>Copy link of packet</a></div>");
+	} 
+	
 	echo("<br><br>\n");
 	echo("<div style='clear: both'>\n");
 	echo("<div style='font-size: 9pt;' align=center>\n");
