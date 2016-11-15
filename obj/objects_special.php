@@ -210,28 +210,28 @@ function ctr_event($value)
 
 function ctr_qcb_time($value, &$qlf)
 {
-	$qlf    = 0;
 	$hour   = hexdec(substr_cut($value, 1));
 	$minute = hexdec(substr_cut($value, 1));
-	$dst    = "";
-
+	$dst    = ($qlf & 0x20)? " dst": "";
+	$qlf    = 0;
+	
 	if( $hour > 30 )
 	{
 		$hour -= 30;
 		$dst = " dst";
 	}
 
-	$answer = "$hour:$minute$dst";
+	$answer = sprintf( "%02d:%02d%s", $hour, $minute, $dst);
 	return $answer;
 }
 
 function ctr_qcb_dtime($value, &$qlf)
 {
-	$qlf    = 0;
 	$day    = hexdec(substr_cut($value, 1));
 	$hour   = hexdec(substr_cut($value, 1));
 	$minute = hexdec(substr_cut($value, 1));
-	$dst    = "";
+	$dst    = ($qlf & 0x20)? " dst": "";
+	$qlf    = 0;
 
 	if( $hour > 30 )
 	{
@@ -239,7 +239,7 @@ function ctr_qcb_dtime($value, &$qlf)
 		$dst = " dst";
 	}
 
-	$answer = "Day=$day, $hour:$minute$dst";
+	$answer = sprintf( "Day=%02d, %02d:%02d%s", $day, $hour, $minute, $dst);
 	return $answer;
 }
 
