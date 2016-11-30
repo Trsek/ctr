@@ -3,7 +3,7 @@ require_once("obj/objects.php");
 
 define (DEFAULT_GAS_HOUR, 6);	// OFG
 
-function get_period_text_trace()
+function get_period_text_trace($id)
 {
 	$period_text = 
 		array('period incorrect',
@@ -15,7 +15,7 @@ function get_period_text_trace()
 	          'period other'
 		);
 		
-	return $period_text;
+	return $period_text[$id];
 }
 	
 function ctr_Query(&$DATI)
@@ -28,7 +28,7 @@ function ctr_Query(&$DATI)
 
 	$answer[] = "$password - Access level password";
 	$answer[] = ctr_obj_name($obj_id);
-	$answer[] = (string)$period. " - ". get_period_text_trace()[($period < 6)? $period: 6];
+	$answer[] = (string)$period. " - ". get_period_text_trace(($period < 6)? $period: 6);
 	$answer[] = ctr_date($data_start,4). " - Data_start";
 	$answer[] = "$elementi - Elementi";
 	return $answer;
@@ -79,7 +79,7 @@ function ctr_Answer(&$DATI)
 	$elementi   = hexdec( substr_cut($DATI, 1));
 	$ofg        = DEFAULT_GAS_HOUR;
 
-	$answer[] = (string)$period. " - ". get_period_text_trace()[($period < 6)? $period: 6];
+	$answer[] = (string)$period. " - ". get_period_text_trace(($period < 6)? $period: 6);
 	$answer[] = ctr_date($data_start,4). " - Data_start";
 	$answer[] = "$elementi - Elementi";
 

@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-function get_period_text()
+function get_period_text($id)
 {
 	$period_text = 
 		array('period incorrect',
@@ -10,7 +10,7 @@ function get_period_text()
 		      'period mese-11 (month-11) Y,m,0, the 1-month traces for the last 12 months (that specified included)',		
 	          'period other');
 
-	return $period_text;
+	return $period_text[$id];
 }
 	
 function ctr_Query(&$DATI)
@@ -19,11 +19,10 @@ function ctr_Query(&$DATI)
 	$obj_id   = ctr_obj_number(substr_cut($DATI, 2));
 	$period   = hexdec( substr_cut($DATI, 1));
 	$data_rif = substr_cut($DATI, 3);
-	$period_text = get_period_text();
 
 	$answer[] = "$password - Access level password";
 	$answer[] = ctr_obj_name($obj_id);
-	$answer[] = (string)$period. " - ". $period_text[($period < 4)? $period: 4];
+	$answer[] = (string)$period. " - ". get_period_text(($period < 4)? $period: 4);
 	$answer[] = ctr_date($data_rif,3). " - Data_rif";
 	$answer[] = "";
 	return $answer;
@@ -109,7 +108,6 @@ function ctr_Answer(&$DATI)
 	$period   = hexdec( substr_cut($DATI, 1));
 	$obj_id   = ctr_obj_number(substr_cut($DATI, 2));
 	$data_rif = substr_cut($DATI, 3);
-	$period_text = get_period_text();
 	
 	$answer[] = $pdr ." - PDR (metering point identification code)";
 	$answer[] = ctr_date($oras,5). " - Data&OraS";
@@ -120,7 +118,7 @@ function ctr_Answer(&$DATI)
 		unset($answer[count($answer)-1][0][0]);
 	}
 	$answer[] = $nem ." - NEM (Progresive number last event in queue)";
-	$answer[] = (string)$period. " - ". $period_text[($period < 4)? $period: 4];
+	$answer[] = (string)$period. " - ". get_period_text(($period < 4)? $period: 4);
 	$answer[] = ctr_date($data_rif,3). " - Data_rif";
 
 	$data_year  = hexdec( substr_cut($data_rif, 1)) + 2000;
