@@ -34,7 +34,7 @@
 <head>
 	<meta HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=UTF-8'>
 	<meta name='author' lang='en' content='Zdeno Sekerák, www.trsek.com'>
-	<link rel='shortcut icon' href='/favicon.ico'>
+	<link rel='shortcut icon' href='favicon.ico'>
 	<link rel='stylesheet' href='ctr.css'>
 	<title>CTR online (<?php echo ctr_funct_name(hexdec(substr($CTR_FRAME, 6, 2)) & 0x3F);?>)</title>
 </head>
