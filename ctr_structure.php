@@ -32,7 +32,8 @@ function CTR_NORMALIZE($SMS)
 	// strip SMS prefix
 	$poz = strpos($SMS, SMS_PREFIX);
 	if(( strlen($SMS) > 284 )
-	&& ( $poz < 58 ))
+	&& ( $poz < 58 )
+	&& ( is_numeric($poz)))
 	{
 		$SMS = substr($SMS, $poz+2, strlen($SMS)-$poz);
 	}
@@ -205,6 +206,9 @@ function ctr_analyze_frame(&$SMS, $CTR_CRC)
 	$SMS_DATI['STRUCT']= substr_cut($SMS, 1);
 	$SMS_DATI['CHAN']  = substr_cut($SMS, 1) ."h";
 	$SMS_DATI['DATI']  = substr_cut($SMS, 128);
+	if( strlen($SMS) > 12) {
+		$SMS_DATI['VATA'] = add_soft_space(substr_cut($SMS, (strlen($SMS)-12)/2), 64);
+	}
 	$SMS_DATI['CPA']   = substr_cut($SMS, 4);
 	$SMS_DATI['CRC']   = ctr_CRCCheck($SMS, $CTR_CRC);
 	
