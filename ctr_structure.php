@@ -9,6 +9,7 @@ require_once("obj/objects.php");
 
 define("CPA_ZERO", "00000000");
 define("SMS_PREFIX", "8C");
+define("SMS_SIZE", 140);
 
 /********************************************************************
 * @brief Remove 0A/0D if have it. Remove SMS prefix if have it
@@ -36,6 +37,13 @@ function CTR_NORMALIZE($SMS)
 	&& ( is_numeric($poz)))
 	{
 		$SMS = substr($SMS, $poz+2, strlen($SMS)-$poz);
+	}
+	
+	// align to minimal size
+	if(( strlen($SMS) > 0 ) 
+	&& ( strlen($SMS)/2 < SMS_SIZE ))
+	{
+		$SMS .=  str_repeat("00", SMS_SIZE - strlen($SMS)/2);
 	}
 
 	return $SMS;
