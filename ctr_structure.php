@@ -21,32 +21,37 @@ function CTR_NORMALIZE($SMS)
 	// strip all spaces
 	$SMS = str_replace(' ', '', $SMS);
 	$SMS = str_replace("\r", '', $SMS);
-	$SMS = str_replace("\n", '', $SMS);
-	
-	// strip 0A/0D
-	if((substr($SMS,0,2) == '0A')
-	&& (substr($SMS,strlen($SMS)-2,2) == '0D'))
+		
+	foreach (explode("\n", $SMS) as $SMS_LINE)
 	{
-		$SMS = substr($SMS, 2, strlen($SMS)-4);
+		// strip 0A/0D
+		if((substr($SMS_LINE,0,2) == '0A')
+		&& (substr($SMS_LINE,strlen($SMS_LINE)-2,2) == '0D'))
+		{
+			$SMS_LINE = substr($SMS_LINE, 2, strlen($SMS_LINE)-4);
+		}
+	
+		// strip SMS prefix
+		$poz = strpos($SMS_LINE, SMS_PREFIX);
+		if(( strlen($SMS_LINE) > 284 )
+		&& ( $poz < 58 )
+		&& ( is_numeric($poz)))
+		{
+			$SMS_LINE = substr($SMS_LINE, $poz+2, strlen($SMS_LINE)-$poz);
+		}
+		
+		// align to minimal size
+		if(( strlen($SMS_LINE) > 0 ) 
+		&& ( strlen($SMS_LINE)/2 < SMS_SIZE ))
+		{
+			$SMS_LINE .=  str_repeat("00", SMS_SIZE - strlen($SMS_LINE)/2);
+		}
+	
+		if( strlen($SMS_LINE))
+			$SMS_OUT .= (strlen($SMS_OUT)? "\n": "") .$SMS_LINE;
 	}
 	
-	// strip SMS prefix
-	$poz = strpos($SMS, SMS_PREFIX);
-	if(( strlen($SMS) > 284 )
-	&& ( $poz < 58 )
-	&& ( is_numeric($poz)))
-	{
-		$SMS = substr($SMS, $poz+2, strlen($SMS)-$poz);
-	}
-	
-	// align to minimal size
-	if(( strlen($SMS) > 0 ) 
-	&& ( strlen($SMS)/2 < SMS_SIZE ))
-	{
-		$SMS .=  str_repeat("00", SMS_SIZE - strlen($SMS)/2);
-	}
-
-	return $SMS;
+	return $SMS_OUT;
 }
 
 /********************************************************************
@@ -95,6 +100,16 @@ function add_soft_space($DATI, $len)
 }
 
 /********************************************************************
+ * @brief Show disp information in short view
+ */
+function ctrDisp($funct, $struct)
+{
+	$answer  = $funct;
+	$answer .= " ($struct)";
+	return $answer;
+}
+
+/********************************************************************
 * @brief Make HTML format from array
 * @retval HTML format divide by <br>
 */
@@ -126,11 +141,15 @@ function ctr_array_show($value)
 * @brief Show analyze SMS
 * @retval HTML table format
 */
-function ctr_show($SMS, $CTR_CRC)
+function ctr_show_packet($SMS, &$disp)
 {
+	$CTR_CRC = CRC16(substr($SMS, 0, -4));
 	$SMS_FRAME = ctr_analyze_frame($SMS, $CTR_CRC);
 
-	$out  = "<table class='table-style-two'>";
+	// poriadok s disp
+	$disp = ctrDisp($SMS_FRAME['FUNCT'][1], $SMS_FRAME['STRUCT']);
+
+	$out  = "<table class='table-style-two'>\n";
 	foreach ($SMS_FRAME as $name => $value)
 	{
 		$out .= "<tr>";
@@ -141,8 +160,36 @@ function ctr_show($SMS, $CTR_CRC)
 		$out .= "</tr>";
 	}
 	$out .= "</table>";
-	
+
 	return $out;
+}
+
+/********************************************************************
+* @brief Show analyze SMS
+* @retval HTML table format
+*/
+function ctr_show($SMS)
+{
+	$SMS = explode("\n", $SMS);
+
+	// single line
+	if( count($SMS) <= 1)
+		return ctr_show_packet($SMS[0]);
+	
+	// multi line
+	$first = true;
+	foreach ($SMS as $SMS_LINE)
+	{
+		$hint = add_soft_space($SMS_LINE, SMS_SIZE);
+		$out_line = ctr_show_packet($SMS_LINE, $disp);
+		$out .= "<li><a href='index.php?CTR_FRAME=$SMS_LINE' title='$hint'>+ $disp</a>";
+		$out .= $first? "<ul class='hidden'>": "<ul>";
+		$out .= $out_line;
+		$out .= "<br></ul></li>";
+		$first = false;
+	}
+	
+	return "\n<ul class='menu'>". $out ."</ul>";
 }
 
 /********************************************************************
@@ -157,7 +204,7 @@ function ctr_profi($profi)
               'C-user2',     // 3
               'D-user3',     // 4
               '',            // 5
-		      '',            // 6
+              '',            // 6
               'secret');     // 7
 
 	$answer[] = strtoupper(dechex($profi)) ."h";
@@ -180,7 +227,7 @@ function ctr_funct($funct)
 		array('00 - not encrypted',
 		      '01 - encrypted use KEYC',
 		      '10 - encrypted use KEYT - temporary',		
-	          '11 - encrypted use KEYF - factory');
+		      '11 - encrypted use KEYF - factory');
 	
 	$answer[] = strtoupper(dechex($funct)) ."h";
 	$answer[] = ctr_funct_name($funct & 0x3F);

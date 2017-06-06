@@ -33,3 +33,37 @@ form.form-style-two {
 	color: #333333;
 }
 
+/* Disable properties specified in the imported CSS file */
+.menu a {
+	border:none;
+	font-weight:normal;
+}
+/* Actual menu CSS starts here */
+.menu,
+.menu ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.menu {}
+.menu li {
+	display:block;
+	margin:0;
+	padding:0;
+	margin-bottom:1px;
+}
+.menu a {
+	display:block;
+	padding:2px 5px;
+	color:#000;
+	background:#B2CFD8;
+	text-decoration:none;
+}
+.menu a:hover,
+.menu a:focus,
+.menu a:active {background:#d9dcb0;}
+.menu ul li {padding-left:15px;}
+.menu ul a {background:#B2CFD8;}
+.hidden {display:none;}
+
+
