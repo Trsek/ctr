@@ -853,9 +853,9 @@ function ctr_PT_decomp($value)
 		$answer[] = " ". $interval_line;
 		for($i=0; $i<5; $i++)
 		{
-			$interval = substr_cut($value, 1);
-			$band = $interval >> 5;
-			$hour = $interval & 0x1F;
+			$interval = hexdec(substr_cut($value, 1));
+			$band = $interval >> 6;
+			$hour = $interval & 0x3F;
 			$answer[] = "  $band band - $hour hour";
 		}
 	}
