@@ -174,7 +174,7 @@ function ctr_show($SMS)
 
 	// single line
 	if( count($SMS) <= 1)
-		return ctr_show_packet($SMS[0]);
+		return ctr_show_packet($SMS[0], $disp);
 	
 	// multi line
 	$first = true;
