@@ -735,13 +735,25 @@ function ctr_voluntary($value)
 	return $answer;
 }
 
+function ctr_near_null($value)
+{
+	$count = 0;
+	while( !empty($value))
+	{
+		if( substr_cut($value,1) == "00")
+			break;
+		$count++;
+	}
+	return $count;
+}
+
 function ctr_gprs_set($value)
 {
 	$torr     = substr_cut($value, 1);
-	$apn      = hexToStr(substr_cut($value, strpos($value, "00")/2));	substr_cut($value, 1);
-	$login    = hexToStr(substr_cut($value, strpos($value, "00")/2));	substr_cut($value, 1);
-	$password = hexToStr(substr_cut($value, strpos($value, "00")/2));	substr_cut($value, 1);
-	$port     = hexToStr(substr_cut($value, strpos($value, "00")/2));	substr_cut($value, 1);
+	$apn      = hexToStr(substr_cut($value, ctr_near_null($value)));	substr_cut($value, 1);
+	$login    = hexToStr(substr_cut($value, ctr_near_null($value)));	substr_cut($value, 1);
+	$password = hexToStr(substr_cut($value, ctr_near_null($value)));	substr_cut($value, 1);
+	$port     = hexToStr(substr_cut($value, ctr_near_null($value)));	substr_cut($value, 1);
 	
 	$answer[] = $torr ." - Torr (minutes)";
 	$answer[] = $apn ." - APN";
