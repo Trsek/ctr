@@ -10,6 +10,7 @@ require_once("obj/objects.php");
 define("CPA_ZERO", "00000000");
 define("SMS_PREFIX", "8C");
 define("SMS_SIZE", 140);
+define("SMS_SIZE_LONG", 1024);
 
 /********************************************************************
 * @brief Remove 0A/0D if have it. Remove SMS prefix if have it
@@ -255,6 +256,10 @@ function ctr_CRCCheck($crc, $crc_compute)
 */
 function ctr_analyze_frame(&$SMS, $CTR_CRC)
 {
+	if((strlen($SMS) != (2*SMS_SIZE)) 
+	&& (strlen($SMS) != (2*SMS_SIZE_LONG)))
+		$SMS_DATI['LEN'] = "packet len ". strlen($SMS)/2 ." is unsupported";
+
 	$SMS_DATI['ADD']   = substr_cut($SMS, 2);
 	$SMS_DATI['PROFI'] = substr_cut($SMS, 1);
 	$SMS_DATI['FUNCT'] = substr_cut($SMS, 1);
@@ -265,7 +270,7 @@ function ctr_analyze_frame(&$SMS, $CTR_CRC)
 		$SMS_DATI['VATA'] = add_soft_space(substr_cut($SMS, (strlen($SMS)-12)/2), 64);
 	}
 	$SMS_DATI['CPA']   = substr_cut($SMS, 4);
-	$SMS_DATI['CRC']   = ctr_CRCCheck($SMS, $CTR_CRC). (isset($SMS_DATI['VATA'])? " (packet is longer than 140 byte)":"");
+	$SMS_DATI['CRC']   = ctr_CRCCheck($SMS, $CTR_CRC);
 	
 	$sms_funct  = hexdec( $SMS_DATI['FUNCT']) & 0x3F;
 	$sms_struct = hexdec( $SMS_DATI['STRUCT']);
