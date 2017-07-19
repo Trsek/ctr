@@ -265,7 +265,7 @@ function ctr_analyze_frame(&$SMS, $CTR_CRC)
 		$SMS_DATI['VATA'] = add_soft_space(substr_cut($SMS, (strlen($SMS)-12)/2), 64);
 	}
 	$SMS_DATI['CPA']   = substr_cut($SMS, 4);
-	$SMS_DATI['CRC']   = ctr_CRCCheck($SMS, $CTR_CRC);
+	$SMS_DATI['CRC']   = ctr_CRCCheck($SMS, $CTR_CRC). (isset($SMS_DATI['VATA'])? " (packet is longer than 140 byte)":"");
 	
 	$sms_funct  = hexdec( $SMS_DATI['FUNCT']) & 0x3F;
 	$sms_struct = hexdec( $SMS_DATI['STRUCT']);
