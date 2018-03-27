@@ -43,7 +43,8 @@ function CTR_NORMALIZE($SMS)
 		
 		// align to minimal size
 		if(( strlen($SMS_LINE) > 0 ) 
-		&& ( strlen($SMS_LINE)/2 < SMS_SIZE ))
+		&& ( strlen($SMS_LINE)/2 < SMS_SIZE )
+		&& ( substr($SMS_LINE, 6, 2) != CTR_ELGAS_HEX ))
 		{
 			$SMS_LINE .=  str_repeat("00", SMS_SIZE - strlen($SMS_LINE)/2);
 		}
@@ -265,7 +266,7 @@ function ctr_analyze_frame(&$SMS, $CTR_CRC)
 	$SMS_DATI['FUNCT'] = substr_cut($SMS, 1);
 	$SMS_DATI['STRUCT']= substr_cut($SMS, 1);
 	$SMS_DATI['CHAN']  = substr_cut($SMS, 1) ."h";
-	$SMS_DATI['DATI']  = substr_cut($SMS, 128);
+	$SMS_DATI['DATI']  = ($SMS_DATI['FUNCT'] != CTR_ELGAS_HEX)? substr_cut($SMS, 128): substr_cut($SMS, strlen($SMS)/2 - 6); 
 	if( strlen($SMS) > 12) {
 		$SMS_DATI['VATA'] = add_soft_space(substr_cut($SMS, (strlen($SMS)-12)/2), 64);
 	}
@@ -470,6 +471,14 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 			$answer = ctr_Answer($DATI, $sms_struct);
 			break;
 
+		case CTR_ELGAS:
+			$length = (hexdec(substr_cut($DATI, 1)) + 0x100 * hexdec(substr_cut($DATI, 1))) - 3;
+			$type   = hexdec(substr_cut($DATI, 1));
+			$group  = hexdec(substr_cut($DATI, 1));
+			$port   = hexdec(substr_cut($DATI, 1));
+			$answer = json_decode( file_get_contents('http://'. $_SERVER['SERVER_NAME']. '/elgas2/index.php?JSON&ELGAS_FRAME='. $DATI. '&GROUP='. $group. '&TYPE='. $type));
+			$DATI   = "";
+			break;
 	}
 
 	if( is_array($answer))

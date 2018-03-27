@@ -15,6 +15,8 @@ define (CTR_DOWNLOAD,		0x24);	  // Download (Send/Confirm)
 define (CTR_ELGAS,			0x18);	  // Tunel for Elgas
 define (CTR_ELGAS_OLD,		0x38);	  // Tunel for Elgas old
 
+define (CTR_ELGAS_HEX,		'18');	  // Tunel for Elgas ako text
+
 define (CTR_FUNCT_ABR,   0);
 define (CTR_FUNCT_DESC,  1);
 define (CTR_FUNCT_NEED,  2);
