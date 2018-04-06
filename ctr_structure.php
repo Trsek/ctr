@@ -476,7 +476,7 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 			$type   = hexdec(substr_cut($DATI, 1));
 			$group  = hexdec(substr_cut($DATI, 1));
 			$port   = hexdec(substr_cut($DATI, 1));
-			$answer = json_decode( file_get_contents('http://'. $_SERVER['SERVER_NAME']. '/elgas2/index.php?JSON&ELGAS_FRAME='. $DATI. '&GROUP='. $group. '&TYPE='. $type));
+			$answer = json_decode( file_get_contents('http://'. $_SERVER['HTTP_HOST']. '/elgas2/index.php?JSON&ELGAS_FRAME='. $DATI. '&GROUP='. $group. '&TYPE='. $type));
 			$DATI   = "";
 			break;
 	}
