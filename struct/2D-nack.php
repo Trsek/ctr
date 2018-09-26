@@ -23,7 +23,7 @@ function ctr_ack(&$DATI)
 function ctr_NACK_slovak( $TAB_NACK )
 {
 	$start = false;
-	$answer = "";
+	$answer = [];
 	
 	foreach(file(NACK_TXT) as $ftxt)
 	{

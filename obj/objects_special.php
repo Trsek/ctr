@@ -119,14 +119,14 @@ function ctr_event($value)
 			substr_cut($value, 1);
 			$answer .= ctr_obj_number( substr_cut($value, 2));
 			substr_cut($value, 1);
-			$answer .= substr_cut($value, 1);
+			$answer .= " = ". substr_cut($value, 1);
 			break;
 		case 0x35:
 		case 0x3D:
 		case 0x38:
 			substr_cut($value, 1);
 			$answer .= ctr_date( substr_cut($value, 3),3);
-			$answer .= " day=". substr_cut($value, 1);
+			$answer .= " day = ". substr_cut($value, 1);
 			break;
 		case 0x3E:
 		case 0x40:
@@ -145,7 +145,7 @@ function ctr_event($value)
 			break;
 		case 0x43:
 			substr_cut($value, 2);
-			$answer .= hexbin(substr_cut($value, 5));
+			$answer .= " = ". hexbin(substr_cut($value, 5));
 			break;
 	}
 	

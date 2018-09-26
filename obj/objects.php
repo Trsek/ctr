@@ -430,7 +430,7 @@ function ctr_val(&$DATI, $obj_id, $attw)
 	if( $attw & 0x04 ) $access  = hexdec(substr_cut($DATI, 1));
 	if( $attw & 0x08 ) $default = substr_cut($DATI, $len);
 
-	$answer = "";
+	$answer = [];
 	if( $attw & 0x02 ) $answer[] = $val;
 	if( $attw & 0x01 ) $answer[] = ctr_qlf_short($qlf);
 	if( $attw & 0x04 ) $answer[] = ctr_access($access);
