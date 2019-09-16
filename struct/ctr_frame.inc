@@ -1,8 +1,8 @@
 <?php
 require_once ("struct/struct_name.php");
 
-define (CTR_TABLE_OBJ_ID, 0);
-define (CTR_TABLE_ATTW,   1);
+define ('CTR_TABLE_OBJ_ID', 0);
+define ('CTR_TABLE_ATTW',   1);
 
 $TABLE_FRAME_DEF = array(
 				// Identification()

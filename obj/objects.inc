@@ -1,9 +1,73 @@
 <?php
-define (CTR_COMPANION_OBJ_ID, 0);
-define (CTR_TYPE,             1);
-define (CTR_UNIT,             2);
-define (CTR_LEN,              3);
-define (CTR_DESCRIPTION,      4);
+define('CTR_COMPANION_OBJ_ID', 0);
+define('CTR_TYPE',             1);
+define('CTR_UNIT',             2);
+define('CTR_LEN',              3);
+define('CTR_DESCRIPTION',      4);
+
+define('VAL_TYPE_DEFAULT',     0);
+define('VAL_TYPE_BIT',         1);
+define('VAL_TYPE_DOUBLE_QLF',  2);
+define('VAL_TYPE_FLOAT',       3);
+define('VAL_TYPE_DOUBLE',      4);
+define('VAL_TYPE_BYTE',        5);
+define('VAL_TYPE_UINT',        6);
+define('VAL_TYPE_ULONG',       7);
+define('VAL_TYPE_ULONG64',     8);
+define('VAL_TYPE_STRING3',     9);
+define('VAL_TYPE_STRING8',    10);
+define('VAL_TYPE_STRING16',   11);
+define('VAL_TYPE_STRING32',   12);
+define('VAL_TYPE_TIME_MSP',   13);
+define('VAL_TYPE_DATE_MSP',   14);
+define('VAL_TYPE_DATETIME',   15);
+define('VAL_TYPE_DATETIMEBCD',16);
+define('VAL_TYPE_OKNO',       17);
+define('VAL_TYPE_UNIT',       18);
+
+define('UNIT_DEFAULT', 0);
+define('UNIT_stC',     1);
+define('UNIT_stF',     2);
+define('UNIT_Kelvin',  3);
+define('UNIT_stR',     4);
+define('UNIT_kPa',     5);
+define('UNIT_Pa',      6);
+define('UNIT_MPa',     7);
+define('UNIT_bar',     8);
+define('UNIT_torr',    9);
+define('UNIT_PSI',    10);
+define('UNIT_at',     11);
+define('UNIT_kgfcm2', 12);
+define('UNIT_atm',    13);
+define('UNIT_MJm3',   14);
+define('UNIT_kWhm3',  15);
+define('UNIT_Btuft3', 16);
+define('UNIT_MJ',     17);
+define('UNIT_kWh',    18);
+define('UNIT_Btu',    19);
+define('UNIT_m3',     20);
+define('UNIT_ft3',    21);
+define('UNIT_nm3',    22);
+define('UNIT_nft3',   23);
+define('UNIT_m3h',    24);
+define('UNIT_ft3h',   25);
+define('UNIT_nm3h',   26);
+define('UNIT_nft3h',  27);
+define('UNIT_yard3h', 28);
+define('UNIT_galh',   29);
+define('UNIT_yard3',  30);
+define('UNIT_gal',    31);
+define('UNIT_V',      32);
+define('UNIT_mV',     33);
+define('UNIT_A',      34);
+define('UNIT_mA',     35);
+define('UNIT_m',      36);
+define('UNIT_ft',     37);
+define('UNIT_kgm3',   38);
+define('UNIT_h',      39);
+define('UNIT_dB',     40);
+define('UNIT_HEX',    41);
+define('UNIT_percent', 42);
 
 $CTR_List = array
 (

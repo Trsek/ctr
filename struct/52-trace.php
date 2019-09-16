@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-define (DEFAULT_GAS_HOUR, 6);	// OFG
+define ('DEFAULT_GAS_HOUR', 6);	// OFG
 
 function get_period_text_trace($id)
 {

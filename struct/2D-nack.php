@@ -1,6 +1,6 @@
 <?php
 require_once("funct/funct_name.php");
-define (NACK_TXT, 'struct/NACK_Explanation.txt');
+define ('NACK_TXT', 'struct/NACK_Explanation.txt');
 
 /********************************************************************
 * @brief ACK parser

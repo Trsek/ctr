@@ -1,25 +1,25 @@
 <?php
-define (CTR_NOT_USE,		0x00);	  // Not use
-define (CTR_ACK,			0x2B);	  // Application ACK (Send/Noreply)
-define (CTR_NACK,			0x2D);	  // Application NACK (Send/Noreply)
-define (CTR_IDENTIF,		0x28);	  // Identification (Send/Reply)
-define (CTR_IDENTIF_ANSW,	0x29);	  // Identification answer (Send/Noreply)
-define (CTR_QUERY,			0x3F);	  // Query (Send/Reply)
-define (CTR_ANSWER,			0x21);	  // Answer (Send/Noreply)
-define (CTR_VOLUNTARY,		0x3B);	  // Spontaneous (Send/Noreply)
-define (CTR_EXECUTE,		0x26);	  // Execute function (Send/Confirm)
-define (CTR_WRITE,			0x2F);	  // Write function (Send/Confirm)
-define (CTR_END,			0x25);	  // End of Session (Send/Noreply)
-define (CTR_SECRET,			0x23);	  // Sevret (Send/Confirm)
-define (CTR_DOWNLOAD,		0x24);	  // Download (Send/Confirm)
-define (CTR_ELGAS,			0x18);	  // Tunel for Elgas
-define (CTR_ELGAS_OLD,		0x38);	  // Tunel for Elgas old
+define ('CTR_NOT_USE',		0x00);	  // Not use
+define ('CTR_ACK',		0x2B);	  // Application ACK (Send/Noreply)
+define ('CTR_NACK',		0x2D);	  // Application NACK (Send/Noreply)
+define ('CTR_IDENTIF',		0x28);	  // Identification (Send/Reply)
+define ('CTR_IDENTIF_ANSW',	0x29);	  // Identification answer (Send/Noreply)
+define ('CTR_QUERY',		0x3F);	  // Query (Send/Reply)
+define ('CTR_ANSWER',		0x21);	  // Answer (Send/Noreply)
+define ('CTR_VOLUNTARY',	0x3B);	  // Spontaneous (Send/Noreply)
+define ('CTR_EXECUTE',		0x26);	  // Execute function (Send/Confirm)
+define ('CTR_WRITE',		0x2F);	  // Write function (Send/Confirm)
+define ('CTR_END',		0x25);	  // End of Session (Send/Noreply)
+define ('CTR_SECRET',		0x23);	  // Sevret (Send/Confirm)
+define ('CTR_DOWNLOAD',		0x24);	  // Download (Send/Confirm)
+define ('CTR_ELGAS',		0x18);	  // Tunel for Elgas
+define ('CTR_ELGAS_OLD',	0x38);	  // Tunel for Elgas old
 
-define (CTR_ELGAS_HEX,		'18');	  // Tunel for Elgas ako text
+define ('CTR_ELGAS_HEX',	'18');	  // Tunel for Elgas ako text
 
-define (CTR_FUNCT_ABR,   0);
-define (CTR_FUNCT_DESC,  1);
-define (CTR_FUNCT_NEED,  2);
+define ('CTR_FUNCT_ABR',   0);
+define ('CTR_FUNCT_DESC',  1);
+define ('CTR_FUNCT_NEED',  2);
 
 $funct_code = 
 	array(

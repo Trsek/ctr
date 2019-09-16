@@ -1,20 +1,20 @@
 <?php
-define (CTR_STR_TABLE_STRUCT,   0x01);	  // TABLE structure
-define (CTR_STR_IDENTIF,		0x30);	  // TABLE-IDENTIFICATION structure
-define (CTR_STR_IDENTIF2,	    0x31);	  // TABLE-IDENTIFICATION2 structure
-define (CTR_STR_DE0,			0x32);	  // Structure type TABLE-DE0
-define (CTR_STR_DEC,			0x33);	  // Structure type TABLE-DEC
-define (CTR_STR_DECF,		    0x34);	  // Structure type TABLE-DECF
-define (CTR_STR_TECNO,		    0x33);	  // Structure type TABLE-TECNOSYSTEM
-define (CTR_STR_REGISTER,	    0x50);	  // REGISTER
-define (CTR_STR_ARRAY,		    0x51);	  // Structure type ARRAY
-define (CTR_STR_TRACE,		    0x52);	  // Structure type TRACE
-define (CTR_STR_TRACE_C,		0x53);	  // Structure type TRACE_C
-define (CTR_STR_OPTIONAL,	    0x54);	  // OPTIONAL type structure
-define (CTR_STR_SCHEMA,		    0x55);	  // SCHEMA type structure
-define (CTR_STR_EVENT,		    0x56);	  // Array_Eventi type structure
-define (CTR_STR_ELGAS,		    0xF0);	  // Tunel pro Elgas
-define (CTR_STR_TRIGGER_EVENT,  0xF1);	  // Array_Eventi Trigger type structure
+define ('CTR_STR_TABLE_STRUCT', 0x01);	  // TABLE structure
+define ('CTR_STR_IDENTIF',	0x30);	  // TABLE-IDENTIFICATION structure
+define ('CTR_STR_IDENTIF2',	0x31);	  // TABLE-IDENTIFICATION2 structure
+define ('CTR_STR_DE0',		0x32);	  // Structure type TABLE-DE0
+define ('CTR_STR_DEC',		0x33);	  // Structure type TABLE-DEC
+define ('CTR_STR_DECF',		0x34);	  // Structure type TABLE-DECF
+define ('CTR_STR_TECNO',	0x33);	  // Structure type TABLE-TECNOSYSTEM
+define ('CTR_STR_REGISTER',	0x50);	  // REGISTER
+define ('CTR_STR_ARRAY',	0x51);	  // Structure type ARRAY
+define ('CTR_STR_TRACE',	0x52);	  // Structure type TRACE
+define ('CTR_STR_TRACE_C',	0x53);	  // Structure type TRACE_C
+define ('CTR_STR_OPTIONAL',	0x54);	  // OPTIONAL type structure
+define ('CTR_STR_SCHEMA',	0x55);	  // SCHEMA type structure
+define ('CTR_STR_EVENT',	0x56);	  // Array_Eventi type structure
+define ('CTR_STR_ELGAS',	0xF0);	  // Tunel pro Elgas
+define ('CTR_STR_TRIGGER_EVENT',0xF1);	  // Array_Eventi Trigger type structure
 
 $struct_code = 
 	array(
