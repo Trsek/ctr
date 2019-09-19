@@ -1,7 +1,7 @@
 <?php
 require_once("struct/ctr_frame.php");
 
-function ctr_Query(&$DATI)
+function ctr_Query_30(&$DATI)
 {
 	$st_text = array(
 			"Not defined",
@@ -19,7 +19,7 @@ function ctr_Query(&$DATI)
 	return $answer;
 }
 
-function ctr_Answer(&$DATI, $sms_struct)
+function ctr_Answer_30(&$DATI, $sms_struct)
 {
 	return ctr_parse_frame($DATI, $sms_struct);
 }

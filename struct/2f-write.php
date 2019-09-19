@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-function ctr_Write(&$DATI)
+function ctr_Write_2f(&$DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
 	$dv       = ctr_date(substr_cut($DATI, 3), 3);

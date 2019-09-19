@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-function ctr_Query(&$DATI)
+function ctr_Query_50(&$DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
 	$obj      = hexdec( substr_cut($DATI, 1));
@@ -18,7 +18,7 @@ function ctr_Query(&$DATI)
 	return $answer;
 }
 
-function ctr_Answer(&$DATI)
+function ctr_Answer_50(&$DATI)
 {
 	$obj  = hexdec( substr_cut($DATI, 1));
 	$attw = hexdec( substr_cut($DATI, 1));

@@ -1,7 +1,7 @@
 <?php
 require_once("obj/objects.php");
 
-function ctr_Write(&$DATI)
+function ctr_Write_24(&$DATI)
 {
 	$dv       = ctr_date(substr_cut($DATI, 3), 3);
 	$wdb      = hexdec( substr_cut($DATI, 1));

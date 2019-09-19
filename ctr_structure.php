@@ -307,48 +307,48 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 		{
 			case CTR_STR_REGISTER:
 				require_once 'struct/50-register.php';
-				$answer = ctr_Query($DATI);
+				$answer = ctr_Query_50($DATI);
 				break;
 
 			case CTR_STR_ARRAY:
 				require_once 'struct/51-array.php';
-				$answer = ctr_Query($DATI);
+				$answer = ctr_Query_51($DATI);
 				break;
 				
 			case CTR_STR_TRACE:
 				require_once 'struct/52-trace.php';
-				$answer = ctr_Query($DATI);
+				$answer = ctr_Query_52($DATI);
 				break;
 				
 			case CTR_STR_TRACE_C:
 				require_once 'struct/53-trace_c.php';
-				$answer = ctr_Query($DATI);
+				$answer = ctr_Query_53($DATI);
 				break;
 
 			case CTR_STR_OPTIONAL:
 				require_once 'struct/54-optional.php';
-				$answer = ctr_Query($DATI);
+				$answer = ctr_Query_54($DATI);
 				break;
 				
 			case CTR_STR_SCHEMA:
 				require_once 'struct/55-trama.php';
-				$answer = ctr_Query($DATI);
+				$answer = ctr_Query_55($DATI);
 				break;
 				
 			case CTR_STR_EVENT:
 				require_once 'struct/56-event.php';
-				$answer = ctr_Query($DATI);
+				$answer = ctr_Query_56($DATI);
 				break;
 				
 			case CTR_STR_TRIGGER_EVENT:
 				require_once 'struct/f1-event_trigger.php';
-				$answer = ctr_Query($DATI);
+				$answer = ctr_Query_f1($DATI);
 				break;
 				
 			case CTR_STR_IDENTIF:
 			case CTR_STR_IDENTIF2:
 				require_once 'struct/30-identification.php';
-				$answer = ctr_Query($DATI, $sms_struct);
+				$answer = ctr_Query_30($DATI, $sms_struct);
 				break;
 
 			default:
@@ -368,48 +368,48 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 			{
 				case CTR_STR_REGISTER:
 					require_once 'struct/50-register.php';
-					$answer = ctr_Answer($DATI);
+					$answer = ctr_Answer_50($DATI);
 					break;
 
 				case CTR_STR_ARRAY:
 					require_once 'struct/51-array.php';
-					$answer = ctr_Answer($DATI);
+					$answer = ctr_Answer_51($DATI);
 					break;
 							
 				case CTR_STR_TRACE:
 					require_once 'struct/52-trace.php';
-					$answer = ctr_Answer($DATI);
+					$answer = ctr_Answer_52($DATI);
 					break;
 
 				case CTR_STR_TRACE_C:
 					require_once 'struct/53-trace_c.php';
-					$answer = ctr_Answer($DATI);
+					$answer = ctr_Answer_53($DATI);
 					break;
 
 				case CTR_STR_OPTIONAL:
 					require_once 'struct/54-optional.php';
-					$answer = ctr_Answer($DATI);
+					$answer = ctr_Answer_54($DATI);
 					break;
 
 				case CTR_STR_SCHEMA:
 					require_once 'struct/55-trama.php';
-					$answer = ctr_Answer($DATI);
+					$answer = ctr_Answer_55($DATI);
 					break;
 
 				case CTR_STR_EVENT:
 					require_once 'struct/56-event.php';
-					$answer = ctr_Answer($DATI);
+					$answer = ctr_Answer_56($DATI);
 					break;
 						
 				case CTR_STR_TRIGGER_EVENT:
 					require_once 'struct/f1-event_trigger.php';
-					$answer = ctr_Answer($DATI);
+					$answer = ctr_Answer_f1($DATI);
 					break;
 						
 				case CTR_STR_IDENTIF:
 				case CTR_STR_IDENTIF2:
 					require_once 'struct/30-identification.php';
-					$answer = ctr_Answer($DATI, $sms_struct);
+					$answer = ctr_Answer_30($DATI, $sms_struct);
 					break;
 			
 				default:
@@ -433,7 +433,7 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 			{
 				case CTR_STR_REGISTER:
 					require_once 'struct/2f-write.php';
-					$answer = ctr_Write($DATI);
+					$answer = ctr_Write_2f($DATI);
 					break;
 					
 				default:
@@ -449,13 +449,13 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 
 		case CTR_SECRET:
 			require_once 'struct/23-secret.php';
-			$answer = ctr_Write($DATI);
+			$answer = ctr_Write_23($DATI);
 			break;
 
 
 		case CTR_DOWNLOAD:
 			require_once 'struct/24-download.php';
-			$answer = ctr_Write($DATI);
+			$answer = ctr_Write_24($DATI);
 			break;
 						
 		case CTR_END:
@@ -463,12 +463,12 @@ function ctr_dati($DATI, $sms_funct, $sms_struct)
 					
 		case CTR_IDENTIF:
 			require_once 'struct/30-identification.php';
-			$answer = ctr_Query($DATI, $sms_struct);
+			$answer = ctr_Query_30($DATI, $sms_struct);
 			break;
 
 		case CTR_IDENTIF_ANSW:
 			require_once 'struct/30-identification.php';
-			$answer = ctr_Answer($DATI, $sms_struct);
+			$answer = ctr_Answer_30($DATI, $sms_struct);
 			break;
 
 		case CTR_ELGAS:

@@ -20,7 +20,7 @@ function ctr_tipo_name($tipo_code)
 	return dechex($tipo_code) ."h - " .$tipo_text[$tipo_code]; 
 }
 
-function ctr_Query(&$DATI)
+function ctr_Query_54(&$DATI)
 {
 	$password  = hex2bin( substr_cut($DATI, 6));
 	$tipo_code = hexdec( substr_cut($DATI, 1));
@@ -30,7 +30,7 @@ function ctr_Query(&$DATI)
 	return $answer;
 }
 
-function ctr_Answer(&$DATI)
+function ctr_Answer_54(&$DATI)
 {
 	$tipo_code = hexdec( substr_cut($DATI, 1));
 	$obj = hexdec(substr_cut($DATI, 1));

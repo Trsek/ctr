@@ -2,7 +2,7 @@
 require_once("struct/struct_name.php");
 require_once("obj/objects.php");
 
-function ctr_Query(&$DATI)
+function ctr_Query_55(&$DATI)
 {
 	$password    = hex2bin( substr_cut($DATI, 6));
 	$struct_code = hexdec( substr_cut($DATI, 1));
@@ -12,7 +12,7 @@ function ctr_Query(&$DATI)
 	return $answer;
 }
 
-function ctr_Answer(&$DATI)
+function ctr_Answer_55(&$DATI)
 {
 	$struct_code = hexdec( substr_cut($DATI, 1));
 	$obj = hexdec(substr_cut($DATI, 1));

@@ -1,14 +1,14 @@
 <?php
 require_once("obj/objects.php");
 
-function ctr_Query(&$DATI)
+function ctr_Query_f1(&$DATI)
 {
 	$password = hex2bin( substr_cut($DATI, 6));
 	$answer[] = "$password - Access level password";
 	return $answer;
 }
 
-function ctr_Answer(&$DATI)
+function ctr_Answer_f1(&$DATI)
 {
 	$pdr      = substr_cut($DATI, 7);
 	$anti_fraud = ctr_val($DATI, "D.A.0", 0x03)[0][0];

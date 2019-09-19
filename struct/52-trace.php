@@ -18,7 +18,7 @@ function get_period_text_trace($id)
 	return $period_text[$id];
 }
 	
-function ctr_Query(&$DATI)
+function ctr_Query_52(&$DATI)
 {
 	$password   = hex2bin( substr_cut($DATI, 6));
 	$obj_id     = ctr_obj_number(substr_cut($DATI, 2));
@@ -71,7 +71,7 @@ function ctr_get_date_format($period)
 	}
 }
 
-function ctr_Answer(&$DATI)
+function ctr_Answer_52(&$DATI)
 {
 	$obj_id     = ctr_obj_number(substr_cut($DATI, 2));
 	$period     = hexdec( substr_cut($DATI, 1));
