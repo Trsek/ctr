@@ -31,6 +31,13 @@ FFFF003F5300303030303031FF55010D090900000000000000000000000000000000000000000000
 	}
 
 	$CTR_FRAME = CTR_NORMALIZE($_REQUEST["CTR_FRAME"]);
+	
+	// pre app
+	if( isset($_REQUEST["FLAT"])) {
+		echo "<head><meta HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=UTF-8'><link rel='stylesheet' href='ctr_flat.css'></head>";
+		echo ctr_show($CTR_FRAME);
+		return;
+	}
 ?>
 
 <!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
