@@ -299,6 +299,7 @@ $CTR_List = array
 	"9.2.5"  => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       11, "Software identifiers which is active - CRC, date activated"),
 
 	"9.3.0"  => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       10, "Metering Firmware version"),
+	"9.3.1"  => array(  "0.0.0", VAL_TYPE_STRING16,     UNIT_DEFAULT,       10, "Other Firmware version"),
 	"9.4.0"  => array(  "0.0.0", VAL_TYPE_UINT,         UNIT_DEFAULT,        2, "Address of the device"),
 	"9.5.0"  => array( "F9.5.0", VAL_TYPE_DEFAULT,      UNIT_DEFAULT,        1, "Download parameters"),
 	"F9.5.0" => array( "F9.5.1", VAL_TYPE_STRING8,      UNIT_DEFAULT,        4, "Identifier of the software being transferred"),
