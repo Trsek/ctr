@@ -150,7 +150,7 @@ function ctrDisp($SMS_FRAME)
 	$dati = $SMS_FRAME['DATI'];
 	$crc = $SMS_FRAME['CRC'];
 
-	if (strpos($funct, "18h") != false 
+	if (strpos($funct, "18h") !== false 
 	 && is_array($dati))
 	    $struct = $dati[0];
 
