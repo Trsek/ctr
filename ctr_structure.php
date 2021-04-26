@@ -143,11 +143,20 @@ function add_soft_space($DATI, $len)
 /********************************************************************
  * @brief Show disp information in short view
  */
-function ctrDisp($funct, $struct, $crc)
+function ctrDisp($SMS_FRAME)
 {
+	$funct = $SMS_FRAME['FUNCT'][1];
+	$struct = $SMS_FRAME['STRUCT'];
+	$dati = $SMS_FRAME['DATI'];
+	$crc = $SMS_FRAME['CRC'];
+
+	if (strpos($funct, "18h") != false 
+	 && is_array($dati))
+	    $struct = $dati[0];
+
 	$answer  = $funct;
 	$answer .= " ($struct)";
-	
+
 	if (strpos($crc, "bad") > 0)
 		$answer .= " [bad CRC]";
 
@@ -193,7 +202,7 @@ function ctr_show_packet($SMS, &$disp)
 	$SMS_FRAME = ctr_analyze_frame($SMS, $CTR_CRC, $CRYPT_CRC);
 
 	// poriadok s disp
-	$disp = ctrDisp($SMS_FRAME['FUNCT'][1], $SMS_FRAME['STRUCT'], $SMS_FRAME['CRC']);
+	$disp = ctrDisp($SMS_FRAME);
 
 	$out  = "<table class='table-style-two'>\n";
 	foreach ($SMS_FRAME as $name => $value)
