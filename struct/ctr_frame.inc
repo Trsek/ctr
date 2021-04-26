@@ -73,7 +73,7 @@ $TABLE_FRAME_DEF = array(
 					array(  "D.9.0",		0x02 ),		//  D.9.0 Seals status
 					array(  "E.C.0",		0x02 ),		//  E.C.0 GSM/GPRS signal intensity
 				// added for CPL
-					array(  "C.2.1",		0x02 ),		//  C.1.1 Converter Master Record
+					array(  "C.1.1",		0x02 ),		//  C.1.1 Converter Master Record
 				// added for Ireland
 					array(  "4.0.3",		0x03 ),		//  4.0.3 Absolute measurement pressure
 					array(  "7.0.3",		0x03 ),		//  7.0.3 Absolute measurement temperature

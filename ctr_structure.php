@@ -83,6 +83,7 @@ function ctr_Decrypt($SMS, $key_raw)
 
 	foreach (explode("\n", $SMS) as $SMS_LINE)
 	{
+		$crc_crypt = CRC16(substr($SMS_LINE, 0, -4));
 		$input_raw = substr($SMS_LINE, 8, 260);
 		$input     = pack("H*" , $input_raw);
 		$key       = pack("H*" , $key_raw);
@@ -94,11 +95,34 @@ function ctr_Decrypt($SMS, $key_raw)
 		             .$CTR_DECRYPT
 		             .CPA_ZERO	// $cpa
 		             .substr($SMS_LINE, 276, 4);
+		$CTR_DECRYPT .= " [". $crc_crypt ."]";
+
+		if (!ctr_IsEncrypt($SMS_LINE))
+		    $CTR_DECRYPT = $SMS_LINE;
 
 		$CTR_DECRYPT_OUT .= (strlen($CTR_DECRYPT_OUT)? "\n": "") .$CTR_DECRYPT;
 	}
 
 	return $CTR_DECRYPT_OUT;
+}
+
+/********************************************************************
+ * @brief Parse decrypted CRC
+ */
+function CRCCrypt(&$DATI)
+{
+	$crc = "";
+	$len = strlen($DATI);
+
+	if (($len > 7)
+	 && (substr($DATI, $len-1, 1) == "]")
+	 && (substr($DATI, $len-7, 2) == " ["))
+	{
+		$crc = substr($DATI, $len - 5, 4);
+		$DATI = substr($DATI, 0, $len - 7);
+	}
+
+	return $crc;
 }
 
 /********************************************************************
@@ -119,10 +143,14 @@ function add_soft_space($DATI, $len)
 /********************************************************************
  * @brief Show disp information in short view
  */
-function ctrDisp($funct, $struct)
+function ctrDisp($funct, $struct, $crc)
 {
 	$answer  = $funct;
 	$answer .= " ($struct)";
+	
+	if (strpos($crc, "bad") > 0)
+		$answer .= " [bad CRC]";
+
 	return $answer;
 }
 
@@ -160,11 +188,12 @@ function ctr_array_show($value)
 */
 function ctr_show_packet($SMS, &$disp)
 {
+	$CRYPT_CRC = CRCCrypt($SMS);    
 	$CTR_CRC = CRC16(substr($SMS, 0, -4));
-	$SMS_FRAME = ctr_analyze_frame($SMS, $CTR_CRC);
+	$SMS_FRAME = ctr_analyze_frame($SMS, $CTR_CRC, $CRYPT_CRC);
 
 	// poriadok s disp
-	$disp = ctrDisp($SMS_FRAME['FUNCT'][1], $SMS_FRAME['STRUCT']);
+	$disp = ctrDisp($SMS_FRAME['FUNCT'][1], $SMS_FRAME['STRUCT'], $SMS_FRAME['CRC']);
 
 	$out  = "<table class='table-style-two'>\n";
 	foreach ($SMS_FRAME as $name => $value)
@@ -255,9 +284,15 @@ function ctr_funct($funct)
 /********************************************************************
 * @brief Check CRC
 */
-function ctr_CRCCheck($crc, $crc_compute)
+function ctr_CRCCheck($crc, $crc_compute, $crc_crypt)
 {
 	$crc_compute = substr($crc_compute, 2, 2). substr($crc_compute, 0, 2);
+
+	if (strlen($crc_crypt) == 4)
+	{
+		$crc_crypt = substr($crc_crypt, 2, 2). substr($crc_crypt, 0, 2);
+		$crc_compute = $crc_crypt;
+	}
 	
 	if( $crc_compute == $crc )
 		$answ = "$crc - OK";
@@ -270,7 +305,7 @@ function ctr_CRCCheck($crc, $crc_compute)
 /********************************************************************
 * @brief MetaAnalyze frame name
 */
-function ctr_analyze_frame(&$SMS, $CTR_CRC)
+function ctr_analyze_frame(&$SMS, $CTR_CRC, $CRYPT_CRC)
 {
 	if((strlen($SMS) != (2*SMS_SIZE)) 
 	&& (strlen($SMS) != (2*SMS_SIZE_LONG)))
@@ -286,7 +321,7 @@ function ctr_analyze_frame(&$SMS, $CTR_CRC)
 		$SMS_DATI['VATA'] = add_soft_space(substr_cut($SMS, (strlen($SMS)-12)/2), 64);
 	}
 	$SMS_DATI['CPA']   = substr_cut($SMS, 4);
-	$SMS_DATI['CRC']   = ctr_CRCCheck($SMS, $CTR_CRC);
+	$SMS_DATI['CRC']   = ctr_CRCCheck($SMS, $CTR_CRC, $CRYPT_CRC);
 	
 	$sms_funct  = hexdec( $SMS_DATI['FUNCT']) & 0x3F;
 	$sms_struct = hexdec( $SMS_DATI['STRUCT']);
