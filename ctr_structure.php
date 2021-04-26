@@ -63,9 +63,15 @@ function CTR_NORMALIZE($SMS)
  */
 function ctr_IsEncrypt($SMS)
 {
-	$funct = hexdec( substr($SMS, 6, 2));
-	$cpa   = substr($SMS, 268, 8);
-	return ($funct >> 6) && ($cpa != CPA_ZERO);
+    foreach (explode("\n", $SMS) as $SMS_LINE)
+    {
+        $funct = hexdec( substr($SMS_LINE, 6, 2));
+        $cpa   = substr($SMS_LINE, 268, 8);
+        
+        if (($funct >> 6) && ($cpa != CPA_ZERO))
+            return true;
+    }
+    return false;
 }
 
 /********************************************************************
