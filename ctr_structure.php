@@ -154,6 +154,10 @@ function ctrDisp($SMS_FRAME)
 	 && is_array($dati))
 	    $struct = $dati[0];
 
+	if (strpos($funct, "24h") !== false
+	 && count($dati)>5)
+	    $struct = $dati[5];
+
 	$answer  = $funct;
 	$answer .= " ($struct)";
 

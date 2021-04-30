@@ -11,8 +11,22 @@ function ctr_ack(&$DATI)
 	$FUNCT_id = substr_cut($DATI, 1);
 	$Add_data = substr_cut($DATI, 24);
 	
+	$answer = array();
 	$answer[] = $ACK_Code ."h";
 	$answer[] = ctr_funct_name(hexdec($FUNCT_id));
+	
+	//4657312E 07 07 014A 014B 014C 014D 014E 014F 01500
+	if (hexdec($FUNCT_id) == 0x24)
+	{
+		$answer[] = hex2bin(substr_cut($Add_data, 4)) ." - identify";
+		$answer[] = substr_cut($Add_data, 1) ." - group_s";
+		$answer[] = substr_cut($Add_data, 1) ." - group_c";
+		for ($i=1; $i<=7; $i++)
+		{
+			$answer[] = "0x". substr_cut($Add_data, 2) ." - ". $i ." segment";
+		}
+	}
+
 	$answer[] = $Add_data ." - Add_data";
 	return $answer;
 }
