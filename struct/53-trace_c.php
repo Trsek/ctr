@@ -155,6 +155,7 @@ function ctr_Answer_53(&$DATI)
 			break;
 		default:
 			$count = 24;
+			$period = 0;
 			break;
 	}
 	
