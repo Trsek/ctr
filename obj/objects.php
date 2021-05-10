@@ -281,6 +281,25 @@ function ctr_date($DATI, $count)
 }
 
 /********************************************************************
+ * @brief CTR date presentation with operator, profile inside
+ */
+function ctr_date_event($value, $count)
+{
+	$month = hexdec(substr($value,2,2));
+	$day = hexdec(substr($value,4,2));
+
+	$value = substr_replace($value, str_pad(dechex($month & 0x0F), 2, "0", STR_PAD_LEFT), 2, 2);
+	$value = substr_replace($value, str_pad(dechex($day & 0x1F), 2, "0", STR_PAD_LEFT), 4, 2);
+
+	$answer = array();
+	$answer[] = ctr_date($value, $count);
+	$answer[] = ($month >> 4) . " - operator";
+	$answer[] = ($day >> 5) ." - profile";
+
+	return $answer;
+}
+
+/********************************************************************
 * @brief When need value to one line
 */
 function array_val_line($value)
@@ -338,13 +357,16 @@ function ctr_val(&$DATI, $obj_id, $attw)
 			case VAL_TYPE_STRING8:
 			case VAL_TYPE_STRING16:
 			case VAL_TYPE_STRING32:
-				    $value = hexToStr($value);
+					$value = hexToStr($value);
 					break;
 			case VAL_TYPE_TIME_MSP:
 			case VAL_TYPE_DATE_MSP:
 			case VAL_TYPE_DATETIME:
 			case VAL_TYPE_DATETIMEBCD:
-					$value = ctr_date($value, $len);
+					if ( $obj_id == "10.0.1")
+						$value = ctr_date_event($value, $len);
+					else
+						$value = ctr_date($value, $len);
 					break;
 			case VAL_TYPE_DEFAULT:
 			case VAL_TYPE_OKNO:
