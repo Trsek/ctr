@@ -54,7 +54,7 @@ function ctr_get_date_format($period)
 		case 1:
 			return 'H:i -> ';
 		case 2:
-			return ' Y-m-d H:i -> ';
+			return 'Y-m-d H:i -> ';
 			break;
 		case 0x80:
 		case 0x82:
@@ -64,7 +64,7 @@ function ctr_get_date_format($period)
 			return 'H:i -> ';
 		case 3:
 		default:
-			return ' Y-m-d H:i -> ';
+			return 'Y-m-d H:i -> ';
 	}
 }
 
@@ -89,6 +89,7 @@ function ctr_Answer_53(&$DATI)
 					'2.1.3' => '2.1.0',
 					'2.3.3' => '2.3.0',
 					'1.A.3' => '2.1.0',
+					'1.F.2' => '2.3.0',
 					'12.6.3'=> '2.1.0',
 					''      => '2.1.0',
 				)),
