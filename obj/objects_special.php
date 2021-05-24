@@ -390,16 +390,9 @@ function ctr_seals($value)
 			0x0C => "Seal for restoring the default passwords",
 	);
 
-	$answer[] = $value ."h";
-	$seal = hexdec(substr_cut($value, 1));
-
-	for($i=0; $i<count($seal_text); $i++)
-	{
-		$bit = 1 << $i;
-		if( $seal & $bit )
-			$answer[] = sprintf("%08d", decbin($bit&0xFF)). " - ". $seal_text[$i];
-	}
-	$answer[] = hexdec(substr_cut($value, 1)) ." hour during";
+	$seal = substr_cut($value, 1);
+	$answer[] = $seal . "h - ". $seal_text[hexdec($seal)];
+	$answer[] = hexdec(substr_cut($value, 1)) ." - hour during";
 
 	return $answer;
 }
