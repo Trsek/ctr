@@ -33,7 +33,7 @@ function CTR_NORMALIZE($SMS)
 		{
 			$SMS_LINE = substr($SMS_LINE, 2, strlen($SMS_LINE)-4);
 		}
-	
+
 		// strip SMS prefix
 		$poz = strpos($SMS_LINE, SMS_PREFIX);
 		if(( strlen($SMS_LINE) > 284 )
@@ -42,7 +42,16 @@ function CTR_NORMALIZE($SMS)
 		{
 			$SMS_LINE = substr($SMS_LINE, $poz+2, strlen($SMS_LINE)-$poz);
 		}
-		
+
+		// strip CRC postfix
+		$poz = strpos($SMS_LINE, '[');
+		if(( strlen($SMS_LINE) > 140 )
+		&& ( $poz > 0)
+		&& ( strpos($SMS_LINE, ']') > $poz))
+		{
+			$SMS_LINE = substr($SMS_LINE, 0, $poz);
+		}
+
 		// align to minimal size
 		if(( strlen($SMS_LINE) > 0 ) 
 		&& ( strlen($SMS_LINE)/2 < SMS_SIZE )
@@ -50,11 +59,11 @@ function CTR_NORMALIZE($SMS)
 		{
 			$SMS_LINE .=  str_repeat("00", SMS_SIZE - strlen($SMS_LINE)/2);
 		}
-	
+
 		if( strlen($SMS_LINE))
 			$SMS_OUT .= (strlen($SMS_OUT)? "\n": "") .$SMS_LINE;
 	}
-	
+
 	return $SMS_OUT;
 }
 
