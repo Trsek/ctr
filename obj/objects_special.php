@@ -375,30 +375,32 @@ function ctr_met_V($value)
 function ctr_seals($value)
 {
 	$seal_text = array(
-			0 => "Reserved",
-			1 => "Event log reset seal",
-			2 => "Seal for restoring factory conditions",
-			3 => "Seal for restoring the default values",
-			4 => "Status change seal",
-			5 => "Reserved",
-			6 => "Reserved",
-			7 => "Reserved",
-			8 => "Reserved",
-			9 => "Remote configuration seal. Parameters. Conversion",
-		 0x0A => "Remote configuration seal. Parameters. Analysis",
-		 0x0B => "Seal for downloading the program",
-		 0x0C => "Seal for restoring the default passwords",
+			0x00 => "Reserved",
+			0x01 => "Event log reset seal",
+			0x02 => "Seal for restoring factory conditions",
+			0x03 => "Seal for restoring the default values",
+			0x04 => "Status change seal",
+			0x05 => "Reserved",
+			0x06 => "Reserved",
+			0x07 => "Reserved",
+			0x08 => "Reserved",
+			0x09 => "Remote configuration seal. Parameters. Conversion",
+			0x0A => "Remote configuration seal. Parameters. Analysis",
+			0x0B => "Seal for downloading the program",
+			0x0C => "Seal for restoring the default passwords",
 	);
 
 	$answer[] = $value ."h";
-	$value = hexdec($value);
+	$seal = hexdec(substr_cut($value, 1));
 
 	for($i=0; $i<count($seal_text); $i++)
 	{
 		$bit = 1 << $i;
-		if( $value & $bit )
-			$answer[] = sprintf("%08d %08d", decbin($bit>>8), decbin($bit&0xFF)). " - ". $seal_text[$i];
+		if( $seal & $bit )
+			$answer[] = sprintf("%08d", decbin($bit&0xFF)). " - ". $seal_text[$i];
 	}
+	$answer[] = hexdec(substr_cut($value, 1)) ." hour during";
+
 	return $answer;
 }
 
