@@ -145,7 +145,7 @@ function ctr_event($value)
 			break;
 		case 0x43:
 			substr_cut($value, 2);
-			$answer .= " = ". hexbin(substr_cut($value, 5));
+			$answer .= " = ". hex2bin(substr_cut($value, 5));
 			break;
 	}
 	
@@ -187,7 +187,7 @@ function ctr_event($value)
 			break;
 		case 0x44:
 			substr_cut($value, 1);
-			$answer .= hexbin( substr_cut($value, 4));
+			$answer .= hex2bin( substr_cut($value, 4));
 			break;
 		case 0x47:
 			substr_cut($value, 2);

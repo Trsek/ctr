@@ -340,7 +340,7 @@ function ctr_val(&$DATI, $obj_id, $attw)
 		switch( $CTR_List[$obj_id][CTR_TYPE])
 		{
 			case VAL_TYPE_BIT:
-					$value = hexbin($value);
+					$value = hex2bin($value);
 					break;
 			case VAL_TYPE_DOUBLE_QLF:
 					$qlf = substr_cut($value, 1);
