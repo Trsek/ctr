@@ -55,7 +55,7 @@ function CTR_NORMALIZE($SMS)
 		// align to minimal size
 		if(( strlen($SMS_LINE) > 0 ) 
 		&& ( strlen($SMS_LINE)/2 < SMS_SIZE )
-		&& ( substr($SMS_LINE, 6, 2) != CTR_ELGAS_HEX ))
+		&& ( substr($SMS_LINE, 6, 2) != dechex(CTR_ELGAS_HEX)))
 		{
 			$SMS_LINE .=  str_repeat("00", SMS_SIZE - strlen($SMS_LINE)/2);
 		}
@@ -338,7 +338,11 @@ function ctr_analyze_frame(&$SMS, $CTR_CRC, $CRYPT_CRC)
 	$SMS_DATI['FUNCT'] = substr_cut($SMS, 1);
 	$SMS_DATI['STRUCT']= substr_cut($SMS, 1);
 	$SMS_DATI['CHAN']  = substr_cut($SMS, 1) ."h";
-	$SMS_DATI['DATI']  = ($SMS_DATI['FUNCT'] != CTR_ELGAS_HEX)? substr_cut($SMS, 128): substr_cut($SMS, strlen($SMS)/2 - 6); 
+	$SMS_DATI['DATI']  = (($SMS_DATI['FUNCT'] == dechex(CTR_DOWNLOAD)) 
+	                    ||($SMS_DATI['FUNCT'] == dechex(CTR_ELGAS_HEX)))
+	                     ? substr_cut($SMS, strlen($SMS)/2 - 6)
+	                     : substr_cut($SMS, 128);
+
 	if( strlen($SMS) > 12) {
 		$SMS_DATI['VATA'] = add_soft_space(substr_cut($SMS, (strlen($SMS)-12)/2), 64);
 	}
