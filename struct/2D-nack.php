@@ -21,7 +21,7 @@ function ctr_ack(&$DATI)
 		$answer[] = hex2bin(substr_cut($Add_data, 4)) ." - identify";
 		$answer[] = substr_cut($Add_data, 1) ." - group_s";
 		$answer[] = substr_cut($Add_data, 1) ." - group_c";
-		for ($i=1; $i<=7; $i++)
+		for ($i=1; $i<=8; $i++)
 		{
 			$answer[] = "0x". substr_cut($Add_data, 2) ." - ". $i ." segment";
 		}

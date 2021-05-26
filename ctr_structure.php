@@ -167,6 +167,10 @@ function ctrDisp($SMS_FRAME)
 	 && count($dati)>5)
 	    $struct = $dati[5];
 
+	if (strpos($funct, "2Dh") !== false
+	 && count($dati)>0)
+	    $struct = $dati[0];
+
 	$answer  = $funct;
 	$answer .= " ($struct)";
 
@@ -338,8 +342,8 @@ function ctr_analyze_frame(&$SMS, $CTR_CRC, $CRYPT_CRC)
 	$SMS_DATI['FUNCT'] = substr_cut($SMS, 1);
 	$SMS_DATI['STRUCT']= substr_cut($SMS, 1);
 	$SMS_DATI['CHAN']  = substr_cut($SMS, 1) ."h";
-	$SMS_DATI['DATI']  = (($SMS_DATI['FUNCT'] == dechex(CTR_DOWNLOAD)) 
-	                    ||($SMS_DATI['FUNCT'] == dechex(CTR_ELGAS_HEX)))
+	$SMS_DATI['DATI']  = ((hexdec($SMS_DATI['FUNCT']) == CTR_DOWNLOAD) 
+	                    ||(hexdec($SMS_DATI['FUNCT']) == CTR_ELGAS_HEX))
 	                     ? substr_cut($SMS, strlen($SMS)/2 - 6)
 	                     : substr_cut($SMS, 128);
 
