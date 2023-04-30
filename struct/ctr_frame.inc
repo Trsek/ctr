@@ -85,7 +85,7 @@ $TABLE_FRAME_DEF = array(
 					array(  "8.0.1",		0x02 ),		//  8.0.1 Extended date format
 					array( "12.2.0",		0x02 ),		// 12.2.0 Reduced diagnostics
 					array( "10.1.0",		0x02 ),		// 10.1.0 Number of Events
-					array( "F7.0.4",		0x02 ),		// 17.0.4 ID_PT Identifier for the active tariff scheme len PT_ID
+					array( "17.0.4",		0x02 ),		// 17.0.4 ID_PT Identifier for the active tariff scheme len PT_ID
 					array(  "2.1.0",		0x03 ),		//  2.1.0 Value of the volume totalizer at standard conditions
 					array(  "2.3.0",		0x03 ),		//  2.3.0 Value of the gross volumes totalizer (alarm)
 					array(  "2.3.7",		0x03 ),		//  2.3.7 Value of the band 1 volume totalizer measured under alarm conditions
