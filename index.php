@@ -75,16 +75,16 @@ FFFF003F5300303030303031FF55010D090900000000000000000000000000000000000000000000
 
 <?php echo show_example();?>
 <form action='index.php' method='post' ENCTYPE='multipart/form-data' class='form-style-two'>
-	Packet (hex format)<br>
-	<textarea name='CTR_FRAME' rows="4" cols="100"><?php echo $CTR_FRAME;?></textarea><br>
-	Key (if needed)<br>
-	<input type='text' name='Key' value='<?php echo $_REQUEST["Key"];?>' size=38><br>
+	<u>P</u>acket (hex format)<br>
+	<textarea name='CTR_FRAME' rows="4" cols="100" accesskey='p'><?php echo $CTR_FRAME;?></textarea><br>
+	<u>K</u>ey (if needed)<br>
+	<input type='text' name='Key' value='<?php echo $_REQUEST["Key"];?>' size=38 accesskey='k'><br>
 	<?php if( ctr_IsEncrypt($CTR_FRAME)) {
 		$CTR_FRAME = ctr_Decrypt($CTR_FRAME, $_REQUEST["Key"]); ?>
 		Packet without encrypt<br>
 		<textarea readonly name='CTR_FRAME_ENCRYPT' rows="4" cols="100"><?php echo $CTR_FRAME;?></textarea><br>
 	<?php } ?>
-	<input type='submit' name='analyze' value='analyze'><br>
+	<input type='submit' name='analyze' value='Analyze' accesskey='a'><br>
 </form>
 
 <br>Frame<br>
